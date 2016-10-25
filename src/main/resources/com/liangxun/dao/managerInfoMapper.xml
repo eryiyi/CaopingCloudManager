@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.ManagerInfoDao">
+    <resultMap id="my_manager_info" type="com.liangxunwang.unimanager.model.ManagerInfo">
+        <id column="info_id" property="id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="real_name" property="realName"/>
+        <result column="idcard" property="idcard"/>
+        <result column="idcard_url" property="idcardUrl"/>
+        <result column="bank_card" property="bankCard"/>
+        <result column="bank_type" property="bankType"/>
+        <result column="bank_address" property="bankAddress"/>
+        <result column="bank_name" property="bankName"/>
+
+        <result column="lat_company" property="lat_company"/>
+        <result column="lng_company" property="lng_company"/>
+        <result column="company_address" property="company_address"/>
+        <result column="company_person" property="company_person"/>
+        <result column="company_tel" property="company_tel"/>
+        <result column="company_detail" property="company_detail"/>
+        <result column="company_name" property="company_name"/>
+        <result column="company_pic" property="company_pic"/>
+        <result column="company_star" property="company_star"/>
+        <result column="dateline" property="dateline"/>
+        <result column="is_check" property="is_check"/>
+        <result column="type_id" property="type_id"/>
+
+        <result column="yingye_time_start" property="yingye_time_start"/>
+        <result column="yingye_time_end" property="yingye_time_end"/>
+        <result column="shouhui" property="shouhui"/>
+        <result column="mobile" property="mobile"/>
+        <result column="pay_number" property="payNumber"/>
+        <result column="check_name" property="checkName"/>
+    </resultMap>
+
+    <resultMap id="my_manager_info_vo" type="com.liangxunwang.unimanager.mvc.vo.ManagerInfoVo">
+        <id column="info_id" property="id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="real_name" property="realName"/>
+        <result column="idcard" property="idcard"/>
+        <result column="idcard_url" property="idcardUrl"/>
+        <result column="bank_card" property="bankCard"/>
+        <result column="bank_type" property="bankType"/>
+        <result column="bank_address" property="bankAddress"/>
+        <result column="bank_name" property="bankName"/>
+
+        <result column="lat_company" property="lat_company"/>
+        <result column="lng_company" property="lng_company"/>
+        <result column="company_address" property="company_address"/>
+        <result column="company_person" property="company_person"/>
+        <result column="company_tel" property="company_tel"/>
+        <result column="company_detail" property="company_detail"/>
+        <result column="company_name" property="company_name"/>
+        <result column="company_pic" property="company_pic"/>
+        <result column="company_star" property="company_star"/>
+        <result column="dateline" property="dateline"/>
+        <result column="is_check" property="is_check"/>
+        <result column="type_id" property="type_id"/>
+
+        <result column="yingye_time_start" property="yingye_time_start"/>
+        <result column="yingye_time_end" property="yingye_time_end"/>
+        <result column="shouhui" property="shouhui"/>
+        <result column="mobile" property="mobile"/>
+        <result column="pay_number" property="payNumber"/>
+        <result column="check_name" property="checkName"/>
+
+        <result column="emp_cover" property="emp_cover"/>
+        <result column="emp_mobile" property="emp_mobile"/>
+        <result column="emp_name" property="emp_name"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.ManagerInfo">
+        INSERT INTO MANAGER_INFO (INFO_ID, emp_id, company_name, lat_company, lng_company, dateline)
+        VALUES (#{id}, #{emp_id}, #{company_name},#{lat_company, jdbcType=VARCHAR} , #{lng_company, jdbcType=VARCHAR}, #{dateline, jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findById" parameterType="String" resultMap="my_manager_info">
+        SELECT * FROM MANAGER_INFO WHERE emp_id=#{emp_id}
+    </select>
+
+    <select id="findByInfoId" parameterType="String" resultMap="my_manager_info">
+        SELECT * FROM MANAGER_INFO WHERE info_id=#{id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.ManagerInfo">
+        UPDATE MANAGER_INFO SET
+        REAL_NAME=#{realName}, IDCARD=#{idcard}, IDCARD_URL=#{idcardUrl},bank_card=#{bankCard},
+        bank_type=#{bankType},bank_address=#{bankAddress},bank_name=#{bankName},
+        pay_number=#{payNumber},check_name=#{checkName},mobile=#{mobile},
+        company_address=#{company_address},company_pic=#{company_pic},
+        company_person=#{company_person}, company_tel=#{company_tel},lat_company=#{lat_company},lng_company=#{lng_company},
+        company_detail=#{company_detail},company_name=#{company_name},type_id=#{type_id}
+         WHERE INFO_ID=#{id}
+    </update>
+
+    <select id="getEmpMsg" parameterType="String" resultMap="my_manager_info_vo">
+        SELECT sn.*,le.emp_cover as emp_cover,le.emp_name as emp_name,le.emp_mobile as emp_mobile FROM MANAGER_INFO  sn
+          LEFT JOIN lx_emp le ON sn.emp_id=le.emp_id
+         WHERE sn.emp_id=#{id}
+    </select>
+
+    <select id="lists" resultMap="my_manager_info_vo">
+        SELECT lmanager.*, le.emp_name as emp_name, le.emp_cover as emp_cover, le.emp_mobile as emp_mobile, ltype.type_name as type_name
+        FROM MANAGER_INFO lmanager
+        LEFT JOIN lx_emp le ON lmanager.emp_id=le.emp_id
+        LEFT JOIN lx_goods_type ltype ON lmanager.type_id=ltype.type_id
+        WHERE 1 = 1
+
+        <if test="cont !=null and cont !=''">
+            AND (lmanager.company_name like CONCAT('%',#{cont},'%') OR lmanager.company_tel like CONCAT('%',#{cont},'%')OR lmanager.company_person like CONCAT('%',#{cont},'%') )
+        </if>
+
+        ORDER BY  lmanager.dateline DESC
+        limit #{index},#{size}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(INFO_ID) FROM MANAGER_INFO
+        <if test="cont !=null and cont !=''">
+            AND (company_name like CONCAT('%',#{cont},'%') OR company_tel like CONCAT('%',#{cont},'%')OR company_person like CONCAT('%',#{cont},'%') )
+        </if>
+    </select>
+
+    <update id="updateCheck" parameterType="com.liangxunwang.unimanager.model.ManagerInfo">
+        UPDATE MANAGER_INFO SET
+        is_check=#{is_check}
+        WHERE INFO_ID=#{id}
+    </update>
+
+    <select id="listsLocation" resultMap="my_manager_info_vo">
+        SELECT lmanager.*, le.emp_name as nick_name, le.emp_cover as emp_cover, le.emp_mobile as emp_mobile, ltype.type_name as type_name
+        FROM MANAGER_INFO lmanager
+        LEFT JOIN lx_emp le ON lmanager.emp_id=le.emp_id
+        LEFT JOIN lx_goods_type ltype ON lmanager.type_id=ltype.type_id
+        WHERE 1 = 1 AND  is_check = 1
+
+        <!--<if test="lat_company != null and lat_company != ''">-->
+            <!--AND lmanager.lat_company > (#{lat_company}-1) AND   (#{lat_company} + 1) > lmanager.lat_company-->
+        <!--</if>-->
+        <!--<if test="lng_company != null and lng_company != ''">-->
+            <!--AND lmanager.lng_company > (#{lng_company}-1) AND   (#{lng_company} + 1) > lmanager.lng_company-->
+        <!--</if>-->
+
+        <!--<if test="lat_company != null and lat_company != '' and lng_company != null and lng_company != ''">-->
+            <!--order by ACOS(SIN((#{lat_company} * 3.1415) / 180 ) *SIN((lmanager.lat_company * 3.1415) / 180 ) +COS((#{lat_company} * 3.1415) / 180 ) * COS((lmanager.lat_company * 3.1415) / 180 ) *COS((#{lng_company}* 3.1415) / 180 - (lmanager.lng_company * 3.1415) / 180 ) ) * 6380 asc-->
+        <!--</if>-->
+
+    </select>
+
+</mapper>
