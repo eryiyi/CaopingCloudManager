@@ -14,38 +14,75 @@
         <result column="is_top" property="is_top"/>
         <result column="top_num" property="top_num"/>
         <result column="mm_msg_picurl" property="mm_msg_picurl"/>
+        <result column="lat" property="lat"/>
+        <result column="lng" property="lng"/>
+        <result column="location" property="location"/>
 
         <result column="empName" property="empName"/>
         <result column="empCover" property="empCover"/>
         <result column="companyName" property="companyName"/>
+
+        <result column="commentNum" property="commentNum"/>
+        <result column="favourNum" property="favourNum"/>
     </resultMap>
 
     <select id="lists" resultMap="newsObj">
-        SELECT * from mm_msg
+        SELECT lmsg.* ,
+        (select count(comment_id) from school_record_comment pl where  pl.mm_msg_id = lmsg.mm_msg_id) as commentNum ,
+        (select count(favour_id) from school_record_zan lfavour where  lfavour.mm_msg_id = lmsg.mm_msg_id) as favourNum,
+        lemp.emp_name as empName,
+        lemp.emp_cover as empCover
+        from mm_msg lmsg
+        LEFT JOIN lx_emp lemp ON lemp.emp_id = lmsg.emp_id
         WHERE 1=1
         <if test="emp_id != null and emp_id != ''">
-            AND emp_id = #{emp_id}
+            AND lmsg.emp_id = #{emp_id}
         </if>
         <if test="is_del != null and is_del != ''">
-            AND is_del = #{is_del}
+            AND lmsg.is_del = #{is_del}
         </if>
         <if test="is_top != null and is_top != ''">
-            AND is_top = #{is_top}
+            AND lmsg.is_top = #{is_top}
         </if>
         <if test="mm_msg_type != null and mm_msg_type != ''">
-            AND mm_msg_type = #{mm_msg_type}
+            AND lmsg.mm_msg_type = #{mm_msg_type}
         </if>
-        ORDER BY dateline DESC
+
+        <if test="lat != null and lat != ''">
+            AND lmsg.lat > (#{lat}-1) AND   (#{lat} + 1) > lmsg.lat
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lmsg.lng > (#{lng}-1) AND   (#{lng} + 1) > lmsg.lng
+        </if>
+
+        <!--<if test="lat != null and lat != '' and lng != null and lng != ''">-->
+            <!--order by ACOS(SIN((#{lat_company} * 3.1415) / 180 ) *SIN((lmsg.lat_company * 3.1415) / 180 ) +COS((#{lat_company} * 3.1415) / 180 ) * COS((lmsg.lat_company * 3.1415) / 180 ) *COS((#{lng_company}* 3.1415) / 180 - (lmsg.lng_company * 3.1415) / 180 ) ) * 6380 asc-->
+        <!--</if>-->
+
+        ORDER BY lmsg.dateline DESC
         limit #{index},#{size}
     </select>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.NewsObj">
-        INSERT INTO mm_msg(mm_msg_id, emp_id, mm_msg_type, mm_msg_title, mm_msg_content, dateline, is_del, is_top, top_num, mm_msg_picurl)
-        VALUES (#{mm_msg_id}, #{emp_id}, #{mm_msg_type}, #{mm_msg_title,jdbcType=VARCHAR}, #{mm_msg_content,jdbcType=VARCHAR}, #{dateline}, #{is_del}, #{is_top}, #{top_num}, #{mm_msg_picurl,jdbcType=VARCHAR})
+        INSERT INTO mm_msg(mm_msg_id, emp_id, mm_msg_type, mm_msg_title, mm_msg_content, dateline,
+         is_del, is_top, top_num, mm_msg_picurl, lat, lng, location)
+        VALUES (#{mm_msg_id}, #{emp_id}, #{mm_msg_type}, #{mm_msg_title,jdbcType=VARCHAR}, #{mm_msg_content,jdbcType=VARCHAR},
+         #{dateline}, #{is_del}, #{is_top}, #{top_num}, #{mm_msg_picurl,jdbcType=VARCHAR}
+         , #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR})
     </insert>
 
     <select id="findById" parameterType="String" resultMap="newsObj">
-        SELECT * FROM mm_msg where mm_msg_id=#{mm_msg_id}
+         SELECT lmsg.* ,
+        (select count(comment_id) from school_record_comment pl where  pl.mm_msg_id = lmsg.mm_msg_id) as commentNum ,
+        (select count(favour_id) from school_record_zan lfavour where  lfavour.mm_msg_id = lmsg.mm_msg_id) as favourNum,
+        lemp.emp_name as empName,
+        lemp.emp_cover as empCover
+
+        from mm_msg lmsg
+
+        LEFT JOIN lx_emp lemp ON lemp.emp_id = lmsg.emp_id
+
+        where lmsg.mm_msg_id=#{mm_msg_id}
     </select>
 
     <update id="update" parameterType="com.liangxunwang.unimanager.model.NewsObj">

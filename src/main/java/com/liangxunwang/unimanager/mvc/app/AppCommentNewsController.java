@@ -1,10 +1,10 @@
 package com.liangxunwang.unimanager.mvc.app;
 
-import com.liangxunwang.unimanager.model.AdObj;
+import com.liangxunwang.unimanager.model.Comment;
 import com.liangxunwang.unimanager.model.NewsObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
-import com.liangxunwang.unimanager.query.AdQuery;
+import com.liangxunwang.unimanager.query.NewsCommentQuery;
 import com.liangxunwang.unimanager.query.NewsQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -21,39 +21,39 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/8/17.
- * app获取头条列表,保存头条信息,删除头条信息
+ * app获取头条评论
  */
 @Controller
-public class AppNewsObjController extends ControllerConstants {
+public class AppCommentNewsController extends ControllerConstants {
 
     @Autowired
-    @Qualifier("appNewsObjService")
+    @Qualifier("appCommentService")
     private ListService appNewsObjServiceList;
 
     @Autowired
-    @Qualifier("appNewsObjService")
+    @Qualifier("appCommentService")
     private DeleteService appNewsObjServiceDelete;
 
     @Autowired
-    @Qualifier("appNewsObjService")
+    @Qualifier("appCommentService")
     private SaveService appNewsObjServiceSave;
 
     @Autowired
-    @Qualifier("appNewsObjService")
+    @Qualifier("appCommentService")
     private FindService appNewsObjServiceFind;
 
     /**
-     * app获取头条列表
+     * app获取头条评论列表
      * @return
      */
-    @RequestMapping(value = "/appGetNews", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/appGetNewsComment", produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String appGetNews(NewsQuery query, Page page){
+    public String appGetNewsComment(NewsCommentQuery query, Page page){
         //分页查询
         query.setIndex(page.getPage()==0?1:page.getPage());
         query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
         try {
-            List<NewsObj> list = (List<NewsObj>) appNewsObjServiceList.list(query);
+            List<Comment> list = (List<Comment>) appNewsObjServiceList.list(query);
             DataTip tip = new DataTip();
             tip.setData(list);
             return toJSONString(tip);
@@ -63,32 +63,32 @@ public class AppNewsObjController extends ControllerConstants {
     }
 
     /**
-     * app保存头条信息
+     * app保存头条信息评论
      * @return
      */
-    @RequestMapping(value = "/appSaveNews", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/appSaveNewsComment", produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String appSaveNews(NewsObj newsObj){
-        if(StringUtil.isNullOrEmpty(newsObj.getEmp_id())){
+    public String appSaveNewsComment(Comment newsObj){
+        if(StringUtil.isNullOrEmpty(newsObj.getComment_emp_id())){
             return toJSONString(new ErrorTip(2, "用户ID为空"));//用户ID为空
         }
-        if(StringUtil.isNullOrEmpty(newsObj.getMm_msg_title())){
-            return toJSONString(new ErrorTip(3, "头条信息标题为空"));//头条信息标题为空
+        if(StringUtil.isNullOrEmpty(newsObj.getComment_content())){
+            return toJSONString(new ErrorTip(3, "评论内容为空"));//头条信息标题为空
         }
-        if(StringUtil.isNullOrEmpty(newsObj.getMm_msg_content())){
-            return toJSONString(new ErrorTip(4, "头条信息内容为空"));//头条信息内容为空
+        if(StringUtil.isNullOrEmpty(newsObj.getMm_msg_id())){
+            return toJSONString(new ErrorTip(4, "请检查评论的信息是否存在"));//头条信息标题为空
         }
         try {
-            String mm_msg_id = UUIDFactory.random();
-            newsObj.setMm_msg_id(mm_msg_id);
+            String comment_id = UUIDFactory.random();
+            newsObj.setComment_id(comment_id);
             appNewsObjServiceSave.save(newsObj);
             //查询保存的信息，需要返回
-            NewsObj newsObj1 = (NewsObj) appNewsObjServiceFind.findById(mm_msg_id);
+            Comment newsObj1 = (Comment) appNewsObjServiceFind.findById(comment_id);
             DataTip tip = new DataTip();
             tip.setData(newsObj1);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "保存头条信息失败！请稍后重试"));
+            return toJSONString(new ErrorTip(1, "操作失败！请稍后重试"));
         }
     }
 
@@ -97,37 +97,19 @@ public class AppNewsObjController extends ControllerConstants {
      * app删除头条信息
      * @return
      */
-    @RequestMapping(value = "/appDeleteNews", produces = "text/plain;charset=UTF-8")
+    @RequestMapping(value = "/appDeleteNewsComment", produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String appDeleteNews(String mm_msg_id){
-        if(StringUtil.isNullOrEmpty(mm_msg_id)){
-            return toJSONString(new ErrorTip(2, "头条信息ID为空"));//头条信息ID为空
+    public String appDeleteNewsComment(String comment_id){
+        if(StringUtil.isNullOrEmpty(comment_id)){
+            return toJSONString(new ErrorTip(2, "删除失败，信息不存在！"));//头条信息ID为空
         }
         try {
-            appNewsObjServiceDelete.delete(mm_msg_id);
+            appNewsObjServiceDelete.delete(comment_id);
             DataTip tip = new DataTip();
             tip.setData(SUCCESS);
             return toJSONString(tip);
         }catch (ServiceException e){
             return toJSONString(new ErrorTip(1, "删除失败，请稍后重试！"));
-        }
-    }
-
-
-    /**
-     * app获取头条详情
-     * @return
-     */
-    @RequestMapping(value = "/appGetNewsById", produces = "text/plain;charset=UTF-8")
-    @ResponseBody
-    public String appGetNewsById(String mm_msg_id){
-        try {
-            NewsObj newsObj = (NewsObj) appNewsObjServiceFind.findById(mm_msg_id);
-            DataTip tip = new DataTip();
-            tip.setData(newsObj);
-            return toJSONString(tip);
-        }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 

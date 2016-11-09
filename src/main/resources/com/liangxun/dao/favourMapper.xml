@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.FavourDao">
+    <resultMap id="favourObj" type="com.liangxunwang.unimanager.model.FavourObj">
+        <id column="favour_id" property="favour_id"/>
+        <result column="mm_msg_id" property="mm_msg_id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="dateline" property="dateline"/>
+
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
+    </resultMap>
+
+    <select id="lists" resultMap="favourObj">
+        SELECT * from school_record_zan
+        WHERE 1=1
+        <if test="mm_msg_id != null and mm_msg_id != ''">
+            AND mm_msg_id = #{mm_msg_id}
+        </if>
+        <if test="emp_id != null and emp_id != ''">
+            AND emp_id = #{emp_id}
+        </if>
+        ORDER BY dateline DESC
+        limit #{index},#{size}
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.FavourObj">
+        INSERT INTO school_record_zan(favour_id, mm_msg_id, emp_id, dateline)
+        VALUES (#{favour_id}, #{mm_msg_id}, #{emp_id}, #{dateline})
+    </insert>
+
+    <select id="findById" parameterType="String" resultMap="favourObj">
+        SELECT * FROM school_record_zan where favour_id=#{favour_id}
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+         DELETE FROM school_record_zan WHERE favour_id=#{favour_id}
+    </delete>
+
+
+    <select id="isExist" resultMap="favourObj">
+        SELECT * from school_record_zan
+        WHERE 1=1
+        <if test="mm_msg_id != null and mm_msg_id != ''">
+            AND mm_msg_id = #{mm_msg_id}
+        </if>
+        <if test="emp_id != null and emp_id != ''">
+            AND emp_id = #{emp_id}
+        </if>
+    </select>
+</mapper>

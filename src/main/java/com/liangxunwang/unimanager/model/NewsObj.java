@@ -6,7 +6,7 @@ package com.liangxunwang.unimanager.model;
 public class NewsObj {
     private String mm_msg_id;
     private String emp_id;
-    private String mm_msg_type;
+    private String mm_msg_type;//0默认 1官方
     private String mm_msg_title;
     private String mm_msg_content;
     private String dateline;
@@ -14,12 +14,57 @@ public class NewsObj {
     private String is_top;
     private String top_num;
     private String mm_msg_picurl;
+    private String lat;//经纬度
+    private String lng;//经纬度
+    private String location;//附近位置
 
     //vo
     private String empName;
     private String empCover;
     private String companyName;
 
+    private String commentNum;//评论数量
+    private String favourNum;//赞数量
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(String commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public String getFavourNum() {
+        return favourNum;
+    }
+
+    public void setFavourNum(String favourNum) {
+        this.favourNum = favourNum;
+    }
 
     public String getEmp_id() {
         return emp_id;

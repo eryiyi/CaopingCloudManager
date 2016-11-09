@@ -51,6 +51,12 @@ public class AppNewsObjService implements ListService ,SaveService,DeleteService
         if(!StringUtil.isNullOrEmpty(query.getMm_msg_type())){
             map.put("mm_msg_type", query.getMm_msg_type());
         }
+        if(!StringUtil.isNullOrEmpty(query.getLat())){
+            map.put("lat", query.getLat());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getLng())){
+            map.put("lng", query.getLng());
+        }
         List<NewsObj> list = newsObjDao.lists(map);
         for (NewsObj record : list){
             if (!StringUtil.isNullOrEmpty(record.getEmpCover())){

@@ -13,6 +13,34 @@ public class NewsQuery {
     private String is_top;
     private String mm_msg_type;
 
+    private String lat;
+    private String lng;
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
     public String getMm_msg_type() {
         return mm_msg_type;
     }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CommentDao">
+    <resultMap id="commentNews" type="com.liangxunwang.unimanager.model.Comment">
+        <id column="comment_id" property="comment_id"/>
+        <result column="mm_msg_id" property="mm_msg_id"/>
+        <result column="comment_fplid" property="comment_fplid"/>
+        <result column="comment_emp_id" property="comment_emp_id"/>
+        <result column="comment_content" property="comment_content"/>
+        <result column="dateline" property="dateline"/>
+
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
+        <result column="emp_name_f" property="emp_name_f"/>
+        <result column="emp_cover_f" property="emp_cover_f"/>
+
+    </resultMap>
+
+    <select id="lists" resultMap="commentNews">
+        SELECT lc.*,lemp.emp_name as emp_name, lemp.emp_cover as emp_cover,lp.emp_name as emp_name_f
+        from school_record_comment lc
+        LEFT JOIN lx_emp lemp ON lemp.emp_id = lc.comment_emp_id
+        LEFT JOIN school_record_comment cr ON lc.comment_fplid=cr.comment_id
+        LEFT JOIN lx_emp lp ON cr.comment_emp_id=lp.emp_id
+        WHERE 1=1
+        <if test="mm_msg_id != null and mm_msg_id != ''">
+            AND lc.mm_msg_id = #{mm_msg_id}
+        </if>
+        <if test="comment_emp_id != null and comment_emp_id != ''">
+            AND lc.comment_emp_id = #{comment_emp_id}
+        </if>
+        ORDER BY lc.dateline DESC
+        limit #{index},#{size}
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.Comment">
+        INSERT INTO school_record_comment(comment_id, mm_msg_id, comment_fplid, comment_emp_id, comment_content, dateline)
+        VALUES (#{comment_id}, #{mm_msg_id}, #{comment_fplid,jdbcType=VARCHAR}, #{comment_emp_id}, #{comment_content}, #{dateline})
+    </insert>
+
+    <select id="findById" parameterType="String" resultMap="commentNews">
+        SELECT * FROM school_record_comment where comment_id=#{comment_id}
+    </select>
+
+    <delete id="deleteById" parameterType="String">
+         DELETE FROM school_record_comment WHERE comment_id=#{comment_id}
+    </delete>
+</mapper>

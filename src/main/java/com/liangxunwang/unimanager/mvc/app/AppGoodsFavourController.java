@@ -56,7 +56,7 @@ public class AppGoodsFavourController extends ControllerConstants{
             saveAppGoodsFavourService.save(goodsFavour);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISFAVOUR")){//已经收藏过了
-                return toJSONString(new ErrorTip(1, "已经收藏过了，请稍后重试！")
+                return toJSONString(new ErrorTip(1, "已经收藏过了！")
                 );
             }
         }
