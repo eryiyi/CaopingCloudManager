@@ -5,7 +5,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>注册美人美吧</title>
+  <title>注册草坪云</title>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -47,7 +47,7 @@
 <body>
 <div class="container">
   <div class="good-info">
-    <h2 class="good-name">欢迎注册美人美吧</h2>
+    <h2 class="good-name">欢迎注册草坪云</h2>
     <form class="form-horizontal" role="form">
       <input type="hidden" id="emp_up" name="emp_up" value="${member.empMobile}">
       <div class="person clearfix">
@@ -94,7 +94,7 @@
   <%--<div class="blank" style="height: 100px"><br></div>--%>
 </div>
 <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.lbins.myapp">
-  <img class="download-button" src="/img/share_download.png" alt="下载美人美吧手机客户端">
+  <img class="download-button" src="/img/share_download.png" alt="下载草坪云手机客户端">
 </a>
 </body>
 </html>

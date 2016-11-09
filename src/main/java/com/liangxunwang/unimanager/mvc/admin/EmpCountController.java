@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.JifenObj;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.CountQuery;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ListService;
@@ -75,7 +76,8 @@ public class EmpCountController extends ControllerConstants {
             jifenObjServiceUpdate.update(adObj);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

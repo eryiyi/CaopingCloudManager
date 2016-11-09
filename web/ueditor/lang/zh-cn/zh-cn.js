@@ -579,7 +579,7 @@ UE.I18N['zh-cn'] = {
             'lang_input_BOBO': 'BOBO',
             'lang_input_lvdouwa': '绿豆蛙',
             'lang_input_babyCat': 'baby猫',
-            'lang_input_bubble': '美人美吧',
+            'lang_input_bubble': '草坪云',
             'lang_input_youa': '有啊'
         }
     },

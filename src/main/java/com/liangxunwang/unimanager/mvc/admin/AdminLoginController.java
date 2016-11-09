@@ -1,5 +1,6 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.AdminVO;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -28,10 +29,12 @@ public class AdminLoginController extends ControllerConstants {
     @ResponseBody
     public String adminLogin(HttpSession session,HttpServletRequest request, @Param(value = "username")String username,@Param(value = "password") String password){
         if (StringUtil.isNullOrEmpty(username)){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(password)){
-            return toJSONString(ERROR_2);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         Object[] params = new Object[]{username, password};
 
@@ -42,19 +45,23 @@ public class AdminLoginController extends ControllerConstants {
             String permissions = (String) results[1];
 
             if(permissions == null || permissions.isEmpty()) {
-                return toJSONString(ERROR_6);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             session.setAttribute(ControllerConstants.PERMISSIONS, permissions);
             return toJSONString(SUCCESS);
         }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals("USERNAME_ERROR")){
-                return toJSONString(ERROR_3);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             if (msg.equals("PASSWORD_ERROR")){
-                return toJSONString(ERROR_4);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else {
-                return toJSONString(ERROR_5);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
     }

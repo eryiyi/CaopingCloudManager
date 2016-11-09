@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.VersonCodeObj;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.VersionCodeQuery;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ListService;
@@ -57,7 +58,8 @@ public class VersionCodeController extends ControllerConstants {
             levelServiceSaveUpdate.update(versonCodeObj);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

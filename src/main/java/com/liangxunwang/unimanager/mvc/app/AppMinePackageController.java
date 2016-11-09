@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.MinePackage;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,8 @@ public class AppMinePackageController extends ControllerConstants {
             tip.setData(minePackage);
             return toJSONString(tip);
         }catch (Exception e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

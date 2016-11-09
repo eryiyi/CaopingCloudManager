@@ -37,7 +37,7 @@ public class SMSMessage
 
     public static void main(String args[]){
         String num = String.valueOf((int)((Math.random()*9+1)*100000));
-        String a =sendMobileMessageByURL("15065286110","【美人美吧】"+num+"(美人美吧网手机注册验证码，请完成验证)，如非本人操作，请忽略本短信。");
+        String a =sendMobileMessageByURL("15065286110","【草坪云】"+num+"(草坪云网手机注册验证码，请完成验证)，如非本人操作，请忽略本短信。");
 
         System.out.print(a);
     }

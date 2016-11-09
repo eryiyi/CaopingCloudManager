@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.KefuTel;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.KefuQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -84,7 +85,8 @@ public class KefuController extends ControllerConstants {
             levelServiceSaveUpdate.update(kefuTel);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

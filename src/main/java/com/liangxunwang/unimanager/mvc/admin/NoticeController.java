@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Notice;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.NoticeQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -52,7 +53,8 @@ public class NoticeController extends ControllerConstants {
     @ResponseBody
     public String saveNotice(Notice notice){
         if (StringUtil.isNullOrEmpty(notice.getTitle())){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         saveNoticeService.save(notice);
         return toJSONString(SUCCESS);
@@ -94,10 +96,12 @@ public class NoticeController extends ControllerConstants {
     public String updateService(Notice notice){
 
         if (StringUtil.isNullOrEmpty(notice.getTitle())){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(notice.getContent())){
-            return toJSONString(ERROR_2);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         updateNoticeService.update(notice);
         return toJSONString(SUCCESS);
@@ -110,7 +114,8 @@ public class NoticeController extends ControllerConstants {
             deleteNoticeService.delete(noticeId);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

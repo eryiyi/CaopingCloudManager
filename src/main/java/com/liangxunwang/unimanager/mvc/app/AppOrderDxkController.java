@@ -3,6 +3,7 @@ package com.liangxunwang.unimanager.mvc.app;
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.Order;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
@@ -36,16 +37,19 @@ public class AppOrderDxkController extends ControllerConstants {
     @ResponseBody
     public String appSaveDxkOrder(Order order){
         if(StringUtil.isNullOrEmpty(order.getEmp_id())){
-            return toJSONString(ERROR_2);//会员ID为空
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );//会员ID为空
         }
         if(StringUtil.isNullOrEmpty(order.getSeller_emp_id())){
-            return toJSONString(ERROR_3);//卖家会员ID为空
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );//卖家会员ID为空
         }
         try {
             orderDxkServiceSave.save(order);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

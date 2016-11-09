@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Level;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -61,21 +62,26 @@ public class LevelController extends ControllerConstants {
     @ResponseBody
     public String addLevel(Level level){
         if (StringUtil.isNullOrEmpty(level.getLevelName())){
-            return  toJSONString(ERROR_1);
+            return  toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(level.getLevelStart())){
-            return toJSONString(ERROR_2);
+            return toJSONString(new ErrorTip(2, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(level.getLevelEnd())){
-            return toJSONString(ERROR_3);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (Integer.parseInt(level.getLevelStart()) > Integer.parseInt(level.getLevelEnd())){
-            return toJSONString(ERROR_4);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         try {
             levelSaveService.save(level);
         }catch (ServiceException e){
-            return toJSONString(ERROR_5);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         return toJSONString(SUCCESS);
     }
@@ -88,7 +94,8 @@ public class LevelController extends ControllerConstants {
         } catch (ServiceException e){
             String msg = e.getMessage();
             if (msg.equals(Constants.SAVE_ERROR)) {
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else {
 
             }
@@ -108,21 +115,26 @@ public class LevelController extends ControllerConstants {
     @ResponseBody
     public String editLevel(Level level){
         if (StringUtil.isNullOrEmpty(level.getLevelName())){
-            return  toJSONString(ERROR_1);
+            return  toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(level.getLevelStart())){
-            return toJSONString(ERROR_2);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (StringUtil.isNullOrEmpty(level.getLevelEnd())){
-            return toJSONString(ERROR_3);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         if (Integer.parseInt(level.getLevelStart()) > Integer.parseInt(level.getLevelEnd())){
-            return toJSONString(ERROR_4);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         try {
             levelServiceUpdate.update(level);
         }catch (ServiceException e){
-            return toJSONString(ERROR_5);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         return toJSONString(SUCCESS);
     }

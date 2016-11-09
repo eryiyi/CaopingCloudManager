@@ -66,7 +66,7 @@
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.Member">
         INSERT INTO lx_emp(emp_id, emp_mobile, emp_pass, emp_name, emp_cover, emp_sex, is_use, dateline,hx_username,level_id,emp_up, emp_number)
-        VALUES (#{empId}, #{empMobile}, #{empPass,jdbcType=VARCHAR}, #{emp_number},
+        VALUES (#{empId}, #{empMobile}, #{empPass,jdbcType=VARCHAR}, #{empMobile,jdbcType=VARCHAR},
         #{empCover}, #{empSex}, #{isUse}, #{dateline},#{hxUsername},#{level_id, jdbcType=VARCHAR},#{emp_up ,jdbcType=VARCHAR},#{emp_number ,jdbcType=VARCHAR})
     </insert>
 
@@ -209,6 +209,10 @@
 
     <update id="resetPass" parameterType="String">
         UPDATE lx_emp SET emp_pass=#{rePass} WHERE emp_id=#{empId}
+    </update>
+
+    <update id="resetPassByMobile" parameterType="String">
+        UPDATE lx_emp SET emp_pass=#{rePass} WHERE emp_mobile=#{emp_mobile}
     </update>
 
     <update id="resetMobile" parameterType="String">

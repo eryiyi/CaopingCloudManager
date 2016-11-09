@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.member;
 
 import com.liangxunwang.unimanager.model.GoodsComment;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.GoodsCommentQuery;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
@@ -39,7 +40,8 @@ public class GoodsCommentController extends ControllerConstants {
             goodsCommentSaveService.save(comment);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -55,7 +57,8 @@ public class GoodsCommentController extends ControllerConstants {
 
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

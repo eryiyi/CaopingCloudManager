@@ -4,6 +4,7 @@ import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.GoodsType;
 import com.liangxunwang.unimanager.model.PaopaoGoods;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
 import com.liangxunwang.unimanager.query.GoodsTypeThreeQuery;
 import com.liangxunwang.unimanager.query.PaopaoGoodsQuery;
@@ -125,7 +126,8 @@ public class PaopaoGoodsController extends ControllerConstants {
             tip.setData(list1);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -215,7 +217,8 @@ public class PaopaoGoodsController extends ControllerConstants {
     @ResponseBody
     public String findByGoodsId(@RequestParam String id, @RequestParam String empid){
         if (StringUtil.isNullOrEmpty(id)){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         Object[] params = new Object[]{id, empid};
         PaopaoGoodsVO vo = (PaopaoGoodsVO) paopaoGoodsFindService.findById(params);
@@ -233,7 +236,8 @@ public class PaopaoGoodsController extends ControllerConstants {
     @RequestMapping("detail")
     public String detail(String id, ModelMap map){
         if (StringUtil.isNullOrEmpty(id)){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         PaopaoGoodsVO paopaoGoodsVO = (PaopaoGoodsVO) paopaoGoodsFindServiceFind.findById(id);
         map.put("vo", paopaoGoodsVO);
@@ -279,7 +283,8 @@ public class PaopaoGoodsController extends ControllerConstants {
     @RequestMapping("shareGoodsUrl")
     public String shareGoodsUrl(String id, ModelMap map){
         if (StringUtil.isNullOrEmpty(id)){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         Object[] params = new Object[2];
         params[0] = id;

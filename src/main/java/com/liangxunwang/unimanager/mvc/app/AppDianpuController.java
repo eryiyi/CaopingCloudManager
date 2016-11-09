@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.EmpDianpu;
 import com.liangxunwang.unimanager.mvc.vo.ManagerInfoVo;
 import com.liangxunwang.unimanager.query.AdQuery;
@@ -44,7 +45,8 @@ public class AppDianpuController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -65,7 +67,8 @@ public class AppDianpuController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -87,7 +90,8 @@ public class AppDianpuController extends ControllerConstants {
             tip.setData(managerInfoVo);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

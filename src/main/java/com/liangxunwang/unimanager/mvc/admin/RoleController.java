@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Role;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import com.liangxunwang.unimanager.util.StringUtil;
@@ -82,7 +83,8 @@ public class RoleController extends ControllerConstants{
     @ResponseBody
     public String update(Role role){
         if (StringUtil.isNullOrEmpty(role.getPermissions()) || StringUtil.isNullOrEmpty(role.getName())){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         roleUpdateService.update(role);
         return toJSONString(SUCCESS);

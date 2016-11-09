@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.member;
 
 import com.liangxunwang.unimanager.model.Member;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.service.UpdateService;
@@ -27,6 +28,10 @@ public class ModifyMemberController extends ControllerConstants{
     private ExecuteService modifyMemberExecuteService;
 
     @Autowired
+    @Qualifier("modifyMemberTwoService")
+    private ExecuteService modifyMemberTwoService;
+
+    @Autowired
     @Qualifier("modifyMemberService")
     private UpdateService modifyMemberUpdateService;
     @Autowired
@@ -45,7 +50,8 @@ public class ModifyMemberController extends ControllerConstants{
             updateMemberService.update(member);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -56,7 +62,8 @@ public class ModifyMemberController extends ControllerConstants{
             appMemberServiceUpdate.update(member);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -67,7 +74,8 @@ public class ModifyMemberController extends ControllerConstants{
             appMemberbirthServiceUpdate.update(member);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -86,15 +94,51 @@ public class ModifyMemberController extends ControllerConstants{
         }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals("PassError")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "密码错误，请稍后重试！")
+                );
             }
             if (msg.equals("NoPeople")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "暂无此人，请稍后重试！")
+                );
             }
             if(msg.equals(Constants.HX_ERROR)){
-                return toJSONString(ERROR_4);
+                return toJSONString(new ErrorTip(1, "失败，请稍后重试！")
+                );
             }
-            return toJSONString(ERROR_3);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
+        }
+        return toJSONString(SUCCESS);
+    }
+
+    /**
+     * 重设密码
+     * @param emp_mobile  用户手机号
+     * @param rePass  新密码
+     * @return
+     */
+    @RequestMapping("/resetPassByMobile")
+    @ResponseBody
+    public String resetPassByMobile(String emp_mobile, String rePass){
+        Object[] params = new Object[]{emp_mobile, rePass};
+        try {
+            modifyMemberTwoService.execute(params);
+        }catch (Exception e){
+            String msg = e.getMessage();
+            if (msg.equals("PassError")){
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
+            }
+            if (msg.equals("NoPeople")){
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
+            }
+            if(msg.equals(Constants.HX_ERROR)){
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
+            }
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         return toJSONString(SUCCESS);
     }
@@ -113,21 +157,27 @@ public class ModifyMemberController extends ControllerConstants{
         }catch (Exception e){
             String msg=  e.getMessage();
             if (msg.equals("NoThisMobile")){
-                return toJSONString(ERROR_1);//原手机号没有注册
+                return toJSONString(new ErrorTip(1, "原手机号没有注册！")
+                );//原手机号没有注册
             }
             if (msg.equals("NoOwnAccount")){
-                return toJSONString(ERROR_2);//手机号和当前登陆账号不匹配
+                return toJSONString(new ErrorTip(1, "手机号和当前登陆账号不匹配！")
+                );//手机号和当前登陆账号不匹配
             }
             if (msg.equals(Constants.NO_SEND_CODE)){
-                return toJSONString(ERROR_3);//没有发送验证码
+                return toJSONString(new ErrorTip(1, "没有发送验证码！")
+                );//没有发送验证码
             }
             if (msg.equals(Constants.HAS_EXISTS)){
-                return toJSONString(ERROR_4);//重设手机号已经是注册用户
+                return toJSONString(new ErrorTip(1, "重设手机号已经是注册用户！")
+                );//重设手机号已经是注册用户
             }
             if (msg.equals(Constants.CODE_NOT_EQUAL)){
-                return toJSONString(ERROR_5);// 验证码不匹配
+                return toJSONString(new ErrorTip(1, "验证码不匹配！")
+                );// 验证码不匹配
             }else {
-                return toJSONString(ERROR_6);//修改失败
+                return toJSONString(new ErrorTip(1, "修改失败！")
+                );//修改失败
             }
 
         }
@@ -145,7 +195,8 @@ public class ModifyMemberController extends ControllerConstants{
             appMemberPayPassServiceUpdate.update(member);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -161,7 +212,8 @@ public class ModifyMemberController extends ControllerConstants{
             appMemberLocationServiceUpdate.update(member);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

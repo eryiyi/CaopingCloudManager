@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.*;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.mvc.vo.lxBankApplyVo;
 import com.liangxunwang.unimanager.query.LxBankApplyQuery;
@@ -71,7 +72,8 @@ public class LxBankApplyController extends ControllerConstants {
             lxBankApplyServiceEUpdate.update(lxBankApply);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

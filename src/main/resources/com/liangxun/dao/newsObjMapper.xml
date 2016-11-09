@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.NewsObjDao">
+    <resultMap id="newsObj" type="com.liangxunwang.unimanager.model.NewsObj">
+        <id column="mm_msg_id" property="mm_msg_id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="mm_msg_type" property="mm_msg_type"/>
+        <result column="mm_msg_title" property="mm_msg_title"/>
+        <result column="mm_msg_content" property="mm_msg_content"/>
+        <result column="dateline" property="dateline"/>
+        <result column="is_del" property="is_del"/>
+        <result column="is_top" property="is_top"/>
+        <result column="top_num" property="top_num"/>
+        <result column="mm_msg_picurl" property="mm_msg_picurl"/>
+
+        <result column="empName" property="empName"/>
+        <result column="empCover" property="empCover"/>
+        <result column="companyName" property="companyName"/>
+    </resultMap>
+
+    <select id="lists" resultMap="newsObj">
+        SELECT * from mm_msg
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND emp_id = #{emp_id}
+        </if>
+        <if test="is_del != null and is_del != ''">
+            AND is_del = #{is_del}
+        </if>
+        <if test="is_top != null and is_top != ''">
+            AND is_top = #{is_top}
+        </if>
+        <if test="mm_msg_type != null and mm_msg_type != ''">
+            AND mm_msg_type = #{mm_msg_type}
+        </if>
+        ORDER BY dateline DESC
+        limit #{index},#{size}
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.NewsObj">
+        INSERT INTO mm_msg(mm_msg_id, emp_id, mm_msg_type, mm_msg_title, mm_msg_content, dateline, is_del, is_top, top_num, mm_msg_picurl)
+        VALUES (#{mm_msg_id}, #{emp_id}, #{mm_msg_type}, #{mm_msg_title,jdbcType=VARCHAR}, #{mm_msg_content,jdbcType=VARCHAR}, #{dateline}, #{is_del}, #{is_top}, #{top_num}, #{mm_msg_picurl,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findById" parameterType="String" resultMap="newsObj">
+        SELECT * FROM mm_msg where mm_msg_id=#{mm_msg_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.NewsObj">
+        UPDATE mm_msg SET is_del=#{is_del},
+         is_top=#{is_top} ,
+         top_num=#{top_num},
+         mm_msg_type=#{mm_msg_type},
+         mm_msg_content=#{mm_msg_content,jdbcType=VARCHAR},
+         mm_msg_title=#{mm_msg_title,jdbcType=VARCHAR}
+         WHERE mm_msg_id=#{mm_msg_id}
+    </update>
+
+    <update id="deleteById" parameterType="String">
+         UPDATE mm_msg SET is_del='1'
+         WHERE mm_msg_id=#{mm_msg_id}
+    </update>
+</mapper>

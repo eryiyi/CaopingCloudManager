@@ -2,7 +2,7 @@ package com.liangxunwang.unimanager.model;
 
 /**
  * Created by zhl on 2015/8/16.
- * 美人美吧商城商品表
+ * 草坪云商城商品表
  */
 public class PaopaoGoods {
     private String id;

@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.*;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.query.LxConsumptionQuery;
@@ -154,10 +155,12 @@ public class LxConsumptionController extends ControllerConstants {
         try {
             //充值
             if(StringUtil.isNullOrEmpty(lxConsumption.getLx_consumption_count()) || "0".equals(lxConsumption.getLx_consumption_count())){
-                return toJSONString(ERROR_1);//金额为空或0
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//金额为空或0
             }
             if(StringUtil.isNullOrEmpty(lxConsumption.getEmp_id())){
-                return toJSONString(ERROR_2);//会员不存在，请检查会员！
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//会员不存在，请检查会员！
             }
             MinePackage minePackage = new MinePackage();
             minePackage.setEmp_id(lxConsumption.getEmp_id());//会员ID
@@ -226,7 +229,8 @@ public class LxConsumptionController extends ControllerConstants {
 
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_3);
+            return toJSONString(new ErrorTip(3, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

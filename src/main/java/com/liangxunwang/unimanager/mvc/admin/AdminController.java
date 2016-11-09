@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Role;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.AdminVO;
 import com.liangxunwang.unimanager.query.AdminQuery;
 import com.liangxunwang.unimanager.service.*;
@@ -46,7 +47,8 @@ public class AdminController extends ControllerConstants {
     @ResponseBody
     public String updateRole(String empId, String roleId){
         if (StringUtil.isNullOrEmpty(empId) || StringUtil.isNullOrEmpty(roleId)){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         Object[] params = new Object[]{empId, roleId};
         adminUpdateService.update(params);
@@ -62,7 +64,8 @@ public class AdminController extends ControllerConstants {
             adminExecuteService.execute(params);
             return toJSONString(SUCCESS);
         }catch (Exception e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -75,7 +78,8 @@ public class AdminController extends ControllerConstants {
             adminRolesServiceExe.execute(params);
             return toJSONString(SUCCESS);
         }catch (Exception e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -151,7 +155,8 @@ public class AdminController extends ControllerConstants {
             adminUpdateService.update(params);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

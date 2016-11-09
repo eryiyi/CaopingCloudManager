@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.member;
 
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -34,10 +35,12 @@ public class MemberLoginController extends ControllerConstants{
     @ResponseBody
     public String memberLogin(@RequestParam String username, @RequestParam String password){
         if (StringUtil.isNullOrEmpty(username)){
-            return toJSONString(ERROR_4);//请输入用户名
+            return toJSONString(new ErrorTip(1, "请输入用户名！")
+            );//请输入用户名
         }
         if (StringUtil.isNullOrEmpty(password)){
-            return toJSONString(ERROR_5);//请输入密码
+            return toJSONString(new ErrorTip(1, "请输入密码！")
+            );//请输入密码
         }
         Object[] params = new Object[]{username, password};
         MemberVO member = null;
@@ -47,13 +50,13 @@ public class MemberLoginController extends ControllerConstants{
         }catch (Exception e){
             String emsg = e.getMessage();
             if (emsg.equals("NotFound")){
-                return toJSONString(ERROR_1);//暂无此用户，请检查用户名！
+                return toJSONString(new ErrorTip(1, "暂无此用户，请检查用户名！！"));//暂无此用户，请检查用户名！
             }
             if (emsg.equals("PassError")){
-                return toJSONString(ERROR_2);//用户密码错误！
+                return toJSONString(new ErrorTip(2, "用户密码错误！"));//用户密码错误！
             }
             if (emsg.equals("NotUse")){
-                return toJSONString(ERROR_3);//此用户暂不可用！
+                return toJSONString(new ErrorTip(3, "此用户暂不可用！"));//此用户暂不可用！
             }
         }
         DataTip tip = new DataTip();

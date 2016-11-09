@@ -8,6 +8,42 @@ public class NewsQuery {
     private int size;
     private String isUse;
     private String typeId;
+    private String is_del;
+    private String emp_id;
+    private String is_top;
+    private String mm_msg_type;
+
+    public String getMm_msg_type() {
+        return mm_msg_type;
+    }
+
+    public void setMm_msg_type(String mm_msg_type) {
+        this.mm_msg_type = mm_msg_type;
+    }
+
+    public String getIs_del() {
+        return is_del;
+    }
+
+    public void setIs_del(String is_del) {
+        this.is_del = is_del;
+    }
+
+    public String getEmp_id() {
+        return emp_id;
+    }
+
+    public void setEmp_id(String emp_id) {
+        this.emp_id = emp_id;
+    }
+
+    public String getIs_top() {
+        return is_top;
+    }
+
+    public void setIs_top(String is_top) {
+        this.is_top = is_top;
+    }
 
     public int getIndex() {
         return index;

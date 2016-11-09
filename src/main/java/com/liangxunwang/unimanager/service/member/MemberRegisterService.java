@@ -63,45 +63,45 @@ public class MemberRegisterService implements SaveService, ExecuteService {
         member.setEmpSex("0");//默认女
         member.setHxUsername(member.getDateline() + member.getEmpMobile());
         member.setLevel_id(Constants.DEFAULT_LEVEL);//默认青铜会员
-        String emp_number = "";
+//        String emp_number = "";
         try {
             Member checkMember = memberDao.findByMobile(member.getEmpMobile());
             if (checkMember != null){
                 throw new ServiceException("MobileIsUse");
             }else {
                 //生成账号相关
-                emp_number = StringUtil.getStringRandom();
-                Member member1 = memberDao.findByNumber(emp_number);
-                if(member1 != null){
-                    //说明改账号存在了
-                    emp_number = StringUtil.getStringRandom();
-                    Member member2 = memberDao.findByNumber(emp_number);
-                    if(member2 != null){
-                        //说明该账号存在了
-                        //todo
-                    }else {
-                        member.setEmp_number(emp_number);
-                    }
-                }else{
-                    member.setEmp_number(emp_number);
-                }
+//                emp_number = StringUtil.getStringRandom();
+//                Member member1 = memberDao.findByNumber(emp_number);
+//                if(member1 != null){
+//                    //说明改账号存在了
+//                    emp_number = StringUtil.getStringRandom();
+//                    Member member2 = memberDao.findByNumber(emp_number);
+//                    if(member2 != null){
+//                        //说明该账号存在了
+//                        //todo
+//                    }else {
+//                        member.setEmp_number(emp_number);
+//                    }
+//                }else{
+//                    member.setEmp_number(emp_number);
+//                }
                 //查询上级
-                Member memberUp = memberDao.findByMobile(member.getEmp_up_mobile());
-                if(memberUp != null){
-                    //说明有上级
-                    member.setEmp_up(memberUp.getEmpId());
-                }else{
-                    member.setEmp_up(Constants.MOBILE_UP_DEFAULT);
-                }
+//                Member memberUp = memberDao.findByMobile(member.getEmp_up_mobile());
+//                if(memberUp != null){
+//                    //说明有上级
+//                    member.setEmp_up(memberUp.getEmpId());
+//                }else{
+//                    member.setEmp_up(Constants.MOBILE_UP_DEFAULT);
+//                }
 
                 memberDao.save(member);
 
                 //钱包表
-                MinePackage minePackage = new MinePackage();
-                minePackage.setPackage_id(UUIDFactory.random());
-                minePackage.setEmp_id(member.getEmpId());
-                minePackage.setPackage_money("0");
-                minePackageDao.save(minePackage);
+//                MinePackage minePackage = new MinePackage();
+//                minePackage.setPackage_id(UUIDFactory.random());
+//                minePackage.setEmp_id(member.getEmpId());
+//                minePackage.setPackage_money("0");
+//                minePackageDao.save(minePackage);
 
             }
             //积分表

@@ -12,8 +12,8 @@ import java.lang.reflect.Type;
 
 public class ControllerConstants {
 
-    public static final String QINIU_AK = "LtZvMnYFblPqiOET0ikH3NAZGk5HeSf8Uudx8LMJ";
-    public static final String QINIU_SK = "rytoqBQDQbefjqJ2SW76lzWAnUXcFf6dXQWlnBw6";
+    public static final String QINIU_AK = "X_uwcHtpJzIk1RvL9268qo9G0_zXI4b6OZSkqHkx";
+    public static final String QINIU_SK = "duGEKZNemQ2ZPX3Xv5oR2Mi0yialIwcxQ7P7CKpp";
 
     public static final String ACCOUNT_KEY = "account";
     public static final String PERMISSIONS = "powers";
@@ -24,18 +24,18 @@ public class ControllerConstants {
 
     public static final int PAGE_SIZE = 20;
 
-    public static final Tip TIMEOUT = new ErrorTip(-1);
+//    public static final Tip TIMEOUT = new ErrorTip(-1,"");
     public static final Tip SUCCESS = new SuccessTip();
-
-    public static final Tip ERROR_1 = new ErrorTip(1);
-    public static final Tip ERROR_2 = new ErrorTip(2);
-    public static final Tip ERROR_3 = new ErrorTip(3);
-    public static final Tip ERROR_4 = new ErrorTip(4);
-    public static final Tip ERROR_5 = new ErrorTip(5);
-    public static final Tip ERROR_6 = new ErrorTip(6);
-    public static final Tip ERROR_7 = new ErrorTip(7);
-    public static final Tip ERROR_8 = new ErrorTip(8);
-    public static final Tip ERROR_9 = new ErrorTip(9);
+//
+//    public static final Tip ERROR_1 = new ErrorTip(1,"");
+//    public static final Tip ERROR_2 = new ErrorTip(2,"");
+//    public static final Tip ERROR_3 = new ErrorTip(3,"");
+//    public static final Tip ERROR_4 = new ErrorTip(4,"");
+//    public static final Tip ERROR_5 = new ErrorTip(5,"");
+//    public static final Tip ERROR_6 = new ErrorTip(6);
+//    public static final Tip ERROR_7 = new ErrorTip(7);
+//    public static final Tip ERROR_8 = new ErrorTip(8);
+//    public static final Tip ERROR_9 = new ErrorTip(9);
 
     private static final Gson JSON_HELPER = new Gson();
 

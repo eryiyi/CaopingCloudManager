@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.ManagerInfo;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.ManagerInfoVo;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ListService;
@@ -47,12 +48,15 @@ public class AppManagerInfoController extends ControllerConstants {
         }catch (ServiceException e){
 
             if (e.getMessage().equals("hax_exist_info")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else
             if (e.getMessage().equals("is_error")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else{
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
 
         }
@@ -71,7 +75,8 @@ public class AppManagerInfoController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -93,7 +98,8 @@ public class AppManagerInfoController extends ControllerConstants {
             tip.setData(managerInfoVo);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 }

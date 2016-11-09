@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.PaihangObj;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.PaihangObjVO;
 import com.liangxunwang.unimanager.query.PaihangQuery;
 import com.liangxunwang.unimanager.service.*;
@@ -83,7 +84,8 @@ public class PaihangController extends ControllerConstants {
             recordServiceUpdate.update(paihangObj);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -100,10 +102,12 @@ public class PaihangController extends ControllerConstants {
             String msg = e.getMessage();
             if (msg.equals("Has_exist")){
                 //该商品已经添加到推荐首页不能重复添加
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "该商品已经添加到推荐首页不能重复添加！")
+                );
             }
             if (msg.equals(Constants.SAVE_ERROR)){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "保存失败，请稍后重试！")
+                );
             }
         }
         return toJSONString(SUCCESS);
@@ -127,7 +131,8 @@ public class PaihangController extends ControllerConstants {
             paihangUpdateVipService.update("");
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
     //-------------------------------------------------

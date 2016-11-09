@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.DianPuFavour;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.DianpuFavourVO;
 import com.liangxunwang.unimanager.query.DianpuFavourQuery;
 import com.liangxunwang.unimanager.service.DeleteService;
@@ -48,7 +49,8 @@ public class AppDianpuFavourController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -61,7 +63,8 @@ public class AppDianpuFavourController extends ControllerConstants {
             dianpuFavourServiceSave.save(dianPuFavour);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISFAVOUR")){//已经收藏过了
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return toJSONString(SUCCESS);//保存成功

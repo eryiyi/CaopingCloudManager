@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc;
 
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,8 @@ public class UploadUnCompressImageController extends ControllerConstants{
             String type = fileName.substring(fileName.lastIndexOf("."), fileName.length()); //上传文件类型
             //判断上传文件是否符合上传图片格式
             if(!".jpg".equals(type) && !".png".equals(type) && !".gif".equals(type) && !".bmp".equals(type) && !".jpeg".equals(type)  && !".3gp".equals(type)  && !".mp4".equals(type)) {
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             newFileName = String.valueOf(System.currentTimeMillis()) + fileName.subSequence(fileName.lastIndexOf("."), fileName.length());
             File targetFile = new File(path, newFileName);
@@ -47,10 +49,12 @@ public class UploadUnCompressImageController extends ControllerConstants{
             try {
                 file.transferTo(targetFile);
             } catch (Exception e) {
-                return toJSONString(ERROR_1);//上传文件失败，
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//上传文件失败，
             }
         } else {
-            return toJSONString(ERROR_3);//上传图片为空
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );//上传图片为空
         }
         DataTip dataTip = new DataTip();
         dataTip.setData("upload/"+getDatePath()+ "/" + newFileName);
@@ -73,7 +77,8 @@ public class UploadUnCompressImageController extends ControllerConstants{
             String type = fileName.substring(fileName.lastIndexOf("."), fileName.length()); //上传文件类型
             //判断上传文件是否符合上传图片格式
             if(!".mp4".equals(type)) {
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             newFileName = String.valueOf(System.currentTimeMillis()) + fileName.subSequence(fileName.lastIndexOf("."), fileName.length());
             File targetFile = new File(path, newFileName);
@@ -84,10 +89,12 @@ public class UploadUnCompressImageController extends ControllerConstants{
             try {
                 file.transferTo(targetFile);
             } catch (Exception e) {
-                return toJSONString(ERROR_1);//上传文件失败，
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//上传文件失败，
             }
         } else {
-            return toJSONString(ERROR_3);//上传为空
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );//上传为空
         }
         DataTip dataTip = new DataTip();
         dataTip.setData("upload/"+getDatePath()+ "/" + newFileName);

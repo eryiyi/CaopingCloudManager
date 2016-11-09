@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.GoodsFavour;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.GoodsFavourVO;
 import com.liangxunwang.unimanager.query.FavoursQuery;
 import com.liangxunwang.unimanager.service.DeleteService;
@@ -42,10 +43,12 @@ public class AppGoodsFavourController extends ControllerConstants{
     @ResponseBody
     public String saveGoodsFavour(GoodsFavour goodsFavour){
         if (StringUtil.isNullOrEmpty(goodsFavour.getGoods_id())){
-            return toJSONString(ERROR_1);//没有选中商品
+            return toJSONString(new ErrorTip(1, "没有选中商品，请稍后重试！")
+            );//没有选中商品
         }
         if(StringUtil.isNullOrEmpty(goodsFavour.getEmp_id_favour())){
-            return toJSONString(ERROR_1);//收藏会员ID不能为空
+            return toJSONString(new ErrorTip(1, "收藏会员ID不能为空，请稍后重试！")
+            );//收藏会员ID不能为空
         }
 
         //查询该用户是否已经收藏
@@ -53,7 +56,8 @@ public class AppGoodsFavourController extends ControllerConstants{
             saveAppGoodsFavourService.save(goodsFavour);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISFAVOUR")){//已经收藏过了
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "已经收藏过了，请稍后重试！")
+                );
             }
         }
         return toJSONString(SUCCESS);//保存成功
@@ -70,7 +74,8 @@ public class AppGoodsFavourController extends ControllerConstants{
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

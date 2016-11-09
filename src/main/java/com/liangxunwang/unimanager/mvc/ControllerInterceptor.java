@@ -1,5 +1,6 @@
 package com.liangxunwang.unimanager.mvc;
 
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -107,6 +108,13 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                 +"|(^/appSaveDxkOrder\\.do$)"
 
                 +"|(^/appGetCountComment\\.do$)"
+                +"|(^/resetPassByMobile\\.do$)"
+
+
+                +"|(^/appGetNews\\.do$)"
+                +"|(^/appSaveNews\\.do$)"
+                +"|(^/appDeleteNews\\.do$)"
+                +"|(^/token\\.do$)"
 
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"
@@ -118,7 +126,8 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
 
         if("true".equals(request.getParameter("j"))) {
             PrintWriter out = response.getWriter();
-            out.print(toJSONString(TIMEOUT));
+            out.print(toJSONString(new ErrorTip(1, "请求超时，请稍后重试！")
+            ));
             out.close();
         } else {
             request.getRequestDispatcher("/WEB-INF/session.jsp").forward(request, response);

@@ -3,6 +3,7 @@ package com.liangxunwang.unimanager.mvc.app;
 import com.liangxunwang.unimanager.model.VersionUpdateObj;
 import com.liangxunwang.unimanager.model.VersonCodeObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.VersionCodeQuery;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.ServiceException;
@@ -48,11 +49,13 @@ public class AppVersionCodeController extends ControllerConstants {
                 return toJSONString(tip);
 
             }else {
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
 
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

@@ -5,6 +5,7 @@ import com.liangxunwang.unimanager.model.Level;
 import com.liangxunwang.unimanager.model.LxAttribute;
 import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.query.MemberQuery;
 import com.liangxunwang.unimanager.service.*;
@@ -94,7 +95,8 @@ public class MemberController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -116,7 +118,8 @@ public class MemberController extends ControllerConstants {
             tip.setData(result[0]);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -133,7 +136,8 @@ public class MemberController extends ControllerConstants {
         try {
             updateMemberService.update(params);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         return toJSONString(SUCCESS);
     }
@@ -145,7 +149,8 @@ public class MemberController extends ControllerConstants {
         try {
             executeMemberService.execute(params);
         }catch (Exception e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         return toJSONString(SUCCESS);
     }
@@ -173,7 +178,8 @@ public class MemberController extends ControllerConstants {
     public String findMemberByPhone(String phone){
         MemberVO member = (MemberVO) memberFindService.findById(phone);
         if (member == null){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
         DataTip tip = new DataTip();
         tip.setData(member);

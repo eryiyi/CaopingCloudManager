@@ -3,6 +3,7 @@ package com.liangxunwang.unimanager.mvc.member;
 import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.model.Province;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
@@ -58,13 +59,16 @@ public class MemberRegisterController extends ControllerConstants {
         }catch (ServiceException e){
             String msg = e.getMessage();
             if (msg.equals("has_exists")){
-                return toJSONString(ERROR_1);//手机号已经注册了，换个试试
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//手机号已经注册了，换个试试
             }
             if (msg.equals(Constants.SAVE_ERROR)){
-                return toJSONString(ERROR_2);//注册失败，请稍后重试
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//注册失败，请稍后重试
             }
             if(msg.equals(Constants.HX_ERROR)){
-                return toJSONString(ERROR_3);//环信注册失败
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//环信注册失败
             }
         }
         return toJSONString(SUCCESS);
@@ -84,7 +88,8 @@ public class MemberRegisterController extends ControllerConstants {
         }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals(Constants.HAS_EXISTS)) {
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return toJSONString(SUCCESS);
@@ -103,7 +108,8 @@ public class MemberRegisterController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

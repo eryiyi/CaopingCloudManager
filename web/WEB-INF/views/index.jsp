@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>美人美吧后台管理系统</title>
+    <title>草坪云后台管理系统</title>
     <meta name="description" content="description">
     <meta name="author" content="DevOOPS">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
     <script type="text/javascript"
-            src="http://webapi.amap.com/maps?v=1.3&key=7a3a7ab54b57b6bb91263d6959622b91"></script>
+            src="http://webapi.amap.com/maps?v=1.3&key=0d0f3549e1eb09f65e083889e9ab75a3"></script>
 
 </head>
 <body>
@@ -61,7 +61,7 @@
     <div class="container-fluid expanded-panel">
         <div class="row">
             <div id="logo" class="col-xs-12 col-sm-2">
-                <a href="javascript:void(0);">美人美吧</a>
+                <a href="javascript:void(0);">草坪云</a>
             </div>
             <div id="top-panel" class="col-xs-12 col-sm-10">
                 <div class="row">
@@ -147,7 +147,7 @@
                     </li>
                 </c:if>
 
-                <c:if test="${um:permission('LIST_EMPLOYEE', sessionScope.powers) || um:permission('LX_CARD_EMP_LIST', sessionScope.powers)}">
+                <c:if test="${um:permission('LIST_EMPLOYEE', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="javascript:void (0);" class="dropdown-toggle">
                             <i class="fa fa-table"></i>
@@ -157,29 +157,10 @@
                             <c:if test="${um:permission('LIST_EMPLOYEE', sessionScope.powers)}">
                                 <li><a href="javascript:void(0);" onclick="toPage('ajax/listMember','1')">会员列表</a></li>
                             </c:if>
-                            <c:if test="${um:permission('LX_CARD_EMP_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/cardEmpController/list','1')">定向卡会员</a></li>
-                            </c:if>
                         </ul>
                     </li>
                 </c:if>
 
-                <%--<c:if test="${um:permission('ADVERT_LIST', sessionScope.powers)||um:permission('ADD_ADVERT_MANAGER', sessionScope.powers)||um:permission('ADD_ADVERT_CHENGBAO', sessionScope.powers)}">--%>
-                    <%--<li class="dropdown">--%>
-                        <%--<a href="#" class="dropdown-toggle">--%>
-                            <%--<i class="fa fa-pencil-square-o"></i>--%>
-                            <%--<span class="hidden-xs">广告管理</span>--%>
-                        <%--</a>--%>
-                        <%--<ul class="dropdown-menu">--%>
-                            <%--<c:if test="${um:permission('ADVERT_LIST', sessionScope.powers)}">--%>
-                                <%--<li><a href="javascript:void(0);" onclick="toPage('ajax/listAdvert','1')">广告列表</a></li>--%>
-                            <%--</c:if>--%>
-                            <%--<c:if test="${um:permission('ADD_ADVERT_MANAGER', sessionScope.powers)}">--%>
-                                <%--<li><a href="javascript:void(0);" onclick="toPage('ajax/toAddAdvert','')">添加广告</a></li>--%>
-                            <%--</c:if>--%>
-                        <%--</ul>--%>
-                    <%--</li>--%>
-                <%--</c:if>--%>
 
                 <c:if test="${um:permission('AREA_LIST', sessionScope.powers)}">
                     <li class="dropdown">
@@ -191,27 +172,6 @@
                             <c:if test="${um:permission('AREA_LIST', sessionScope.powers)}">
                                 <li><a href="javascript:void(0);" onclick="toPage('listProvince','1')">省份列表</a></li>
                             </c:if>
-                        </ul>
-                    </li>
-                </c:if>
-
-
-                <c:if test="${um:permission('LIST_CLASS', sessionScope.powers)||um:permission('ADD_CLASS', sessionScope.powers)||um:permission('GOODS_LIST_CLASS', sessionScope.powers)||um:permission('ADD_GOODS_SHOP_THREE', sessionScope.powers)||um:permission('LIST_GOODS_SHOP_THREE', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fa fa-list"></i>
-                            <span class="hidden-xs">商城管理</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('LIST_CLASS', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('listType','1')">商城分类列表</a></li>
-                            </c:if>
-                            <c:if test="${um:permission('ADD_CLASS', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('toAddGoodsType','')">添加商城分类</a></li>
-                            </c:if>
-                            <%--<c:if test="${um:permission('GOODS_LIST_CLASS', sessionScope.powers)}">--%>
-                                <%--<li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/listsgoods','1')">商品列表</a></li>--%>
-                            <%--</c:if>--%>
                         </ul>
                     </li>
                 </c:if>
@@ -231,11 +191,6 @@
                             <c:if test="${admin.emp_id != null && admin.emp_id != '0'}">
                                 <c:if test="${um:permission('MINE_GOODS_ADD', sessionScope.powers)}">
                                     <li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/toAdd','')">发布商品</a></li>
-                                </c:if>
-                            </c:if>
-                            <c:if test="${admin.emp_id != null && admin.emp_id != '0'}">
-                                <c:if test="${um:permission('MINE_GOODS_ADD_DXK', sessionScope.powers)}">
-                                    <li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/toAddDxk','')">发布定向卡商品</a></li>
                                 </c:if>
                             </c:if>
 
@@ -371,6 +326,7 @@
                         </ul>
                     </li>
                 </c:if>
+
                 <c:if test="${um:permission('POINT_LIST', sessionScope.powers)||um:permission('ADD_POINT', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
@@ -387,6 +343,7 @@
                         </ul>
                     </li>
                 </c:if>
+
                 <c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)||um:permission('ADD_LEVEL', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
@@ -396,37 +353,6 @@
                         <ul class="dropdown-menu">
                             <c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)}">
                                 <li><a href="javascript:void(0);" onclick="toPage('listLevel','1')">会员等级列表</a></li>
-                            </c:if>
-                                <%--<c:if test="${um:permission('ADD_LEVEL', sessionScope.powers)}">--%>
-                                <%--<li><a href="javascript:void(0);" onclick="toPage('toAddLevel','')">添加等级</a></li>--%>
-                                <%--</c:if>--%>
-                        </ul>
-                    </li>
-                </c:if>
-
-                <c:if test="${um:permission('LX_ATTRIBUTE_LIST', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fa fa-desktop"></i>
-                            <span class="hidden-xs">分销等级管理</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('LX_ATTRIBUTE_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/lxAttributeController/list','1')">分销等级列表</a></li>
-                            </c:if>
-                        </ul>
-                    </li>
-                </c:if>
-
-                <c:if test="${um:permission('LX_CARD_LIST', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fa fa-desktop"></i>
-                            <span class="hidden-xs">定向卡维护</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('LX_CARD_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/lxCardObjController/list','1')">定向卡维护</a></li>
                             </c:if>
                         </ul>
                     </li>

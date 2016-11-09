@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.member;
 
 import com.liangxunwang.unimanager.model.ManagerEmp;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.ManagerEmpVO;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
@@ -49,9 +50,11 @@ public class ManagerEmpController extends ControllerConstants {
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
             if (e.getMessage().equals("HasClose")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -69,7 +72,8 @@ public class ManagerEmpController extends ControllerConstants {
             dataTip.setData(list);
             return toJSONString(dataTip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -85,7 +89,8 @@ public class ManagerEmpController extends ControllerConstants {
             managerEmpUpdateService.update(empId);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

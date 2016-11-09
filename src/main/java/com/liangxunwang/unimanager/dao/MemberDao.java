@@ -138,6 +138,9 @@ public interface MemberDao {
      */
     void resetPass(@Param(value = "empId") String empId, @Param(value = "rePass") String rePass);
 
+    //更新密码 通过手机号
+    void resetPassByMobile(@Param(value = "emp_mobile") String empId, @Param(value = "rePass") String rePass);
+
     /**
      * 设置手机号
      * @param empId

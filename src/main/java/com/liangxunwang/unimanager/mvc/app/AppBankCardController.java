@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.BankObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.BankCardQuery;
 import com.liangxunwang.unimanager.service.DeleteService;
 import com.liangxunwang.unimanager.service.ListService;
@@ -40,7 +41,8 @@ public class AppBankCardController extends ControllerConstants {
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -59,9 +61,11 @@ public class AppBankCardController extends ControllerConstants {
             bankObjServiceSave.save(bankObj);
         }catch (ServiceException e){
             if (e.getMessage().equals("adIsTooMuch")){
-                return toJSONString(ERROR_2);//最多5个
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );//最多5个
             }else{
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return toJSONString(SUCCESS);//保存成功

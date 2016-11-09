@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.query.LxConsumptionQuery;
 import com.liangxunwang.unimanager.service.ListService;
@@ -43,7 +44,8 @@ public class AppLxConsumptionController extends ControllerConstants {
             tip.setData(result[0]);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

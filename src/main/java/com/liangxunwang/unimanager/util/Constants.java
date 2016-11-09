@@ -5,21 +5,21 @@ package com.liangxunwang.unimanager.util;
  */
 public class Constants {
     //服务器地址
-    public static final String URL = "http://157j1274e3.iask.in/";
-//        public static final String URL = "http://192.168.0.224:8080/";
+//    public static final String URL = "http://157j1274e3.iask.in/";
+        public static final String URL = "http://192.168.0.224:8080/";
 
     public static final String DOWNLOAD_URL = URL + "html/MeirenmeibaApp.apk";
     //注册用默认会员等级--青铜会员
     public static final String DEFAULT_LEVEL = "d42535ff62e147ae80dba7bc9d8ea0d4";
 
     //七牛云存储
-    public static final String QINIU_URL = "http://7xt74j.com1.z0.glb.clouddn.com/";
+    public static final String QINIU_URL = "http://ogcvwqv8j.bkt.clouddn.com/";
     public static final String QINIU_SPACE = "paopao-pic";
     public static final String FILE_PATH = "D://recordfile";
 
     //百度推送
-    public static final String API_KEY = "ncthb8SBWQXKh80vGeGfkcHT";
-    public static final String SECRET_KEY = "8PZUr37HZrvynvXeu1k6R1IyBtfraQRh";
+    public static final String API_KEY = "vfwRCBwcuBjoZGCLYBUKdZ0d";
+    public static final String SECRET_KEY = "r9k1po3sQCHzc30zOKkDd3nnkLBTKOim";
     public static final String IOS_API_KEY = "";
     public static final String IOS_SECRET_KEY = "";
 

@@ -34,6 +34,70 @@ public class Member {
     private String package_money;//零钱
     private String jfcount;//积分
 
+    private String is_vip_one;//信用用户
+    private String is_vip_two;//100分用户
+    private String is_vip_three;//vip
+    private String is_vip_four;//实名认证
+    private String is_vip_five;//信用商户
+    private String is_shiming_rz;//是否实名认证
+    private String is_qiye_rz;//是否企业认证
+
+    public String getIs_vip_one() {
+        return is_vip_one;
+    }
+
+    public void setIs_vip_one(String is_vip_one) {
+        this.is_vip_one = is_vip_one;
+    }
+
+    public String getIs_vip_two() {
+        return is_vip_two;
+    }
+
+    public void setIs_vip_two(String is_vip_two) {
+        this.is_vip_two = is_vip_two;
+    }
+
+    public String getIs_vip_three() {
+        return is_vip_three;
+    }
+
+    public void setIs_vip_three(String is_vip_three) {
+        this.is_vip_three = is_vip_three;
+    }
+
+    public String getIs_vip_four() {
+        return is_vip_four;
+    }
+
+    public void setIs_vip_four(String is_vip_four) {
+        this.is_vip_four = is_vip_four;
+    }
+
+    public String getIs_vip_five() {
+        return is_vip_five;
+    }
+
+    public void setIs_vip_five(String is_vip_five) {
+        this.is_vip_five = is_vip_five;
+    }
+
+    public String getIs_shiming_rz() {
+        return is_shiming_rz;
+    }
+
+    public void setIs_shiming_rz(String is_shiming_rz) {
+        this.is_shiming_rz = is_shiming_rz;
+    }
+
+    public String getIs_qiye_rz() {
+        return is_qiye_rz;
+    }
+
+    public void setIs_qiye_rz(String is_qiye_rz) {
+        this.is_qiye_rz = is_qiye_rz;
+    }
+
     public String getJfcount() {
         return jfcount;
     }

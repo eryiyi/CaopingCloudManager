@@ -9,6 +9,7 @@ public class SuccessTip implements Tip {
         super();
         this.success = true;
         this.code = 200;
+        this.message = message;
     }
 
     public boolean isSuccess() {

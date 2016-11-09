@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>美人美吧后台登陆</title>
+    <title>草坪云后台登陆</title>
     <meta name="description" content="description">
     <meta name="author" content="Evgeniya">
     <meta name="keyword" content="keywords">
@@ -26,7 +26,7 @@
             <div class="box">
                 <div class="box-content">
                     <div class="text-center">
-                        <h3 class="page-header">美人美吧后台登陆</h3>
+                        <h3 class="page-header">草坪云后台登陆</h3>
                     </div>
                     <div class="form-group">
                         <label class="control-label">用户名</label>
@@ -75,7 +75,7 @@
                         3: "该用户不存在",
                         4: "密码不正确",
                         5: "登陆失败",
-                        6: "您的账号没有权限，请联系美人美吧管理员"
+                        6: "您的账号没有权限，请联系草坪云管理员"
                     };
                     alert(_case[data.code])
                 }

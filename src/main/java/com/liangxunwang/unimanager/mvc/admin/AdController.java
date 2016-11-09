@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.Admin;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -71,9 +72,11 @@ public class AdController extends ControllerConstants {
         }catch (ServiceException e){
             String msg = e.getMessage();
             if (msg.equals("adIsTooMuch")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else{
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
     }
@@ -105,7 +108,8 @@ public class AdController extends ControllerConstants {
             levelServiceSaveUpdate.update(adObj);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 

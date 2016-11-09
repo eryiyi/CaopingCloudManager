@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.app;
 
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.PaihangQuery;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.ServiceException;
@@ -36,9 +37,11 @@ public class AppPaihangController extends ControllerConstants {
         }catch (ServiceException e){
             String msg = e.getMessage();
             if (msg.equals("accessTokenNull")){
-                return toJSONString(ERROR_9);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }else{
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
     }

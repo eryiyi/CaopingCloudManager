@@ -47,7 +47,7 @@
     <div class="blank" style="height: 100px"><br></div>
 </div>
 <a href="javascript:void(0)">
-    <img class="download-button" src="/img/share_download.png" alt="下载美人美吧手机客户端">
+    <img class="download-button" src="/img/share_download.png" alt="下载草坪云手机客户端">
 </a>
 </body>
 </html>

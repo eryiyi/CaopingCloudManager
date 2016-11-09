@@ -7,6 +7,7 @@ import com.liangxunwang.unimanager.model.Order;
 import com.liangxunwang.unimanager.model.OrderInfoAndSign;
 import com.liangxunwang.unimanager.model.WxPayObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
+import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.OrderVo;
 import com.liangxunwang.unimanager.query.OrdersQuery;
 import com.liangxunwang.unimanager.service.*;
@@ -81,10 +82,12 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return null;
@@ -107,7 +110,8 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return null;
@@ -132,10 +136,12 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return null;
@@ -161,10 +167,12 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(ERROR_1);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(ERROR_2);
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                );
             }
         }
         return null;
@@ -201,7 +209,8 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -280,7 +289,8 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
@@ -294,7 +304,8 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(order);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(ERROR_1);
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+            );
         }
     }
 
