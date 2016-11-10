@@ -45,8 +45,11 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                 +"|(^/orderSaveSingle\\.do$)"
                 +"|(^/orderUpdateSingle\\.do$)"
                 +"|(^/appGetProvince\\.do$)"
+                +"|(^/getProvince\\.do$)"
                 +"|(^/appGetCity\\.do$)"
+                +"|(^/getCity\\.do$)"
                 +"|(^/appGetArea\\.do$)"
+                +"|(^/getCountry\\.do$)"
                 +"|(^/paopaogoods/listGoods\\.do$)"
                 +"|(^/paopaogoods/findById\\.do$)"
                 +"|(^/paopaogoods/detail\\.do$)"
@@ -131,6 +134,10 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
 
                 +"|(^/appGetCpLists\\.do$)"
                 +"|(^/appSaveCpLists\\.do$)"
+
+                +"|(^/appGetCompanyDetail\\.do$)"
+                +"|(^/appSaveCompanyDetail\\.do$)"
+                +"|(^/appSaveCompanyDetailPic\\.do$)"
 
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"

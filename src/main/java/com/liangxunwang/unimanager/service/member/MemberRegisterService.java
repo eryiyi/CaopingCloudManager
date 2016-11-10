@@ -97,11 +97,11 @@ public class MemberRegisterService implements SaveService, ExecuteService {
                 memberDao.save(member);
 
                 //钱包表
-//                MinePackage minePackage = new MinePackage();
-//                minePackage.setPackage_id(UUIDFactory.random());
-//                minePackage.setEmp_id(member.getEmpId());
-//                minePackage.setPackage_money("0");
-//                minePackageDao.save(minePackage);
+                MinePackage minePackage = new MinePackage();
+                minePackage.setPackage_id(UUIDFactory.random());
+                minePackage.setEmp_id(member.getEmpId());
+                minePackage.setPackage_money("0");
+                minePackageDao.save(minePackage);
 
             }
             //积分表

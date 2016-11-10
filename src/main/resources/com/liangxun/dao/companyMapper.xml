@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CompanyDao">
+    <resultMap id="company" type="com.liangxunwang.unimanager.model.Company">
+        <id column="company_id" property="company_id"/>
+        <result column="company_name" property="company_name"/>
+        <result column="company_detail" property="company_detail"/>
+        <result column="company_tel" property="company_tel"/>
+        <result column="company_person" property="company_person"/>
+        <result column="company_address" property="company_address"/>
+        <result column="lat_company" property="lat_company"/>
+        <result column="lng_company" property="lng_company"/>
+        <result column="company_pic" property="company_pic"/>
+        <result column="is_check" property="is_check"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="provinceid" property="provinceid"/>
+        <result column="cityid" property="cityid"/>
+        <result column="areaid" property="areaid"/>
+        <result column="dateline" property="dateline"/>
+
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
+        <result column="emp_mobile" property="emp_mobile"/>
+
+        <result column="pname" property="pname"/>
+        <result column="cityName" property="cityName"/>
+        <result column="areaName" property="areaName"/>
+    </resultMap>
+
+    <select id="lists" resultMap="company">
+        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from company lc
+        LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lc.provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lc.cityid
+        LEFT JOIN area larea ON larea.areaid = lc.areaid
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lc.emp_id = #{emp_id}
+        </if>
+        <if test="provinceid != null and provinceid != ''">
+            AND lp.provinceid = #{provinceid}
+        </if>
+        <if test="cityid != null and cityid != ''">
+            AND lcity.cityid = #{cityid}
+        </if>
+        <if test="areaid != null and areaid != ''">
+            AND larea.areaid = #{areaid}
+        </if>
+        ORDER BY lc.dateline DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.Company">
+        INSERT INTO company(company_id, company_name, company_detail, company_tel,
+        company_person, company_address,lat_company ,lng_company ,company_pic ,is_check , emp_id,
+        provinceid, cityid, areaid, dateline )
+        VALUES (#{company_id}, #{company_name}, #{company_detail}, #{company_tel,jdbcType=VARCHAR}, #{company_person,jdbcType=VARCHAR}, #{company_address,jdbcType=VARCHAR}
+        , #{lat_company,jdbcType=VARCHAR}, #{lng_company,jdbcType=VARCHAR}, #{company_pic,jdbcType=VARCHAR}, #{is_check,jdbcType=VARCHAR}, #{emp_id,jdbcType=VARCHAR},
+         #{provinceid,jdbcType=VARCHAR}, #{cityid,jdbcType=VARCHAR}, #{areaid,jdbcType=VARCHAR}, #{dateline,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM company where company_id = #{company_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="company">
+        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from company lc
+        LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lc.provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lc.cityid
+        LEFT JOIN area larea ON larea.areaid = lc.areaid
+         where lc.company_id=#{company_id}
+    </select>
+
+    <select id="findByEmpId" parameterType="String" resultMap="company">
+        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from company lc
+        LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lc.provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lc.cityid
+        LEFT JOIN area larea ON larea.areaid = lc.areaid
+        where lc.emp_id=#{emp_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.Company">
+        UPDATE company SET company_name=#{company_name},
+        company_detail=#{company_detail} ,
+         company_tel=#{company_tel,jdbcType=VARCHAR},
+         company_person=#{company_person,jdbcType=VARCHAR},
+         company_address=#{company_address,jdbcType=VARCHAR},
+         company_pic=#{company_pic,jdbcType=VARCHAR},
+         provinceid=#{provinceid,jdbcType=VARCHAR},
+         cityid=#{cityid,jdbcType=VARCHAR},
+         areaid=#{areaid,jdbcType=VARCHAR}
+         WHERE company_id=#{company_id}
+    </update>
+
+    <update id="updateLocation" parameterType="com.liangxunwang.unimanager.model.Company">
+        UPDATE company SET lat_company=#{lat_company},
+        lng_company=#{lng_company},
+        company_address=#{company_address}
+        WHERE company_id=#{company_id}
+    </update>
+
+    <update id="updateCheck" parameterType="com.liangxunwang.unimanager.model.Company">
+        UPDATE company SET is_check=#{is_check}
+        WHERE company_id=#{company_id}
+    </update>
+
+    <update id="updatePic" parameterType="com.liangxunwang.unimanager.model.Company">
+        UPDATE company SET company_pic=#{company_pic}
+        WHERE company_id=#{company_id}
+    </update>
+
+
+</mapper>
