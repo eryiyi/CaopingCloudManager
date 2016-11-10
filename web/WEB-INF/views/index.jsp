@@ -386,6 +386,27 @@
                     </li>
                 </c:if>
 
+                <c:if test="${um:permission('CAOPING_GUIGE', sessionScope.powers) || um:permission('CAOPING_USE_TYPE', sessionScope.powers)|| um:permission('CAOPING_TYPE_TYPE', sessionScope.powers) }">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">草坪设置</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('CAOPING_GUIGE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cpguigeController/list','1')">草坪规格</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('CAOPING_USE_TYPE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cpuseController/list','1')">草坪用途</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('CAOPING_TYPE_TYPE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cptypeController/list','1')">草坪属性</a></li>
+                            </c:if>
+                        </ul>
+
+                    </li>
+                </c:if>
+
                 <c:if test="${um:permission('MODIFY_PASS', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">

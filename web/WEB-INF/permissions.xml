@@ -78,5 +78,10 @@
         <permission id="ADD_TEL_KEFU_MANAGE" name="添加客服"/>
         <permission id="TEL_KEFU_MANAGE" name="客服列表"/>
     </group>
+    <group id="CAOPING_GUIGE_MANAGE" name="草坪设置">
+        <permission id="CAOPING_GUIGE" name="草坪规格"/>
+        <permission id="CAOPING_USE_TYPE" name="草坪用途"/>
+        <permission id="CAOPING_TYPE_TYPE" name="草坪属性"/>
+    </group>
 
 </permissions>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CptypeDao">
+    <resultMap id="cptype" type="com.liangxunwang.unimanager.model.Cptype">
+        <id column="cloud_caoping_type_id" property="cloud_caoping_type_id"/>
+        <result column="cloud_caoping_type_cont" property="cloud_caoping_type_cont"/>
+        <result column="cloud_caoping_type_num" property="cloud_caoping_type_num"/>
+    </resultMap>
+
+    <select id="lists" resultMap="cptype">
+        SELECT * from cloud_caoping_type
+        ORDER BY cloud_caoping_type_num DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.Cptype">
+        INSERT INTO cloud_caoping_type(cloud_caoping_type_id, cloud_caoping_type_cont, cloud_caoping_type_num)
+        VALUES (#{cloud_caoping_type_id}, #{cloud_caoping_type_cont}, #{cloud_caoping_type_num})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM cloud_caoping_type where cloud_caoping_type_id = #{cloud_caoping_type_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="cptype">
+        SELECT * FROM cloud_caoping_type where cloud_caoping_type_id=#{cloud_caoping_type_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.Cptype">
+        UPDATE cloud_caoping_type SET cloud_caoping_type_cont=#{cloud_caoping_type_cont},
+        cloud_caoping_type_num=#{cloud_caoping_type_num}
+         WHERE cloud_caoping_type_id=#{cloud_caoping_type_id}
+    </update>
+
+</mapper>

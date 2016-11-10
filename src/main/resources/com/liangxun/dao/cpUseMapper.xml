@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CpuseDao">
+    <resultMap id="cpuse" type="com.liangxunwang.unimanager.model.Cpuse">
+        <id column="cloud_caoping_use_id" property="cloud_caoping_use_id"/>
+        <result column="cloud_caoping_use_cont" property="cloud_caoping_use_cont"/>
+        <result column="cloud_caoping_use_num" property="cloud_caoping_use_num"/>
+    </resultMap>
+
+    <select id="lists" resultMap="cpuse">
+        SELECT * from cloud_caoping_use
+        ORDER BY cloud_caoping_use_num DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.Cpuse">
+        INSERT INTO cloud_caoping_use(cloud_caoping_use_id, cloud_caoping_use_cont, cloud_caoping_use_num)
+        VALUES (#{cloud_caoping_use_id}, #{cloud_caoping_use_cont}, #{cloud_caoping_use_num})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM cloud_caoping_use where cloud_caoping_use_id = #{cloud_caoping_use_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="cpuse">
+        SELECT * FROM cloud_caoping_use where cloud_caoping_use_id=#{cloud_caoping_use_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.Cpuse">
+        UPDATE cloud_caoping_use SET cloud_caoping_use_cont=#{cloud_caoping_use_cont},
+        cloud_caoping_use_num=#{cloud_caoping_use_num}
+         WHERE cloud_caoping_use_id=#{cloud_caoping_use_id}
+    </update>
+
+</mapper>
