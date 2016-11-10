@@ -35,8 +35,8 @@ public class AppCaopingController extends ControllerConstants {
     private ListService cptypeService;
 
     @Autowired
-    @Qualifier("cpuseService")
-    private ListService cpuseService;
+    @Qualifier("appCpuseService")
+    private ListService appCpuseService;
 
 
     @Autowired
@@ -94,7 +94,7 @@ public class AppCaopingController extends ControllerConstants {
     @ResponseBody
     public String appGetCpUse(){
         try {
-            List<Cpuse> list = (List<Cpuse>) cpuseService.list("");
+            List<Cpuse> list = (List<Cpuse>) appCpuseService.list("");
             DataTip tip = new DataTip();
             tip.setData(list);
             return toJSONString(tip);

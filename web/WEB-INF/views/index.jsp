@@ -220,29 +220,16 @@
                     </li>
                 </c:if>
 
-                <c:if test="${ um:permission('MANAGER_INFO', sessionScope.powers)|| um:permission('MANAGER_INFO_LIST', sessionScope.powers)|| um:permission('MANAGER_DIANPU_AD', sessionScope.powers)}">
+                <c:if test="${ um:permission('COMPANY_MANAGER_INFO', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
                             <i class="fa fa-picture-o"></i>
-                            <span class="hidden-xs">店铺管理</span>
+                            <span class="hidden-xs">公司管理</span>
                         </a>
                         <ul class="dropdown-menu">
-
-                            <c:if test="${um:permission('MANAGER_INFO_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('managerinfo/list','1')">店铺列表</a></li>
+                            <c:if test="${um:permission('COMPANY_MANAGER_INFO', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/companyController/list','1')">公司列表</a></li>
                             </c:if>
-
-                            <c:if test="${admin.emp_id != null && admin.emp_id != '0'}">
-                                <c:if test="${um:permission('MANAGER_INFO', sessionScope.powers)}">
-                                    <li><a href="javascript:void(0);" onclick="toPage('managerinfo/toEdit','')">店铺信息维护</a></li>
-                                </c:if>
-
-                                <c:if test="${um:permission('MANAGER_DIANPU_AD', sessionScope.powers)}">
-                                    <li><a href="javascript:void(0);" onclick="toPage('adObj/list','')">店铺广告列表</a></li>
-                                </c:if>
-                            </c:if>
-
-
                         </ul>
                     </li>
                 </c:if>

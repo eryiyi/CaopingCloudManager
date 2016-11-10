@@ -7,6 +7,7 @@
         <id column="cloud_caoping_use_id" property="cloud_caoping_use_id"/>
         <result column="cloud_caoping_use_cont" property="cloud_caoping_use_cont"/>
         <result column="cloud_caoping_use_num" property="cloud_caoping_use_num"/>
+        <result column="cloud_caoping_use_pic" property="cloud_caoping_use_pic"/>
     </resultMap>
 
     <select id="lists" resultMap="cpuse">
@@ -15,8 +16,8 @@
     </select>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.Cpuse">
-        INSERT INTO cloud_caoping_use(cloud_caoping_use_id, cloud_caoping_use_cont, cloud_caoping_use_num)
-        VALUES (#{cloud_caoping_use_id}, #{cloud_caoping_use_cont}, #{cloud_caoping_use_num})
+        INSERT INTO cloud_caoping_use(cloud_caoping_use_id, cloud_caoping_use_cont, cloud_caoping_use_num, cloud_caoping_use_pic)
+        VALUES (#{cloud_caoping_use_id}, #{cloud_caoping_use_cont}, #{cloud_caoping_use_num}, #{cloud_caoping_use_pic})
     </insert>
 
     <delete id="delete" parameterType="String">
@@ -29,7 +30,7 @@
 
     <update id="update" parameterType="com.liangxunwang.unimanager.model.Cpuse">
         UPDATE cloud_caoping_use SET cloud_caoping_use_cont=#{cloud_caoping_use_cont},
-        cloud_caoping_use_num=#{cloud_caoping_use_num}
+        cloud_caoping_use_num=#{cloud_caoping_use_num},cloud_caoping_use_pic=#{cloud_caoping_use_pic}
          WHERE cloud_caoping_use_id=#{cloud_caoping_use_id}
     </update>
 

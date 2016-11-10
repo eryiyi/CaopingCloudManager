@@ -17,6 +17,8 @@ public interface CompanyDao {
      */
     List<Company> lists(Map<String, Object> map);
 
+    Long count(Map<String, Object> map);
+
     //保存
     void save(Company company);
 
@@ -40,7 +42,8 @@ public interface CompanyDao {
     public void updateLocation(Company company);
     //更新图片
     public void updatePic(Company company);
-
+    //名企排行榜
+    public void updateMq(Company company);
     //是否审核
     public void updateCheck(Company company);
 }

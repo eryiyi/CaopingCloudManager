@@ -20,6 +20,10 @@
         <result column="areaid" property="areaid"/>
         <result column="dateline" property="dateline"/>
 
+        <result column="is_paihang" property="is_paihang"/>
+        <result column="end_time" property="end_time"/>
+        <result column="paihang_num" property="paihang_num"/>
+
         <result column="emp_name" property="emp_name"/>
         <result column="emp_cover" property="emp_cover"/>
         <result column="emp_mobile" property="emp_mobile"/>
@@ -40,6 +44,12 @@
         <if test="emp_id != null and emp_id != ''">
             AND lc.emp_id = #{emp_id}
         </if>
+        <if test="is_check != null and is_check != ''">
+            AND lc.is_check = #{is_check}
+        </if>
+        <if test="is_paihang != null and is_paihang != '' and is_paihang != '1'">
+            AND lc.is_paihang = #{is_paihang}
+        </if>
         <if test="provinceid != null and provinceid != ''">
             AND lp.provinceid = #{provinceid}
         </if>
@@ -49,7 +59,36 @@
         <if test="areaid != null and areaid != ''">
             AND larea.areaid = #{areaid}
         </if>
-        ORDER BY lc.dateline DESC
+        <if test="is_paihang != null and is_paihang != '' and is_paihang != '1'">
+            ORDER BY lc.paihang_num DESC
+        </if>
+        <if test="is_paihang == null || is_paihang == '' || is_paihang == '0'">
+            ORDER BY lc.dateline DESC
+        </if>
+    </select>
+
+    <select id="count" resultType="long">
+        select count(lc.company_id) from company lc
+        LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lc.provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lc.cityid
+        LEFT JOIN area larea ON larea.areaid = lc.areaid
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lc.emp_id = #{emp_id}
+        </if>
+        <if test="is_paihang != null and is_paihang != '' and is_paihang != '1'">
+            AND lc.is_paihang = #{is_paihang}
+        </if>
+        <if test="provinceid != null and provinceid != ''">
+            AND lp.provinceid = #{provinceid}
+        </if>
+        <if test="cityid != null and cityid != ''">
+            AND lcity.cityid = #{cityid}
+        </if>
+        <if test="areaid != null and areaid != ''">
+            AND larea.areaid = #{areaid}
+        </if>
     </select>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.Company">
@@ -91,7 +130,6 @@
          company_tel=#{company_tel,jdbcType=VARCHAR},
          company_person=#{company_person,jdbcType=VARCHAR},
          company_address=#{company_address,jdbcType=VARCHAR},
-         company_pic=#{company_pic,jdbcType=VARCHAR},
          provinceid=#{provinceid,jdbcType=VARCHAR},
          cityid=#{cityid,jdbcType=VARCHAR},
          areaid=#{areaid,jdbcType=VARCHAR}
@@ -115,5 +153,9 @@
         WHERE company_id=#{company_id}
     </update>
 
+    <update id="updateMq" parameterType="com.liangxunwang.unimanager.model.Company">
+        UPDATE company SET is_paihang=#{is_paihang}, end_time=#{end_time}, paihang_num=#{paihang_num}
+        WHERE company_id=#{company_id}
+    </update>
 
 </mapper>

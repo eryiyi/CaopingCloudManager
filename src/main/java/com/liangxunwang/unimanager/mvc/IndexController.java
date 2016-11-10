@@ -43,7 +43,6 @@ public class IndexController extends ControllerConstants {
 
     @RequestMapping("/mainPage")
     public String mainPage(ModelMap map){
-        List<Object> list = (List<Object>) indexListService.list(null);
 
         return "/main";
     }

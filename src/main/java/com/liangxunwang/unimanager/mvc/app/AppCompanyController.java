@@ -5,9 +5,12 @@ import com.liangxunwang.unimanager.model.Company;
 import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.AdQuery;
+import com.liangxunwang.unimanager.query.CompanyQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
+import com.liangxunwang.unimanager.util.Page;
 import com.liangxunwang.unimanager.util.StringUtil;
+import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -64,16 +67,19 @@ public class AppCompanyController extends ControllerConstants {
     @RequestMapping(value = "/appSaveCompanyDetail", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String appSaveCompanyDetail(Company company){
+        Company company1 = null;
         try {
             if(StringUtil.isNullOrEmpty(company.getCompany_id())){
                 //没有ID说明是新增
-                appCompanyServiceSave.save(company);
+                company.setCompany_id(UUIDFactory.random());
+                company1 = (Company) appCompanyServiceSave.save(company);
             }else {
                 //更新
                 appCompanyServiceUpdate.update(company);
+                company1 = company;
             }
             DataTip tip = new DataTip();
-            tip.setData(company);
+            tip.setData(company1);
             return toJSONString(tip);
         }catch (Exception e){
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
@@ -97,5 +103,29 @@ public class AppCompanyController extends ControllerConstants {
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
+
+    @Autowired
+    @Qualifier("companyService")
+    private ListService companyService;
+
+    /**
+     * 查询名企排行
+     * @return
+     */
+    @RequestMapping(value = "/appGetCompanyList", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String appGetCompanyList(CompanyQuery query, Page page){
+        try {
+            query.setIndex(page.getPage()==0?1:page.getPage());
+            query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
+            Object[] result = (Object[]) companyService.list(query);
+            DataTip tip = new DataTip();
+            tip.setData(result[0]);
+            return toJSONString(tip);
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
+
 
 }

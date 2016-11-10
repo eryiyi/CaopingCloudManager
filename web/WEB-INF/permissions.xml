@@ -39,15 +39,14 @@
         <permission id="JIFEN_LIST" name="积分列表"/>
         <permission id="EDIT_JIFEN_GUIZE" name="积分规则"/>
     </group>
+
     <group id="NOTICE_MANAGE" name="公告管理">
         <permission id="NOTICE_LIST" name="公告列表"/>
         <permission id="ADD_NOTICE" name="添加公告"/>
     </group>
 
-    <group id="SYSTEM_MANAGE" name="店铺管理">
-        <permission id="MANAGER_INFO_LIST" name="店铺列表"/>
-        <permission id="MANAGER_INFO" name="店铺信息维护(商家)"/>
-        <permission id="MANAGER_DIANPU_AD" name="店铺广告列表(商家)"/>
+    <group id="SYSTEM_MANAGE_COMPANY" name="公司管理">
+        <permission id="COMPANY_MANAGER_INFO" name="公司列表"/>
     </group>
 
     <group id="REMIT_MANAGER" name="汇款结算">

@@ -18,6 +18,10 @@ public class Company {
     private String emp_id;//公司会员ID
     private String dateline;
 
+    private String is_paihang;//是否排行榜  0否 1是
+    private String end_time;//到期时间
+    private String paihang_num;//排行榜排序
+
     private String provinceid;
     private String cityid;
     private String areaid;
@@ -29,6 +33,30 @@ public class Company {
     private String pname;//省
     private String cityName;//市
     private String areaName;//县
+
+    public String getIs_paihang() {
+        return is_paihang;
+    }
+
+    public void setIs_paihang(String is_paihang) {
+        this.is_paihang = is_paihang;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getPaihang_num() {
+        return paihang_num;
+    }
+
+    public void setPaihang_num(String paihang_num) {
+        this.paihang_num = paihang_num;
+    }
 
     public String getDateline() {
         return dateline;

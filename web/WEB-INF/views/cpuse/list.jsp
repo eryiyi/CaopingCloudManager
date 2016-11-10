@@ -51,6 +51,7 @@
                     <thead>
                     <tr>
                         <th>用途描述</th>
+                        <th>图片</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -58,6 +59,7 @@
                     <c:forEach items="${list}" var="e" varStatus="st">
                         <tr>
                             <td>${e.cloud_caoping_use_cont}</td>
+                            <td><img src="${e.cloud_caoping_use_pic}" style="width: 80px;height: 80px;"></td>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"
                                    onclick="editRole('${e.cloud_caoping_use_id}')" role="button">编辑</a>
