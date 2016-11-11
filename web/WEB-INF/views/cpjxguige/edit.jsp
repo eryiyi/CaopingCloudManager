@@ -8,8 +8,8 @@
         </a>
         <ol class="breadcrumb pull-left">
             <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
-            <li><a href="javascript:void(0)">草坪规格</a></li>
-            <li><a href="javascript:void(0)">草坪规格</a></li>
+            <li><a href="javascript:void(0)">机械规格</a></li>
+            <li><a href="javascript:void(0)">机械规格</a></li>
         </ol>
         <div id="social" class="pull-right">
             <a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a>
@@ -27,7 +27,7 @@
             <div class="box-header">
                 <div class="box-name">
                     <i class="fa fa-search"></i>
-                    <span>草坪规格</span>
+                    <span>机械规格</span>
                 </div>
                 <div class="box-icons">
                     <a class="collapse-link">
@@ -43,15 +43,15 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content">
-                <h4 class="page-header">添加草坪规格</h4>
+                <h4 class="page-header">编辑机械规格</h4>
 
                 <form class="form-horizontal" role="form">
-
+                    <input type="hidden" id="cloud_jixie_guige_id" name="cloud_jixie_guige_id" value="${cpguige.cloud_jixie_guige_id}">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">规格描述</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="cloud_caoping_guige_cont"  class="form-control" placeholder="规格描述"
+                            <input type="text" id="cloud_jixie_guige_cont" value="${cpguige.cloud_jixie_guige_cont}" class="form-control" placeholder="规格描述"
                                    data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                         <label class="col-sm-2 control-label">排序</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="cloud_caoping_guige_num" value="0" class="form-control" placeholder="排序 数字"
+                            <input type="text" id="cloud_jixie_guige_num" value="${cpguige.cloud_jixie_guige_num}" class="form-control" placeholder="排序 数字"
                                    data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
                         </div>
                     </div>
@@ -80,20 +80,21 @@
 
 <script type="text/javascript">
     function saveP() {
-        var cloud_caoping_guige_cont = $("#cloud_caoping_guige_cont").val();
-        var cloud_caoping_guige_num = $("#cloud_caoping_guige_num").val();
+        var cloud_jixie_guige_id = $("#cloud_jixie_guige_id").val();
+        var cloud_jixie_guige_cont = $("#cloud_jixie_guige_cont").val();
+        var cloud_jixie_guige_num = $("#cloud_jixie_guige_num").val();
 
-        if (cloud_caoping_guige_cont.replace(/\s/g, '') == '') {
+        if (cloud_jixie_guige_cont.replace(/\s/g, '') == '') {
             alert("描述不能为空");
             return;
         }
 
         var regInt = /^([0-9]\d*)$/;
-        if (cloud_caoping_guige_num.replace(/\s/g, '') == '') {
+        if (cloud_jixie_guige_num.replace(/\s/g, '') == '') {
             alert("排序不能为空");
             return;
         } else {
-            if (!regInt.test(cloud_caoping_guige_num)) {
+            if (!regInt.test(cloud_jixie_guige_num)) {
                 alert("排序必须是整数！");
                 return;
             }
@@ -101,17 +102,18 @@
         $.ajax({
             cache: true,
             type: "POST",
-            url: "/cpguigeController/add.do",
+            url: "/cpJixieguigeController/edit.do",
             data: {
-                "cloud_caoping_guige_cont": cloud_caoping_guige_cont,
-                "cloud_caoping_guige_num": cloud_caoping_guige_num
+                "cloud_jixie_guige_id": cloud_jixie_guige_id,
+                "cloud_jixie_guige_cont": cloud_jixie_guige_cont,
+                "cloud_jixie_guige_num": cloud_jixie_guige_num
             },
             async: false,
             success: function (_data) {
                 var data = $.parseJSON(_data);
                 if (data.success) {
                     alert("执行成功");
-                    window.location.href = "#module=cpguigeController/list"+ "&_t="+ new Date().getTime();
+                    window.location.href = "#module=cpJixieguigeController/list"+ "&_t="+ new Date().getTime();
                 } else {
                     alert(data.message);
                 }

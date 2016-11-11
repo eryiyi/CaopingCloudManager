@@ -1,7 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
-import com.liangxunwang.unimanager.model.Cpguige;
+import com.liangxunwang.unimanager.model.CpJixieuse;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -16,45 +16,45 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cpguigeController")
-public class CpguigeController extends ControllerConstants {
+@RequestMapping("/cpJixieUseController")
+public class CpJixieUseController extends ControllerConstants {
 
     @Autowired
-    @Qualifier("cpguigeService")
+    @Qualifier("cpJixieUseService")
     private ListService levelService;
 
     @Autowired
-    @Qualifier("cpguigeService")
+    @Qualifier("cpJixieUseService")
     private SaveService levelServiceSave;
 
     @Autowired
-    @Qualifier("cpguigeService")
+    @Qualifier("cpJixieUseService")
     private ExecuteService levelServiceSaveExe;
 
     @Autowired
-    @Qualifier("cpguigeService")
+    @Qualifier("cpJixieUseService")
     private UpdateService levelServiceSaveUpdate;
 
     @Autowired
-    @Qualifier("cpguigeService")
+    @Qualifier("cpJixieUseService")
     private DeleteService levelServiceSaveDel;
 
 
     @RequestMapping("list")
     public String list(HttpSession session,ModelMap map){
-        List<Cpguige> list = (List<Cpguige>) levelService.list("");
+        List<CpJixieuse> list = (List<CpJixieuse>) levelService.list("");
         map.put("list", list);
-        return "/cpguige/list";
+        return "/cpjxuse/list";
     }
 
     @RequestMapping("toAdd")
     public String toAdd(){
-        return "/cpguige/add";
+        return "/cpjxuse/add";
     }
 
     @RequestMapping("add")
     @ResponseBody
-    public String add(HttpSession session,Cpguige cpguige){
+    public String add(HttpSession session,CpJixieuse cpguige){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
         try {
             levelServiceSave.save(cpguige);
@@ -68,18 +68,18 @@ public class CpguigeController extends ControllerConstants {
 
     @RequestMapping("delete")
     @ResponseBody
-    public String delete(HttpSession session,String cloud_caoping_guige_id){
+    public String delete(HttpSession session,String cloud_jixie_use_id){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
-        levelServiceSaveDel.delete(cloud_caoping_guige_id);
+        levelServiceSaveDel.delete(cloud_jixie_use_id);
         return toJSONString(SUCCESS);
     }
 
     @RequestMapping("/toEdit")
-    public String toEdit(HttpSession session,ModelMap map, String cloud_caoping_guige_id) throws Exception {
+    public String toEdit(HttpSession session,ModelMap map, String cloud_jixie_use_id) throws Exception {
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
-        Cpguige cpguige = (Cpguige) levelServiceSaveExe.execute(cloud_caoping_guige_id);
-        map.put("cpguige", cpguige);
-        return "/cpguige/edit";
+        CpJixieuse cpuse = (CpJixieuse) levelServiceSaveExe.execute(cloud_jixie_use_id);
+        map.put("cpuse", cpuse);
+        return "/cpjxuse/edit";
     }
 
     /**
@@ -87,10 +87,10 @@ public class CpguigeController extends ControllerConstants {
      */
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(HttpSession session,Cpguige cpguige){
+    public String edit(HttpSession session,CpJixieuse cpuse){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
         try {
-            levelServiceSaveUpdate.update(cpguige);
+            levelServiceSaveUpdate.update(cpuse);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")

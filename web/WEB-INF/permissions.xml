@@ -82,5 +82,8 @@
         <permission id="CAOPING_USE_TYPE" name="草坪用途"/>
         <permission id="CAOPING_TYPE_TYPE" name="草坪属性"/>
     </group>
-
+    <group id="CAOPING_JIXIE_GUIGE_MANAGE" name="机械设置">
+        <permission id="CAOPING_JIXIE_GUIGE" name="机械规格"/>
+        <permission id="CAOPING_JIXIE_USE_TYPE" name="机械用途"/>
+    </group>
 </permissions>

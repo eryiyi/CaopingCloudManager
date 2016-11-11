@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CpJixieUseDao">
+    <resultMap id="cpJixieUse" type="com.liangxunwang.unimanager.model.CpJixieuse">
+        <id column="cloud_jixie_use_id" property="cloud_jixie_use_id"/>
+        <result column="cloud_jixie_use_cont" property="cloud_jixie_use_cont"/>
+        <result column="cloud_jixie_use_num" property="cloud_jixie_use_num"/>
+        <result column="cloud_jixie_use_pic" property="cloud_jixie_use_pic"/>
+    </resultMap>
+
+    <select id="lists" resultMap="cpJixieUse">
+        SELECT * from cloud_jixie_use
+        ORDER BY cloud_jixie_use_num DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.CpJixieuse">
+        INSERT INTO cloud_jixie_use(cloud_jixie_use_id, cloud_jixie_use_cont, cloud_jixie_use_num, cloud_jixie_use_pic)
+        VALUES (#{cloud_jixie_use_id}, #{cloud_jixie_use_cont}, #{cloud_jixie_use_num}, #{cloud_jixie_use_pic})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM cloud_jixie_use where cloud_jixie_use_id = #{cloud_jixie_use_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="cpJixieUse">
+        SELECT * FROM cloud_jixie_use where cloud_jixie_use_id=#{cloud_jixie_use_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.CpJixieuse">
+        UPDATE cloud_jixie_use SET cloud_jixie_use_cont=#{cloud_jixie_use_cont},
+        cloud_jixie_use_num=#{cloud_jixie_use_num},cloud_jixie_use_pic=#{cloud_jixie_use_pic}
+         WHERE cloud_jixie_use_id=#{cloud_jixie_use_id}
+    </update>
+
+</mapper>

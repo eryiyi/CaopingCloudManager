@@ -394,6 +394,23 @@
                     </li>
                 </c:if>
 
+                <c:if test="${um:permission('CAOPING_JIXIE_GUIGE', sessionScope.powers) || um:permission('CAOPING_JIXIE_USE_TYPE', sessionScope.powers) }">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">机械设置</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('CAOPING_JIXIE_GUIGE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cpJixieguigeController/list','1')">机械规格</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('CAOPING_JIXIE_USE_TYPE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cpJixieUseController/list','1')">机械用途</a></li>
+                            </c:if>
+                        </ul>
+                    </li>
+                </c:if>
+
                 <c:if test="${um:permission('MODIFY_PASS', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">

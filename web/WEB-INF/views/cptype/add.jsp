@@ -82,7 +82,27 @@
     function saveP() {
         var cloud_caoping_type_cont = $("#cloud_caoping_type_cont").val();
         var cloud_caoping_type_num = $("#cloud_caoping_type_num").val();
+        if (cloud_caoping_type_cont.replace(/\s/g, '') == '') {
+            alert("描述不能为空");
+            return;
+        }
 
+        var regInt = /^([0-9]\d*)$/;
+        if (cloud_caoping_type_num.replace(/\s/g, '') == '') {
+            alert("排序不能为空");
+            return;
+        } else {
+            if (!regInt.test(cloud_caoping_type_num)) {
+                alert("排序必须是整数！");
+                return;
+            }
+        }
+
+        var imagePath = $("img[name='imagePath']").attr("src");
+        if (imagePath == "") {
+            alert("请上传图片");
+            return;
+        }
         $.ajax({
             cache: true,
             type: "POST",

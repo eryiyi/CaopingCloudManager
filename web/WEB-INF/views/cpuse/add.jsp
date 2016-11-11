@@ -111,7 +111,7 @@
         }
 
         var imagePath = $("img[name='imagePath']").attr("src");
-        if (imagePath == "") {
+        if (imagePath == ""  || imagePath==null) {
             alert("请上传图片");
             return;
         }
