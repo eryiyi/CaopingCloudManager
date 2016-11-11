@@ -411,6 +411,23 @@
                     </li>
                 </c:if>
 
+                <c:if test="${um:permission('CAOPING_CAOZHONG_GUIGE', sessionScope.powers) || um:permission('CAOPING_CAOZHONG_USE_TYPE', sessionScope.powers) }">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">草种设置</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('CAOPING_CAOZHONG_GUIGE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/cpCaozhongGuigeController/list','1')">草种规格</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('CAOPING_CAOZHONG_USE_TYPE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/caozhongTypeController/list','1')">草种品种</a></li>
+                            </c:if>
+                        </ul>
+                    </li>
+                </c:if>
+
                 <c:if test="${um:permission('MODIFY_PASS', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">

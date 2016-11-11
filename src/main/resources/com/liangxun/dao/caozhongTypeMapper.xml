@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CaozhongTypeDao">
+    <resultMap id="caozhongtype" type="com.liangxunwang.unimanager.model.CaozhongType">
+        <id column="cloud_caozhong_type_id" property="cloud_caozhong_type_id"/>
+        <result column="cloud_caozhong_type_cont" property="cloud_caozhong_type_cont"/>
+        <result column="cloud_caozhong_type_num" property="cloud_caozhong_type_num"/>
+    </resultMap>
+
+    <select id="lists" resultMap="caozhongtype">
+        SELECT * from cloud_caozhong_type
+        ORDER BY cloud_caozhong_type_num DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.CaozhongType">
+        INSERT INTO cloud_caozhong_type(cloud_caozhong_type_id, cloud_caozhong_type_cont, cloud_caozhong_type_num)
+        VALUES (#{cloud_caozhong_type_id}, #{cloud_caozhong_type_cont}, #{cloud_caozhong_type_num})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM cloud_caozhong_type where cloud_caozhong_type_id = #{cloud_caozhong_type_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="caozhongtype">
+        SELECT * FROM cloud_caozhong_type where cloud_caozhong_type_id=#{cloud_caozhong_type_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.CaozhongType">
+        UPDATE cloud_caozhong_type SET cloud_caozhong_type_cont=#{cloud_caozhong_type_cont},
+        cloud_caozhong_type_num=#{cloud_caozhong_type_num}
+         WHERE cloud_caozhong_type_id=#{cloud_caozhong_type_id}
+    </update>
+
+</mapper>
