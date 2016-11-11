@@ -59,12 +59,29 @@
         <if test="areaid != null and areaid != ''">
             AND larea.areaid = #{areaid}
         </if>
-        <if test="is_paihang != null and is_paihang != '' and is_paihang != '1'">
-            ORDER BY lc.paihang_num DESC
+        <if test="keyWords !=null and keyWords !=''">
+            AND (lc.company_name like CONCAT('%',#{keyWords},'%') OR le.emp_name like CONCAT('%',#{keyWords},'%') OR lc.company_detail like CONCAT('%',#{keyWords},'%') OR lc.company_person like CONCAT('%',#{keyWords},'%')OR lc.company_address like CONCAT('%',#{keyWords},'%') )
         </if>
-        <if test="is_paihang == null || is_paihang == '' || is_paihang == '0'">
+        <if test="lat != null and lat != ''">
+            AND lc.lat_company > (#{lat}-1) AND   (#{lat} + 1) > lc.lat_company
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lc.lng_company > (#{lng}-1) AND   (#{lng} + 1) > lc.lng_company
+        </if>
+
+        <if test="is_paihang == '1' and is_time == '1' ">
+            ORDER BY lc.paihang_num DESC,lc.dateline DESC
+        </if>
+        <if test="is_paihang == null and is_time == null ">
             ORDER BY lc.dateline DESC
         </if>
+        <if test="is_paihang == '1' and is_time == null ">
+            ORDER BY lc.paihang_num DESC
+        </if>
+        <if test="is_paihang == null and is_time == '1' ">
+            ORDER BY lc.dateline DESC
+        </if>
+
     </select>
 
     <select id="count" resultType="long">
@@ -88,6 +105,16 @@
         </if>
         <if test="areaid != null and areaid != ''">
             AND larea.areaid = #{areaid}
+        </if>
+        <if test="keyWords !=null and keyWords !=''">
+            AND (lc.company_name like CONCAT('%',#{keyWords},'%') OR le.emp_name like CONCAT('%',#{keyWords},'%') OR lc.company_detail like CONCAT('%',#{keyWords},'%') OR lc.company_person like CONCAT('%',#{keyWords},'%')OR lc.company_address like CONCAT('%',#{keyWords},'%') )
+        </if>
+
+        <if test="lat != null and lat != ''">
+            AND lc.lat_company > (#{lat}-1) AND   (#{lat} + 1) > lc.lat_company
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lc.lng_company > (#{lng}-1) AND   (#{lng} + 1) > lc.lng_company
         </if>
     </select>
 

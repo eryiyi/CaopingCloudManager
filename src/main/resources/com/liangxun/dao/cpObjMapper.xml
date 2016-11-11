@@ -59,6 +59,10 @@
             AND sn.cloud_caoping_is_del = #{cloud_caoping_is_del}
         </if>
 
+        <if test="keyWords !=null and keyWords !=''">
+            AND (sn.cloud_caoping_title like CONCAT('%',#{keyWords},'%') OR sn.cloud_caoping_content like CONCAT('%',#{keyWords},'%') OR sn.cloud_caoping_address like CONCAT('%',#{keyWords},'%') OR le.emp_name like CONCAT('%',#{keyWords},'%') )
+        </if>
+
         <if test="lat != null and lat != ''">
             AND sn.lat > (#{lat}-1) AND   (#{lat} + 1) > sn.lat
         </if>

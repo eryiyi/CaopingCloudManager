@@ -64,6 +64,9 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
         if(!StringUtil.isNullOrEmpty(query.getIs_count())){
             map.put("is_count", query.getIs_count());
         }
+        if(!StringUtil.isNullOrEmpty(query.getKeyWords())){
+            map.put("keyWords", query.getKeyWords());
+        }
         List<CpObj> lists = cpObjDao.lists(map);
         for (CpObj record : lists){
             if (!StringUtil.isNullOrEmpty(record.getEmp_cover())){

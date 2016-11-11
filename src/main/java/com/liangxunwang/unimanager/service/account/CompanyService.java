@@ -51,6 +51,9 @@ public class CompanyService implements ListService {
         if(!StringUtil.isNullOrEmpty(query.getAreaid())){
             map.put("areaid", query.getAreaid());
         }
+        if(!StringUtil.isNullOrEmpty(query.getKeyWords())){
+            map.put("keyWords", query.getKeyWords());
+        }
         List<Company> lists = companyDao.lists(map);
         if(lists != null){
             for(Company company : lists){

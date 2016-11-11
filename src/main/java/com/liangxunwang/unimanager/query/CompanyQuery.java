@@ -12,6 +12,51 @@ public class CompanyQuery {
     private String cityid;
     private String areaid;
     private String is_paihang;
+    private String keyWords;
+    private String lat;
+    private String lng;
+    private String is_time;
+    private String is_count;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getIs_time() {
+        return is_time;
+    }
+
+    public void setIs_time(String is_time) {
+        this.is_time = is_time;
+    }
+
+    public String getIs_count() {
+        return is_count;
+    }
+
+    public void setIs_count(String is_count) {
+        this.is_count = is_count;
+    }
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
+    }
 
     public String getIs_check() {
         return is_check;

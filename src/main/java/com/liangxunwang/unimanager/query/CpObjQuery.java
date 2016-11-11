@@ -15,8 +15,17 @@ public class CpObjQuery {
     private String cloud_caoping_is_del;
     private String lat;
     private String lng;
+    private String keyWords;
     private String is_time;//如果等于1 按时间最新排序
     private String is_count;//如果等于1 按销量排序
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
+    }
 
     public String getIs_time() {
         return is_time;
