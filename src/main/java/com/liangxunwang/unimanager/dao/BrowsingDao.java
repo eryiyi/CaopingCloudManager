@@ -29,4 +29,5 @@ public interface BrowsingDao {
      * @param browsingObj
      */
     public void update(BrowsingObj browsingObj);
+
 }

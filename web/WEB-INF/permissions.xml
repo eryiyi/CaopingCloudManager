@@ -49,6 +49,10 @@
         <permission id="COMPANY_MANAGER_INFO" name="公司列表"/>
     </group>
 
+    <group id="GYS_MANAGER" name="供应商管理">
+        <permission id="GYS_MANAGER_LIST" name="供应商列表"/>
+    </group>
+
     <group id="REMIT_MANAGER" name="汇款结算">
         <permission id="REMIT_SELLERLIST" name="商家结算"/>
         <permission id="REMIT_CONTRACTLIST" name="承包商结算"/>

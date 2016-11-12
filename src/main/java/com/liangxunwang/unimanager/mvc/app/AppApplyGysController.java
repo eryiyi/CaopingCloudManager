@@ -27,17 +27,8 @@ public class AppApplyGysController extends ControllerConstants {
 
     @Autowired
     @Qualifier("applyGysService")
-    private ListService applyGysServiceList;
-
-
-    @Autowired
-    @Qualifier("applyGysService")
     private SaveService applyGysServiceSave;
 
-
-    @Autowired
-    @Qualifier("applyGysService")
-    private ExecuteService applyGysServiceExe;
 
     @Autowired
     @Qualifier("appApplyGysService")

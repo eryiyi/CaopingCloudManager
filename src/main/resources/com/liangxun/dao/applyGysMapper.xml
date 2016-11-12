@@ -21,18 +21,45 @@
         <result column="dateline_check" property="dateline_check"/>
         <result column="check_reason" property="check_reason"/>
         <result column="is_check" property="is_check"/>
+
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_mobile" property="emp_mobile"/>
+        <result column="emp_cover" property="emp_cover"/>
+
+        <result column="pname" property="pname"/>
+        <result column="cityName" property="cityName"/>
+        <result column="areaName" property="areaName"/>
     </resultMap>
 
     <select id="lists" resultMap="applyGys">
-        SELECT * from apply_gys
+        SELECT lapp.*,lemp.emp_name as emp_name, lemp.emp_mobile as emp_mobile, lemp.emp_cover as emp_cover
+        ,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from apply_gys lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.company_province_id
+        LEFT JOIN city lcity ON lcity.cityid = lapp.company_city_id
+        LEFT JOIN area larea ON larea.areaid = lapp.company_area_id
         WHERE 1=1
         <if test="emp_id != null and emp_id != ''">
-            AND emp_id = #{emp_id}
+            AND lapp.emp_id = #{emp_id}
         </if>
         <if test="is_check != null and is_check != ''">
-            AND is_check = #{is_check}
+            AND lappis_check = #{is_check}
         </if>
-        ORDER BY dateline_apply DESC
+        ORDER BY lapp.dateline_apply DESC
+        limit #{index},#{size}
+    </select>
+
+    <select id="count" resultType="Long">
+        SELECT count(apply_gys_id) from apply_gys lapp
+        LEFT JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lapp.emp_id = #{emp_id}
+        </if>
+        <if test="is_check != null and is_check != ''">
+            AND lappis_check = #{is_check}
+        </if>
     </select>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.ApplyGys">
@@ -50,11 +77,25 @@
     </delete>
 
     <select id="findById" parameterType="String" resultMap="applyGys">
-        SELECT * FROM apply_gys where apply_gys_id=#{apply_gys_id}
+         SELECT lapp.*,lemp.emp_name as emp_name, lemp.emp_mobile as emp_mobile, lemp.emp_cover as emp_cover
+        ,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from apply_gys lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.company_province_id
+        LEFT JOIN city lcity ON lcity.cityid = lapp.company_city_id
+        LEFT JOIN area larea ON larea.areaid = lapp.company_area_id
+         where lapp.apply_gys_id=#{apply_gys_id}
     </select>
 
     <select id="findByEmpId" parameterType="String" resultMap="applyGys">
-        SELECT * FROM apply_gys where emp_id=#{emp_id}
+     SELECT lapp.*,lemp.emp_name as emp_name, lemp.emp_mobile as emp_mobile, lemp.emp_cover as emp_cover
+        ,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        from apply_gys lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.company_province_id
+        LEFT JOIN city lcity ON lcity.cityid = lapp.company_city_id
+        LEFT JOIN area larea ON larea.areaid = lapp.company_area_id
+         where lapp.emp_id=#{emp_id}
     </select>
 
     <update id="update" parameterType="com.liangxunwang.unimanager.model.ApplyGys">

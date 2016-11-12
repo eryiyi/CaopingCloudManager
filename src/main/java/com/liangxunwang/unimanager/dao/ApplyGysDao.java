@@ -25,10 +25,10 @@ public interface ApplyGysDao {
 
     /**
      * 根据ID查找
-     * @param mm_ad_id
+     * @param apply_gys_id
      * @return
      */
-    public ApplyGys findById(String mm_ad_id);
+    public ApplyGys findById(String apply_gys_id);
     //
     public ApplyGys findByEmpId(String emp_id);
 
@@ -37,4 +37,7 @@ public interface ApplyGysDao {
      * @param adObj
      */
     public void update(ApplyGys adObj);
+
+    long count(Map<String, Object> map);
+
 }

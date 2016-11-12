@@ -22,6 +22,62 @@ public class ApplyGys {
     private String check_reason;//审核不通过的原因
     private String is_check;//是否审核 默认0否 1是 2不通过
 
+    private String emp_name;
+    private String emp_mobile;
+    private String emp_cover;
+
+    private String pname;
+    private String cityName;
+    private String areaName;
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getEmp_name() {
+        return emp_name;
+    }
+
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
+    }
+
+    public String getEmp_mobile() {
+        return emp_mobile;
+    }
+
+    public void setEmp_mobile(String emp_mobile) {
+        this.emp_mobile = emp_mobile;
+    }
+
+    public String getEmp_cover() {
+        return emp_cover;
+    }
+
+    public void setEmp_cover(String emp_cover) {
+        this.emp_cover = emp_cover;
+    }
+
     public String getApply_gys_id() {
         return apply_gys_id;
     }

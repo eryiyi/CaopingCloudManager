@@ -220,6 +220,19 @@
                     </li>
                 </c:if>
 
+                <c:if test="${ um:permission('GYS_MANAGER_LIST', sessionScope.powers)}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">供应商管理</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('GYS_MANAGER_LIST', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/applyGysController/list','1')">供应商列表</a></li>
+                            </c:if>
+                        </ul>
+                    </li>
+                </c:if>
                 <c:if test="${ um:permission('COMPANY_MANAGER_INFO', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">

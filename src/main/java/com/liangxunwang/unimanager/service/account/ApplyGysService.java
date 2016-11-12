@@ -31,6 +31,12 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
     public Object list(Object object) throws ServiceException {
         ApplyGysQuery query = (ApplyGysQuery) object;
         Map<String, Object> map = new HashMap<String, Object>();
+        int index = (query.getIndex() - 1) * query.getSize();
+        int size = query.getSize();
+
+        map.put("index", index);
+        map.put("size", size);
+
         if(!StringUtil.isNullOrEmpty(query.getEmp_id())){
             map.put("emp_id", query.getEmp_id());
         }
@@ -38,19 +44,8 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
             map.put("is_check", query.getIs_check());
         }
         List<ApplyGys> lists = applyGysDao.lists(map);
-
-//        if(lists != null){
-//            for(ApplyGys adObj:lists){
-//                if(!StringUtil.isNullOrEmpty(adObj.getMm_ad_pic())){
-//                    if(adObj.getMm_ad_pic().startsWith("upload")){
-//                        adObj.setMm_ad_pic(Constants.URL + adObj.getMm_ad_pic());
-//                    }else {
-//                        adObj.setMm_ad_pic(Constants.QINIU_URL + adObj.getMm_ad_pic());
-//                    }
-//                }
-//            }
-//        }
-        return lists;
+        long count = applyGysDao.count(map);
+        return new Object[]{lists, count};
     }
 
     @Override
@@ -88,6 +83,7 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
     @Override
     public Object update(Object object) {
         ApplyGys adObj = (ApplyGys) object;
+        adObj.setDateline_check(System.currentTimeMillis()+"");
         applyGysDao.update(adObj);
         return null;
     }

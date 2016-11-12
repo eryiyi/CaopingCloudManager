@@ -8,8 +8,8 @@
         </a>
         <ol class="breadcrumb pull-left">
             <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
-            <li><a href="javascript:void(0)">公司管理</a></li>
-            <li><a href="javascript:void(0)">公司列表</a></li>
+            <li><a href="javascript:void(0)">供应商列表</a></li>
+            <li><a href="javascript:void(0)">供应商列表</a></li>
         </ol>
         <div id="social" class="pull-right">
             <a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a>
@@ -27,7 +27,7 @@
             <div class="box-header">
                 <div class="box-name ui-draggable-handle">
                     <i class="fa fa-table"></i>
-                    <span>公司列表</span>
+                    <span>供应商列表</span>
                 </div>
                 <div class="box-icons">
                     <a class="collapse-link">
@@ -51,15 +51,10 @@
                         <th>公司名称</th>
                         <th>会员昵称</th>
                         <th>会员手机号</th>
-                        <th>联系人</th>
-                        <th>联系电话</th>
+                        <th>法人</th>
+                        <th>营业执照号</th>
                         <th>地址</th>
-                        <th>省</th>
-                        <th>市</th>
-                        <th>县</th>
-                        <th>入驻时间</th>
-                        <th>是否名企</th>
-                        <th>名企到期时间</th>
+                        <th>申请时间</th>
                         <th>是否审核</th>
                         <th>操作</th>
                     </tr>
@@ -71,25 +66,17 @@
                             <td>${e.company_name}</td>
                             <td>${e.emp_name}</td>
                             <td>${e.emp_mobile}</td>
-                            <td>${e.company_person}</td>
-                            <td>${e.company_tel}</td>
+                            <td>${e.company_faren}</td>
+                            <td>${e.company_yzzz_num}</td>
                             <td>${e.company_address}</td>
-                            <td>${e.pname}</td>
-                            <td>${e.cityName}</td>
-                            <td>${e.areaName}</td>
-                            <td>${e.dateline} </td>
-                            <td>
-                                <c:if test="${e.is_paihang == '0'}">否</c:if>
-                                <c:if test="${e.is_paihang == '1'}">是</c:if>
-                            </td>
-                            <td>${um:format(e.end_time, 'yyyy-MM-dd')}</td>
+                            <td>${um:format(e.dateline_apply, 'yyyy-MM-dd')}</td>
                             <td>
                                 <c:if test="${e.is_check == '0'}">否</c:if>
                                 <c:if test="${e.is_check == '1'}">是</c:if>
                             </td>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"
-                                   onclick="editRole('${e.emp_id}')" role="button">审核</a>
+                                   onclick="editRole('${e.apply_gys_id}')" role="button">审核</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -150,7 +137,7 @@
         var _index = $("#index").val();
         var size = getCookie("contract_size");
         if (_index <= ${page.pageCount} && _index >= 1) {
-            window.location.href = "#module=companyController/list&page=" + _index + "&size=" + size+ "&_t="+ new Date().getTime();
+            window.location.href = "#module=applyGysController/list&page=" + _index + "&size=" + size+ "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -159,16 +146,15 @@
         var page = parseInt(_page);
         var size = $("#size").val();
         addCookie("contract_size", size, 36);
-        if ((page <= ${page.pageCount} && page >= 1) ) {
-            window.location.href = "#module=companyController/list&page=" + page + "&size=" + size+ "&_t="+ new Date().getTime();
+        if ((page <= ${page.pageCount} && page >= 1)) {
+            window.location.href = "#module=applyGysController/list&page=" + page + "&size=" + size+ "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
     }
 
     function editRole(_id){
-        window.location.href = "#module=/companyController/toCheck&emp_id=" +_id +"&_t="+ new Date().getTime();
-
+        window.location.href = "#module=/applyGysController/toCheck&apply_gys_id=" +_id +"&_t="+ new Date().getTime();
     }
 
 </script>
