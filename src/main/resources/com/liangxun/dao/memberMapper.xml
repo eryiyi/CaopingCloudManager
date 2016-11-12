@@ -29,6 +29,9 @@
         <result column="emp_up" property="emp_up"/>
         <result column="package_money" property="package_money"/>
         <result column="jfcount" property="jfcount"/>
+
+
+
     </resultMap>
 
     <resultMap id="my_member_vo" type="com.liangxunwang.unimanager.mvc.vo.MemberVO">
@@ -62,6 +65,20 @@
         <result column="emp_name_up" property="emp_name_up"/>
         <result column="lx_attribute_nick" property="lx_attribute_nick"/>
         <result column="package_money" property="package_money"/>
+
+        <result column="company_id" property="company_id"/>
+        <result column="company_name" property="company_name"/>
+        <result column="company_person" property="company_person"/>
+        <result column="company_tel" property="company_tel"/>
+        <result column="company_address" property="company_address"/>
+        <result column="lat_company" property="lat_company"/>
+        <result column="lng_company" property="lng_company"/>
+        <result column="company_pic" property="company_pic"/>
+        <result column="is_check" property="is_check"/>
+        <result column="provinceid" property="provinceid"/>
+        <result column="cityid" property="cityid"/>
+        <result column="areaid" property="areaid"/>
+
     </resultMap>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.Member">
@@ -72,24 +89,33 @@
 
     <select id="findByMobile" parameterType="String" resultMap="my_member_vo">
         SELECT lp.*,ll.level_name as levelName,latt.lx_attribute_nick as lx_attribute_nick,
-          lc.count as jfcount,lpac.package_money as package_money
+          lc.count as jfcount,lpac.package_money as package_money,
+          lcom.company_id as company_id,lcom.company_name as company_name,
+          lcom.company_person as company_person,lcom.company_tel as company_tel,
+          lcom.company_address as company_address,lcom.lat_company as lat_company,lcom.lng_company as lng_company,lcom.company_pic as company_pic ,
+          lcom.is_check as is_check,lcom.provinceid as provinceid ,lcom.cityid as cityid,lcom.areaid as areaid
          from lx_emp lp
          LEFT JOIN lx_level ll ON ll.level_id = lp.level_id
          LEFT JOIN lx_attribute latt ON latt.lx_attribute_id = lp.lx_attribute_id
           LEFT JOIN lx_count lc ON lc.emp_id = lp.emp_id
           LEFT JOIN lx_package lpac ON lpac.emp_id = lp.emp_id
+          LEFT JOIN company lcom ON lcom.emp_id = lp.emp_id
           WHERE lp.emp_mobile=#{mobile} OR lp.emp_number = #{emp_number}
     </select>
 
     <select id="findInfoById" parameterType="String" resultMap="my_member_vo">
         SELECT lp.* , ll.level_name as levelName,latt.lx_attribute_nick as lx_attribute_nick,
-        lc.count as jfcount,lempUp.emp_mobile as emp_mobile_up ,lempUp.emp_name as emp_name_up,lpac.package_money as package_money
+        lc.count as jfcount,lpac.package_money as package_money,
+        lcom.company_id as company_id,lcom.company_name as company_name,
+          lcom.company_person as company_person,lcom.company_tel as company_tel,
+          lcom.company_address as company_address,lcom.lat_company as lat_company,lcom.lng_company as lng_company,lcom.company_pic as company_pic ,
+          lcom.is_check as is_check,lcom.provinceid as provinceid ,lcom.cityid as cityid,lcom.areaid as areaid
         from lx_emp lp
         LEFT JOIN lx_level ll ON ll.level_id = lp.level_id
          LEFT JOIN lx_attribute latt ON latt.lx_attribute_id = lp.lx_attribute_id
         LEFT JOIN lx_count lc ON lc.emp_id = lp.emp_id
-           LEFT JOIN lx_emp lempUp ON lempUp.emp_id = lp.emp_up
            LEFT JOIN lx_package lpac ON lpac.emp_id = lp.emp_id
+              LEFT JOIN company lcom ON lcom.emp_id = lp.emp_id
         WHERE lp.emp_id=#{empId}
     </select>
 
@@ -108,14 +134,18 @@
     </select>
 
     <select id="list" resultMap="my_member_vo">
-          SELECT le.*,ll.level_name as levelName,lempUp.emp_mobile as emp_mobile_up ,lempUp.emp_name as emp_name_up, latt.lx_attribute_nick as lx_attribute_nick
-        ,lc.count as jfcount,lpac.package_money as package_money
+          SELECT le.*,ll.level_name as levelName, latt.lx_attribute_nick as lx_attribute_nick
+        ,lc.count as jfcount,lpac.package_money as package_money,
+        lcom.company_id as company_id,lcom.company_name as company_name,
+        lcom.company_person as company_person,lcom.company_tel as company_tel,
+        lcom.company_address as company_address,lcom.lat_company as lat_company,lcom.lng_company as lng_company,lcom.company_pic as company_pic ,
+        lcom.is_check as is_check,lcom.provinceid as provinceid ,lcom.cityid as cityid,lcom.areaid as areaid
             from lx_emp le
           LEFT JOIN lx_level ll ON ll.level_id = le.level_id
           LEFT JOIN lx_attribute latt ON latt.lx_attribute_id = le.lx_attribute_id
-          LEFT JOIN lx_emp lempUp ON lempUp.emp_id = le.emp_up
           LEFT JOIN lx_count lc ON lc.emp_id = le.emp_id
           LEFT JOIN lx_package lpac ON lpac.emp_id = le.emp_id
+        LEFT JOIN company lcom ON lcom.emp_id = lp.emp_id
           WHERE 1=1
             <if test="phoneNumber != null and phoneNumber != ''">
                 AND le.emp_mobile=#{phoneNumber}

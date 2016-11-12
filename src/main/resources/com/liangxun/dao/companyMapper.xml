@@ -165,8 +165,7 @@
 
     <update id="updateLocation" parameterType="com.liangxunwang.unimanager.model.Company">
         UPDATE company SET lat_company=#{lat_company},
-        lng_company=#{lng_company},
-        company_address=#{company_address}
+        lng_company=#{lng_company}
         WHERE company_id=#{company_id}
     </update>
 
