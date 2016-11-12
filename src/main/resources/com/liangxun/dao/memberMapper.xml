@@ -20,6 +20,9 @@
         <result column="empType" property="empType"/>
         <result column="emp_pay_pass" property="emp_pay_pass"/>
         <result column="channelId" property="channelId"/>
+        <result column="is_gys" property="is_gys"/>
+        <result column="is_fws" property="is_fws"/>
+
 
         <result column="emp_birthday" property="emp_birthday"/>
         <result column="lat" property="lat"/>
@@ -31,6 +34,13 @@
         <result column="jfcount" property="jfcount"/>
 
 
+        <result column="is_vip_one" property="is_vip_one"/>
+        <result column="is_vip_two" property="is_vip_two"/>
+        <result column="is_vip_three" property="is_vip_three"/>
+        <result column="is_vip_four" property="is_vip_four"/>
+        <result column="is_vip_five" property="is_vip_five"/>
+        <result column="is_shiming_rz" property="is_shiming_rz"/>
+        <result column="is_qiye_rz" property="is_qiye_rz"/>
 
     </resultMap>
 
@@ -65,6 +75,17 @@
         <result column="emp_name_up" property="emp_name_up"/>
         <result column="lx_attribute_nick" property="lx_attribute_nick"/>
         <result column="package_money" property="package_money"/>
+
+        <result column="is_gys" property="is_gys"/>
+        <result column="is_fws" property="is_fws"/>
+
+        <result column="is_vip_one" property="is_vip_one"/>
+        <result column="is_vip_two" property="is_vip_two"/>
+        <result column="is_vip_three" property="is_vip_three"/>
+        <result column="is_vip_four" property="is_vip_four"/>
+        <result column="is_vip_five" property="is_vip_five"/>
+        <result column="is_shiming_rz" property="is_shiming_rz"/>
+        <result column="is_qiye_rz" property="is_qiye_rz"/>
 
         <result column="company_id" property="company_id"/>
         <result column="company_name" property="company_name"/>
@@ -145,7 +166,7 @@
           LEFT JOIN lx_attribute latt ON latt.lx_attribute_id = le.lx_attribute_id
           LEFT JOIN lx_count lc ON lc.emp_id = le.emp_id
           LEFT JOIN lx_package lpac ON lpac.emp_id = le.emp_id
-        LEFT JOIN company lcom ON lcom.emp_id = lp.emp_id
+        LEFT JOIN company lcom ON lcom.emp_id = le.emp_id
           WHERE 1=1
             <if test="phoneNumber != null and phoneNumber != ''">
                 AND le.emp_mobile=#{phoneNumber}
@@ -286,5 +307,9 @@
 
     <update id="updateType" parameterType="String">
         UPDATE lx_emp SET empType=#{empType} WHERE emp_id=#{emp_id}
+    </update>
+
+    <update id="updateGys" parameterType="String">
+        UPDATE lx_emp SET is_fws=#{is_fws} WHERE emp_id=#{emp_id}
     </update>
 </mapper>

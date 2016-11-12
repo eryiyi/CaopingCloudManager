@@ -206,4 +206,6 @@ public interface MemberDao {
     //更新会员类别
     void updateType(@Param(value = "empType") String is_fengqun, @Param(value = "emp_id") String emp_id);
 
+    void updateGys(@Param(value = "is_fws") String is_fengqun, @Param(value = "emp_id") String emp_id);
+
 }

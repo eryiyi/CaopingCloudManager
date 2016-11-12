@@ -1,7 +1,9 @@
 package com.liangxunwang.unimanager.service.account;
 
 import com.liangxunwang.unimanager.dao.CaozhongObjDao;
+import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.model.CaozhongObj;
+import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.query.CzObjQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
@@ -24,6 +26,10 @@ public class CaozhongObjService implements ListService,SaveService,DeleteService
     @Autowired
     @Qualifier("caozhongObjDao")
     private CaozhongObjDao cpObjDao;
+
+    @Autowired
+    @Qualifier("memberDao")
+    private MemberDao memberDao;
 
     @Override
     public Object list(Object object) throws ServiceException {
@@ -104,6 +110,14 @@ public class CaozhongObjService implements ListService,SaveService,DeleteService
     @Override
     public Object save(Object object) throws ServiceException {
         CaozhongObj adObj = (CaozhongObj) object;
+        //查询用户member对象
+        Member member = memberDao.findById(adObj.getEmp_id());
+        if(member != null){
+            if(!"1".equals(member.getIs_gys())){
+                //说明不是供应商
+                throw new ServiceException("not_has_power");
+            }
+        }
         adObj.setCloud_caozhong_id(UUIDFactory.random());
         adObj.setCloud_caozhong_dateline(System.currentTimeMillis() + "");
         adObj.setCloud_caozhong_is_del("0");

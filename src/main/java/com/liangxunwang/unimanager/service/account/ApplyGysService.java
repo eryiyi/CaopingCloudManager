@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.service.account;
 
 import com.liangxunwang.unimanager.dao.AdDao;
 import com.liangxunwang.unimanager.dao.ApplyGysDao;
+import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.ApplyGys;
 import com.liangxunwang.unimanager.query.AdQuery;
@@ -26,6 +27,10 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
     @Autowired
     @Qualifier("applyGysDao")
     private ApplyGysDao applyGysDao;
+
+    @Autowired
+    @Qualifier("memberDao")
+    private MemberDao memberDao;
 
     @Override
     public Object list(Object object) throws ServiceException {
@@ -85,6 +90,7 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
         ApplyGys adObj = (ApplyGys) object;
         adObj.setDateline_check(System.currentTimeMillis()+"");
         applyGysDao.update(adObj);
-        return null;
+        memberDao.updateGys(adObj.getIs_check(), adObj.getEmp_id());
+        return 200;
     }
 }

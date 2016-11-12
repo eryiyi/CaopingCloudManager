@@ -138,7 +138,12 @@ public class AppCaopingJixieController extends ControllerConstants {
             tip.setData(SUCCESS);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+            String msg = e.getMessage();
+            if (msg.equals("not_has_power")){
+                return toJSONString(new ErrorTip(11, "你没有权限发布草坪信息，请先开通供应商权限！"));
+            }else{
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+            }
         }
     }
 }

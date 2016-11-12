@@ -155,13 +155,21 @@ public class AppCaopingController extends ControllerConstants {
         if(cpObj.getCloud_caoping_content().length() > 1000){
             return toJSONString(new ErrorTip(9, "内讧超出字段限制，1000字以内！"));
         }
+        if(StringUtil.isNullOrEmpty(cpObj.getEmp_id())){
+            return toJSONString(new ErrorTip(10, "请检查用户ID是否存在！"));
+        }
         try {
             cpobjServiceSave.save(cpObj);
             DataTip tip = new DataTip();
             tip.setData(SUCCESS);
             return toJSONString(tip);
-        }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }catch (Exception e){
+            String msg = e.getMessage();
+            if (msg.equals("not_has_power")){
+                return toJSONString(new ErrorTip(11, "你没有权限发布草坪信息，请先开通供应商权限！"));
+            }else{
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+            }
         }
     }
 }

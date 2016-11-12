@@ -96,19 +96,11 @@
                         <th>#</th>
                         <th>昵称</th>
                         <th>手机号</th>
-                        <th>账号</th>
                         <th>零钱</th>
                         <th>积分</th>
-                        <th>购买等级/打折</th>
-                        <th>分销等级/返利</th>
-                        <th>上级昵称</th>
-                        <th>上级手机号</th>
-                        <th>是否商家</th>
                         <th>是否禁用</th>
-                        <th>定向卡会员</th>
                         <th>注册时间</th>
                         <th>操作</th>
-                        <th>充值</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,35 +110,16 @@
                             <td>${st.index+1}</td>
                             <td>${e.empName}</td>
                             <td>${e.empMobile}</td>
-                            <td>${e.emp_number}</td>
                             <td>${e.package_money}</td>
                             <td>${e.jfcount}</td>
-                            <td>${e.levelName}</td>
-                            <td>${e.lx_attribute_nick}</td>
-                            <td>${e.emp_name_up}</td>
-                            <td>${e.emp_mobile_up}</td>
-                            <td>
-                                <c:if test="${e.empType == '0'}">否</c:if>
-                                <c:if test="${e.empType == '1'}">是</c:if>
-                            </td>
 
                             <td>
                                 <c:if test="${e.isUse == '0'}">否</c:if>
                                 <c:if test="${e.isUse == '1'}">是</c:if>
                             </td>
-                            <td>
-                                <c:if test="${e.is_card_emp == '0'}">否</c:if>
-                                <c:if test="${e.is_card_emp == '1'}">是</c:if>
-                            </td>
                             <td>${um:format(e.dateline, "yyyy-MM-dd HH:mm:ss")}</td>
                             <td>
                                 <button class="btn btn-primary" type="button" onclick="detailEmp('${e.empMobile}')">编辑
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" type="button" onclick="chongzhi('${e.empId}')">零钱充值
-                                </button>
-                                <button class="btn btn-primary" type="button" onclick="dxkchongzhi('${e.empId}')">定向卡充值
                                 </button>
                             </td>
                         </tr>
@@ -284,11 +257,6 @@
     function chongzhi(_id) {
         window.location.href = "#module=/lxConsumptionController/toChongzhi&emp_id=" + _id+ "&_t="+ new Date().getTime();
     }
-    function dxkchongzhi(_id) {
-        window.location.href = "#module=/lxConsumptionController/toChongzhiDxk&emp_id=" + _id+ "&_t="+ new Date().getTime();
-    }
-
-
 
     function Daochu_Select() {
         var select_id = '';

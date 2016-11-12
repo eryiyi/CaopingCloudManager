@@ -1,7 +1,9 @@
 package com.liangxunwang.unimanager.service.account;
 
 import com.liangxunwang.unimanager.dao.CpJixieDao;
+import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.model.CpJixie;
+import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.query.CpJixieQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
@@ -101,9 +103,21 @@ public class CpJixieService implements ListService,SaveService,DeleteService,Exe
         return lists;
     }
 
+    @Autowired
+    @Qualifier("memberDao")
+    private MemberDao memberDao;
+
     @Override
     public Object save(Object object) throws ServiceException {
         CpJixie adObj = (CpJixie) object;
+        //查询用户member对象
+        Member member = memberDao.findById(adObj.getEmp_id());
+        if(member != null){
+            if(!"1".equals(member.getIs_gys())){
+                //说明不是供应商
+                throw new ServiceException("not_has_power");
+            }
+        }
         adObj.setCloud_jixie_id(UUIDFactory.random());
         adObj.setCloud_jixie_dateline(System.currentTimeMillis() + "");
         adObj.setCloud_jixie_is_del("0");

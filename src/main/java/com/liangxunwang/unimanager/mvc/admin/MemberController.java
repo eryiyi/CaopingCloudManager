@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -77,7 +76,7 @@ public class MemberController extends ControllerConstants {
         //查询会员等级列表
         List<Level> levels = (List<Level>) levelServiceList.list("");
         map.put("levels", levels);
-        return "/member/listMember";
+        return "member/list";
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.liangxunwang.unimanager.service.account;
 
 import com.liangxunwang.unimanager.dao.CpObjDao;
+import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.model.CpObj;
+import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.query.CpObjQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
@@ -24,6 +26,9 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
     @Autowired
     @Qualifier("cpObjDao")
     private CpObjDao cpObjDao;
+    @Autowired
+    @Qualifier("memberDao")
+    private MemberDao memberDao;
 
     @Override
     public Object list(Object object) throws ServiceException {
@@ -106,6 +111,14 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
     @Override
     public Object save(Object object) throws ServiceException {
         CpObj adObj = (CpObj) object;
+        //查询用户member对象
+        Member member = memberDao.findById(adObj.getEmp_id());
+        if(member != null){
+            if(!"1".equals(member.getIs_gys())){
+                //说明不是供应商
+                throw new ServiceException("not_has_power");
+            }
+        }
         adObj.setCloud_caoping_id(UUIDFactory.random());
         adObj.setCloud_caoping_dateline(System.currentTimeMillis() + "");
         adObj.setCloud_caoping_is_del("0");

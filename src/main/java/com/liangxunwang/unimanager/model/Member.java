@@ -42,6 +42,25 @@ public class Member {
     private String is_shiming_rz;//是否实名认证
     private String is_qiye_rz;//是否企业认证
 
+    private String is_gys;//是否是供应商 默认0不是  1是  2审核未通过  也不是
+    private String is_fws;
+
+    public String getIs_gys() {
+        return is_gys;
+    }
+
+    public void setIs_gys(String is_gys) {
+        this.is_gys = is_gys;
+    }
+
+    public String getIs_fws() {
+        return is_fws;
+    }
+
+    public void setIs_fws(String is_fws) {
+        this.is_fws = is_fws;
+    }
+
     public String getIs_vip_one() {
         return is_vip_one;
     }

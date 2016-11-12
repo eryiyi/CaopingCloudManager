@@ -197,6 +197,7 @@
         var apply_gys_id = $("#apply_gys_id").val();
         var check_reason = $("#check_reason").val();
         var  is_check= $("#is_check").val();
+        var  emp_id= $("#emp_id").val();
         if(is_check.replace(/\s/g, '') == ''){
             alert("请选择是否审核");
             return;
@@ -209,6 +210,7 @@
             data: {
                 "apply_gys_id": apply_gys_id,
                 "check_reason": check_reason,
+                "emp_id": emp_id,
                 "is_check": is_check
             },
 
