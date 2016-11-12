@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.ApplyGysDao">
+    <resultMap id="applyGys" type="com.liangxunwang.unimanager.model.ApplyGys">
+        <id column="apply_gys_id" property="apply_gys_id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="company_name" property="company_name"/>
+        <result column="company_faren" property="company_faren"/>
+        <result column="company_detail" property="company_detail"/>
+        <result column="company_yzzz_num" property="company_yzzz_num"/>
+        <result column="company_province_id" property="company_province_id"/>
+        <result column="company_city_id" property="company_city_id"/>
+        <result column="company_area_id" property="company_area_id"/>
+        <result column="company_address" property="company_address"/>
+        <result column="company_yzzz_pic" property="company_yzzz_pic"/>
+        <result column="company_faren_pic_z" property="company_faren_pic_z"/>
+        <result column="company_faren_pic_f" property="company_faren_pic_f"/>
+        <result column="dateline_apply" property="dateline_apply"/>
+        <result column="dateline_check" property="dateline_check"/>
+        <result column="check_reason" property="check_reason"/>
+        <result column="is_check" property="is_check"/>
+    </resultMap>
+
+    <select id="lists" resultMap="applyGys">
+        SELECT * from apply_gys
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND emp_id = #{emp_id}
+        </if>
+        <if test="is_check != null and is_check != ''">
+            AND is_check = #{is_check}
+        </if>
+        ORDER BY dateline_apply DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.ApplyGys">
+        INSERT INTO apply_gys(apply_gys_id, emp_id,company_name , company_faren, company_detail, company_yzzz_num,
+        company_province_id, company_city_id, company_area_id,company_address,company_yzzz_pic ,
+         company_faren_pic_z,company_faren_pic_f ,dateline_apply ,is_check)
+        VALUES (#{apply_gys_id}, #{emp_id},#{company_name} ,#{company_faren} ,#{company_detail} ,#{company_yzzz_num} ,
+         #{company_province_id}, #{company_city_id}, #{company_area_id}, #{company_address}, #{company_yzzz_pic},
+         #{company_faren_pic_z}, #{company_faren_pic_f}, #{dateline_apply},  #{is_check})
+    </insert>
+
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM apply_gys where apply_gys_id = #{apply_gys_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="applyGys">
+        SELECT * FROM apply_gys where apply_gys_id=#{apply_gys_id}
+    </select>
+
+    <select id="findByEmpId" parameterType="String" resultMap="applyGys">
+        SELECT * FROM apply_gys where emp_id=#{emp_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.ApplyGys">
+        UPDATE apply_gys SET is_check=#{is_check},
+        check_reason=#{check_reason,jdbcType=VARCHAR} ,
+         dateline_check=#{dateline_check}
+         WHERE apply_gys_id=#{apply_gys_id}
+    </update>
+</mapper>
