@@ -47,9 +47,6 @@ public class AppCaopingController extends ControllerConstants {
     @Qualifier("cpobjService")
     private SaveService cpobjServiceSave;
 
-    @Autowired
-    @Qualifier("cpobjService")
-    private ExecuteService cpobjServiceExe;
 
     /**
      * 获得草坪规格
@@ -140,15 +137,7 @@ public class AppCaopingController extends ControllerConstants {
         if(StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_prices())){
             return toJSONString(new ErrorTip(4, "价格不能为空！"));
         }
-        if(StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_guige_id())){
-            return toJSONString(new ErrorTip(5, "请选择规格！"));
-        }
-        if(StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_type_id())){
-            return toJSONString(new ErrorTip(6, "请选择属性！"));
-        }
-        if(StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_use_id())){
-            return toJSONString(new ErrorTip(7, "请选择用途！"));
-        }
+
         if(cpObj.getCloud_caoping_title().length() > 100){
             return toJSONString(new ErrorTip(8, "标题超出字段限制，100字以内！"));
         }
@@ -166,7 +155,7 @@ public class AppCaopingController extends ControllerConstants {
         }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals("not_has_power")){
-                return toJSONString(new ErrorTip(11, "你没有权限发布草坪信息，请先开通供应商权限！"));
+                return toJSONString(new ErrorTip(11, "你没有权限发布信息，请先开通供应商权限！"));
             }else{
                 return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }

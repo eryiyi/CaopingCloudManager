@@ -310,6 +310,6 @@
     </update>
 
     <update id="updateGys" parameterType="String">
-        UPDATE lx_emp SET is_fws=#{is_fws} WHERE emp_id=#{emp_id}
+        UPDATE lx_emp SET is_gys=#{is_gys} WHERE emp_id=#{emp_id}
     </update>
 </mapper>

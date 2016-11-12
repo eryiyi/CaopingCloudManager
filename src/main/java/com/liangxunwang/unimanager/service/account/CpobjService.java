@@ -52,12 +52,28 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
         if(!StringUtil.isNullOrEmpty(query.getCloud_caoping_type_id())){
             map.put("cloud_caoping_type_id", query.getCloud_caoping_type_id());
         }
-        if(!StringUtil.isNullOrEmpty(query.getCloud_caoping_is_use())){
-            map.put("cloud_caoping_is_use", query.getCloud_caoping_is_use());
+        if(!StringUtil.isNullOrEmpty(query.getCloud_is_use())){
+            map.put("cloud_is_use", query.getCloud_is_use());
         }
-        if(!StringUtil.isNullOrEmpty(query.getCloud_caoping_is_del())){
-            map.put("cloud_caoping_is_del", query.getCloud_caoping_is_del());
+        if(!StringUtil.isNullOrEmpty(query.getCloud_is_del())){
+            map.put("cloud_is_del", query.getCloud_is_del());
         }
+
+        if(!StringUtil.isNullOrEmpty(query.getCloud_jixie_guige_id())){
+            map.put("cloud_jixie_guige_id", query.getCloud_jixie_guige_id());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getCloud_jixie_use_id())){
+            map.put("cloud_jixie_use_id", query.getCloud_jixie_use_id());
+        }
+
+        if(!StringUtil.isNullOrEmpty(query.getCloud_caozhong_guige_id())){
+            map.put("cloud_caozhong_guige_id", query.getCloud_caozhong_guige_id());
+        }
+
+        if(!StringUtil.isNullOrEmpty(query.getCloud_caozhong_type_id())){
+            map.put("cloud_caozhong_type_id", query.getCloud_caozhong_type_id());
+        }
+
         if(!StringUtil.isNullOrEmpty(query.getLat())){
             map.put("lat", query.getLat());
         }
@@ -71,6 +87,9 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
         }
         if(!StringUtil.isNullOrEmpty(query.getKeyWords())){
             map.put("keyWords", query.getKeyWords());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getIs_type())){
+            map.put("is_type", query.getIs_type());
         }
         List<CpObj> lists = cpObjDao.lists(map);
         for (CpObj record : lists){
@@ -121,8 +140,8 @@ public class CpobjService implements ListService,SaveService,DeleteService,Execu
         }
         adObj.setCloud_caoping_id(UUIDFactory.random());
         adObj.setCloud_caoping_dateline(System.currentTimeMillis() + "");
-        adObj.setCloud_caoping_is_del("0");
-        adObj.setCloud_caoping_is_use("0");
+        adObj.setCloud_is_del("0");
+        adObj.setCloud_is_use("0");
         cpObjDao.save(adObj);
         return null;
     }
