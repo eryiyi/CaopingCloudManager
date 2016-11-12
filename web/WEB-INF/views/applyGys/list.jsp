@@ -71,8 +71,9 @@
                             <td>${e.company_address}</td>
                             <td>${um:format(e.dateline_apply, 'yyyy-MM-dd')}</td>
                             <td>
-                                <c:if test="${e.is_check == '0'}">否</c:if>
-                                <c:if test="${e.is_check == '1'}">是</c:if>
+                                <c:if test="${e.is_check == '0'}">未审核</c:if>
+                                <c:if test="${e.is_check == '1'}">已审核</c:if>
+                                <c:if test="${e.is_check == '2'}">不通过</c:if>
                             </td>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"

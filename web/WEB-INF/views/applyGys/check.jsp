@@ -53,7 +53,7 @@
                         <label class="col-sm-2 control-label">*公司名称*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="company_name" placeholder="公司名称" class="form-control"
+                            <input type="text" id="company_name" placeholder="公司名称" class="form-control"  readonly="true"
                                    value="${info.company_name}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -62,7 +62,7 @@
                         <label class="col-sm-2 control-label">*公司法人*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="company_faren" placeholder="公司法人" class="form-control"
+                            <input type="text" id="company_faren" placeholder="公司法人" class="form-control"  readonly="true"
                                    value="${info.company_faren}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -71,7 +71,7 @@
                         <label class="col-sm-2 control-label">*公司营业执照号*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="company_yzzz_num" placeholder="公司营业执照号" class="form-control"
+                            <input type="text" id="company_yzzz_num" placeholder="公司营业执照号" class="form-control"  readonly="true"
                                    value="${info.company_yzzz_num}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -80,7 +80,7 @@
                         <label class="col-sm-2 control-label">*公司地址*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="company_address" placeholder="公司地址" class="form-control"
+                            <input type="text" id="company_address" placeholder="公司地址" class="form-control"  readonly="true"
                                    value="${info.company_address}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -89,13 +89,13 @@
                         <label class="col-sm-2 control-label">*公司介绍*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="company_detail" placeholder="公司介绍" class="form-control"
+                            <input type="text" id="company_detail" placeholder="公司介绍" class="form-control"  readonly="true"
                                    value="${info.company_detail}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
                     </div>
 
-                    <input type="hidden" id="company_yzzz_pic" name="company_yzzz_pic" value="${info.company_yzzz_pic}">
+                    <input type="hidden" id="company_yzzz_pic" name="company_yzzz_pic"   readonly="true" value="${info.company_yzzz_pic}">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">公司营业执照</label>
@@ -105,13 +105,29 @@
                                  src="${info.company_yzzz_pic}"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身份证正面</label>
+
+                        <div class="col-sm-10 col-md-2">
+                            <img class="img-thumbnail" name="imagePath2" id="imageDiv2" style="cursor: pointer"
+                                 src="${info.company_faren_pic_z}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身份证反面</label>
+
+                        <div class="col-sm-10 col-md-2">
+                            <img class="img-thumbnail" name="imagePath3" id="imageDiv3" style="cursor: pointer"
+                                 src="${info.company_faren_pic_f}"/>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">*申请时间*</label>
 
                         <div class="col-sm-4">
                             <input type="text" id="dateline_apply" placeholder="申请时间" class="form-control" readonly="true"
-                                   value="${info.dateline_apply}" data-toggle="tooltip" data-placement="bottom"
+                                   value="${um:format(info.dateline_apply, 'yyyy-MM-dd')}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
                     </div>
@@ -130,7 +146,7 @@
                         <label class="col-sm-2 control-label">*申请人*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="emp_name" placeholder="申请人" class="form-control"
+                            <input type="text" id="emp_name" placeholder="申请人" class="form-control"  readonly="true"
                                    value="${info.emp_name}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -139,7 +155,7 @@
                         <label class="col-sm-2 control-label">*申请人手机号*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="emp_mobile" placeholder="申请人手机号" class="form-control"
+                            <input type="text" id="emp_mobile" placeholder="申请人手机号" class="form-control"  readonly="true"
                                    value="${info.emp_mobile}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
@@ -152,6 +168,7 @@
                                     <option value="">--请选择--</option>
                                     <option value="0" ${info.is_check=='0'?'selected':''}>未审核</option>
                                     <option value="1" ${info.is_check=='1'?'selected':''}>已审核</option>
+                                    <option value="2" ${info.is_check=='2'?'selected':''}>不通过</option>
                                 </select>
                             </div>
                         </div>
