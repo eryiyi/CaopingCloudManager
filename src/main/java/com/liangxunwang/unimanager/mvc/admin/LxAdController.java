@@ -3,8 +3,10 @@ package com.liangxunwang.unimanager.mvc.admin;
 import com.liangxunwang.unimanager.model.Admin;
 import com.liangxunwang.unimanager.model.LxAd;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
+import com.liangxunwang.unimanager.mvc.vo.PaihangObjVO;
 import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
 import com.liangxunwang.unimanager.query.AdQuery;
+import com.liangxunwang.unimanager.query.PaihangQuery;
 import com.liangxunwang.unimanager.query.PaopaoGoodsQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -62,17 +64,18 @@ public class LxAdController extends ControllerConstants {
 
 
     @Autowired
-    @Qualifier("paopaoGoodsListAllService")
-    private ListService paopaoGoodsListAllService;
+    @Qualifier("paihangUpdateVipService")
+    private ListService paihangUpdateVipService;
 
 
 
     @RequestMapping("add")
     public String add(ModelMap map){
         //查询商品list
-        PaopaoGoodsQuery query = new PaopaoGoodsQuery();
-        List<PaopaoGoodsVO> listGoods = (List<PaopaoGoodsVO>) paopaoGoodsListAllService.list(query);
-        map.put("listGoods", listGoods);
+        PaihangQuery query = new PaihangQuery();
+        query.setIs_del("0");
+        List<PaihangObjVO> lists= ( List<PaihangObjVO>) paihangUpdateVipService.list(query);
+        map.put("listGoods", lists);
         return "/lxAd/addAd";
     }
 

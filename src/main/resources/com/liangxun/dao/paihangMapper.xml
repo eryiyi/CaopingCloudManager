@@ -125,6 +125,67 @@
         ORDER  BY  m.top_num DESC limit #{index},#{size}
     </select>
 
+    <select id="listsAll" resultMap="paihang_vo">
+        SELECT m.*
+        FROM (
+        SELECT sn.*
+        ,lg.emp_id as emp_id
+        ,lg.cloud_caoping_title as cloud_caoping_title
+        ,lg.cloud_caoping_content as cloud_caoping_content
+        ,lg.cloud_caoping_prices as cloud_caoping_prices
+        ,lg.cloud_caoping_guige_id as cloud_caoping_guige_id
+        ,lg.cloud_caoping_type_id as cloud_caoping_type_id
+        ,lg.cloud_caoping_pic as cloud_caoping_pic
+        ,lg.cloud_caoping_use_id as cloud_caoping_use_id
+        ,lg.cloud_caoping_address as cloud_caoping_address
+        ,lg.cloud_caoping_dateline as cloud_caoping_dateline
+        ,lg.cloud_is_use as cloud_is_use
+        ,lg.cloud_is_del as cloud_is_del
+        ,lg.sale_count as sale_count
+        ,lg.lat as lat
+        ,lg.lng as lng
+        ,lg.cloud_caozhong_type_id as cloud_caozhong_type_id
+        ,lg.cloud_caozhong_guige_id as cloud_caozhong_guige_id
+        ,lg.cloud_jixie_use_id as cloud_jixie_use_id
+        ,lg.cloud_jixie_guige_id as cloud_jixie_guige_id
+        ,lg.is_type as is_type
+
+        ,le.emp_name as emp_name, le.emp_cover as emp_cover
+        ,lggcp.cloud_caoping_guige_cont as cloud_caoping_guige_cont
+        ,lusecp.cloud_caoping_use_cont as cloud_caoping_use_cont
+        ,ltypecp.cloud_caoping_type_cont as cloud_caoping_type_cont
+
+        ,lggjx.cloud_jixie_guige_cont as cloud_jixie_guige_cont
+        ,lusejx.cloud_jixie_use_cont as cloud_jixie_use_cont
+
+        ,lggcz.cloud_caozhong_guige_cont as cloud_caozhong_guige_cont
+        ,ltypecz.cloud_caozhong_type_cont as cloud_caozhong_type_cont
+
+        from mm_paihang sn
+        LEFT JOIN cloud_caoping lg ON sn.cloud_caoping_id=lg.cloud_caoping_id
+
+        LEFT JOIN lx_emp le ON le.emp_id = lg.emp_id
+        LEFT JOIN cloud_caoping_guige lggcp ON lggcp.cloud_caoping_guige_id = lg.cloud_caoping_guige_id
+        LEFT JOIN cloud_caoping_use lusecp ON lusecp.cloud_caoping_use_id = lg.cloud_caoping_use_id
+        LEFT JOIN cloud_caoping_type ltypecp ON ltypecp.cloud_caoping_type_id = lg.cloud_caoping_type_id
+
+        LEFT JOIN cloud_jixie_guige lggjx ON lggjx.cloud_jixie_guige_id = lg.cloud_jixie_guige_id
+        LEFT JOIN cloud_jixie_use lusejx ON lusejx.cloud_jixie_use_id = lg.cloud_jixie_use_id
+
+        LEFT JOIN cloud_caozhong_guige lggcz ON lggcz.cloud_caozhong_guige_id = lg.cloud_caozhong_guige_id
+        LEFT JOIN cloud_caozhong_type ltypecz ON ltypecz.cloud_caozhong_type_id = lg.cloud_caozhong_type_id
+
+        WHERE 1=1
+
+        <if test="is_del != null and is_del != ''">
+            AND sn.is_del = #{is_del}
+        </if>
+
+        ) m
+        ORDER  BY  m.top_num DESC
+    </select>
+
+
     <select id="count" resultType="Long">
         SELECT count(sn.mm_paihang_id)
         from mm_paihang sn

@@ -66,28 +66,25 @@
                         <div class="col-sm-4">
                             <select class="form-control" id="ad_type">
                                 <option value="">--请选择广告类型--</option>
-                                <option value="1" >推荐顶部轮播图 </option>
-                                <option value="2" >推荐中部广告（大）</option>
-                                <option value="3" >推荐中部广告（小）</option>
-                                <option value="4" >商城顶部轮播图</option>
-                                <option value="5" >商城首发新品</option>
-                                <option value="6" >商城特惠专区</option>
+                                <option value="1" >1首页顶部轮播图 </option>
+                                <option value="2" >2 草原（草坪轮播图）</option>
+                                <option value="3" >3草原（机械轮播图）</option>
+                                <option value="4" >4 草原（草种轮播图）</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">选择商品</label>
+                        <label class="col-sm-2 control-label">选择产品(推荐产品列表)</label>
 
                         <div class="col-sm-4">
                             <select class="populate placeholder" name="ad_msg_id" id="ad_msg_id">
-                                <option value="">-- 选择商品 --</option>
+                                <option value="">-- 选择产品 --</option>
                                 <c:forEach items="${listGoods}" var="s">
-                                    <option value="${s.id}">${s.name}</option>
+                                    <option value="${s.cloud_caoping_id}">${s.cloud_caoping_title}${s.emp_name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                     </div>
-
 
                     <%--<div class="form-group">--%>
                         <%--<label class="col-sm-2 control-label">请选择广告要跳转的位置</label>--%>

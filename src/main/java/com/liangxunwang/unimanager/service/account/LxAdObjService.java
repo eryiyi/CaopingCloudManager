@@ -1,7 +1,9 @@
 package com.liangxunwang.unimanager.service.account;
 
+import com.liangxunwang.unimanager.dao.CpObjDao;
 import com.liangxunwang.unimanager.dao.LxAdDao;
 import com.liangxunwang.unimanager.dao.PaopaoGoodsDao;
+import com.liangxunwang.unimanager.model.CpObj;
 import com.liangxunwang.unimanager.model.LxAd;
 import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
 import com.liangxunwang.unimanager.query.AdQuery;
@@ -24,9 +26,8 @@ public class LxAdObjService implements ListService,SaveService,DeleteService,Exe
     private LxAdDao lxAdDao;
 
     @Autowired
-    @Qualifier("paopaoGoodsDao")
-    private PaopaoGoodsDao paopaoGoodsDao;
-
+    @Qualifier("cpObjDao")
+    private CpObjDao cpObjDao;
 
     @Override
     public Object list(Object object) throws ServiceException {
@@ -65,11 +66,11 @@ public class LxAdObjService implements ListService,SaveService,DeleteService,Exe
         adObj.setDateline(System.currentTimeMillis()+"");
         //根据商品id 查询empid
         if(!StringUtil.isNullOrEmpty(adObj.getAd_msg_id())){
-            PaopaoGoodsVO paopaoGoodsVO = paopaoGoodsDao.findGoodsVO(adObj.getAd_msg_id());
-            if(paopaoGoodsVO != null){
+            CpObj cpObj = cpObjDao.findById(adObj.getAd_msg_id());
+            if(cpObj != null){
                 //说明商品不是空
-                if(!StringUtil.isNullOrEmpty(paopaoGoodsVO.getEmpId())){
-                    adObj.setAd_emp_id(paopaoGoodsVO.getEmpId());
+                if(!StringUtil.isNullOrEmpty(cpObj.getEmp_id())){
+                    adObj.setAd_emp_id(cpObj.getEmp_id());
                 }
             }
         }

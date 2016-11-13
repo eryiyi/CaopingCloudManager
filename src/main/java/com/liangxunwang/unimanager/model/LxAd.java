@@ -5,11 +5,11 @@ package com.liangxunwang.unimanager.model;
  */
 public class LxAd {
     private String ad_id;
-    private String ad_type;//广告类别  1推荐顶部轮播图  2推荐中部广告（大） 3 推荐中部广告（小） 4 商城顶部轮播图  5 商城首发新品 6 商城特惠专区
+    private String ad_type;//广告类别  1首页顶部轮播图  2 草原（草坪轮播图） 3草原（机械轮播图） 4 草原（草种轮播图）
     private String ad_pic;
-    private String ad_url_type;//1商品详情(默认)   2商店详情
+    private String ad_url_type;//跳转类型：1产品详情(默认)  2商店详情
     private String ad_emp_id;//要跳转的用户id
-    private String ad_msg_id;//要跳转的商品（默认）   或商城id
+    private String ad_msg_id;//要跳转的产品（默认）   或商城id
     private String top_num;//排序
     private String dateline;
 

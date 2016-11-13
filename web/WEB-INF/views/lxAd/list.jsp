@@ -54,7 +54,7 @@
                         <th>广告类型</th>
                         <th>排序</th>
                         <th>添加时间</th>
-                        <th>操作</th>
+                        <%--<th>操作</th>--%>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -64,19 +64,17 @@
                             <td>${st.index + 1}</td>
                             <td><img src="${e.ad_pic}" width="60px" height="60px"></td>
                             <td>
-                                <c:if test="${e.ad_type=='1'}">推荐顶部轮播图</c:if>
-                                <c:if test="${e.ad_type=='2'}">推荐中部广告（大）</c:if>
-                                <c:if test="${e.ad_type=='3'}">推荐中部广告（小）</c:if>
-                                <c:if test="${e.ad_type=='4'}">商城顶部轮播图</c:if>
-                                <c:if test="${e.ad_type=='5'}">商城首发新品</c:if>
-                                <c:if test="${e.ad_type=='6'}">商城特惠专区</c:if>
+                                <c:if test="${e.ad_type=='1'}">1首页顶部轮播图</c:if>
+                                <c:if test="${e.ad_type=='2'}">2 草原（草坪轮播图）</c:if>
+                                <c:if test="${e.ad_type=='3'}">3草原（机械轮播图）</c:if>
+                                <c:if test="${e.ad_type=='4'}">4 草原（草种轮播图）</c:if>
                             </td>
                             <td>${e.top_num}</td>
                             <td>${um:format(e.dateline, 'yyyy-MM-dd')}</td>
-                            <td>
-                                <a class="btn btn-default btn-sm" href="javascript:void (0)"
-                                   onclick="editRole('${e.ad_id}')" role="button">编辑</a>
-                            </td>
+                            <%--<td>--%>
+                                <%--<a class="btn btn-default btn-sm" href="javascript:void (0)"--%>
+                                   <%--onclick="editRole('${e.ad_id}')" role="button">编辑</a>--%>
+                            <%--</td>--%>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"
                                    onclick="deleteRole('${e.ad_id}')" role="button">删除</a>
