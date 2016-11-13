@@ -63,7 +63,7 @@ public class ApplyGysController extends ControllerConstants {
     /**
      * 更新
      */
-    @RequestMapping("/check")
+    @RequestMapping(value = "/check", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String check(HttpSession session,ApplyGys applyGys){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -71,8 +71,7 @@ public class ApplyGysController extends ControllerConstants {
             applyGysServiceUpdate.update(applyGys);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "审核失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "审核失败，请稍后重试！"));
         }
     }
 

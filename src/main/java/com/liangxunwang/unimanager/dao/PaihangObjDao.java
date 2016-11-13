@@ -16,7 +16,7 @@ public interface PaihangObjDao {
     /**
      * 查询排行信息
      */
-    List<PaihangObjVO> listRecordVo(Map<String, Object> map);
+    List<PaihangObjVO> lists(Map<String, Object> map);
 
     long count(Map<String, Object> map);
 

@@ -5,11 +5,10 @@
 <mapper namespace="com.liangxunwang.unimanager.dao.PaihangObjDao">
     <resultMap id="paihang" type="com.liangxunwang.unimanager.model.PaihangObj">
         <id column="mm_paihang_id" property="mm_paihang_id"/>
-        <result column="goods_id" property="goods_id"/>
+        <result column="cloud_caoping_id" property="cloud_caoping_id"/>
         <result column="top_num" property="top_num"/>
         <result column="is_del" property="is_del"/>
         <result column="end_time" property="end_time"/>
-        <result column="is_type" property="is_type"/>
     </resultMap>
     <resultMap id="paihang_vo" type="com.liangxunwang.unimanager.mvc.vo.PaihangObjVO">
         <id column="mm_paihang_id" property="mm_paihang_id"/>
@@ -17,83 +16,159 @@
         <result column="top_num" property="top_num"/>
         <result column="is_del" property="is_del"/>
         <result column="end_time" property="end_time"/>
+
+        <result column="emp_id" property="emp_id"/>
+        <result column="cloud_caoping_title" property="cloud_caoping_title"/>
+        <result column="cloud_caoping_content" property="cloud_caoping_content"/>
+        <result column="cloud_caoping_prices" property="cloud_caoping_prices"/>
+        <result column="cloud_caoping_guige_id" property="cloud_caoping_guige_id"/>
+        <result column="cloud_caoping_type_id" property="cloud_caoping_type_id"/>
+        <result column="cloud_caoping_pic" property="cloud_caoping_pic"/>
+        <result column="cloud_caoping_use_id" property="cloud_caoping_use_id"/>
+        <result column="cloud_caoping_address" property="cloud_caoping_address"/>
+        <result column="cloud_caoping_dateline" property="cloud_caoping_dateline"/>
+        <result column="cloud_is_use" property="cloud_is_use"/>
+        <result column="cloud_is_del" property="cloud_is_del"/>
+        <result column="sale_count" property="sale_count"/>
+        <result column="lat" property="lat"/>
+        <result column="lng" property="lng"/>
+        <result column="cloud_caozhong_type_id" property="cloud_caozhong_type_id"/>
+        <result column="cloud_caozhong_guige_id" property="cloud_caozhong_guige_id"/>
+        <result column="cloud_caozhong_guige_cont" property="cloud_caozhong_guige_cont"/>
+        <result column="cloud_caozhong_type_cont" property="cloud_caozhong_type_cont"/>
+        <result column="cloud_jixie_use_id" property="cloud_jixie_use_id"/>
+        <result column="cloud_jixie_guige_id" property="cloud_jixie_guige_id"/>
+        <result column="cloud_jixie_guige_cont" property="cloud_jixie_guige_cont"/>
+        <result column="cloud_jixie_use_cont" property="cloud_jixie_use_cont"/>
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
+        <result column="cloud_caoping_guige_cont" property="cloud_caoping_guige_cont"/>
+        <result column="cloud_caoping_type_cont" property="cloud_caoping_type_cont"/>
+        <result column="cloud_caoping_use_cont" property="cloud_caoping_use_cont"/>
         <result column="is_type" property="is_type"/>
-
-
-        <result column="goods_type_id" property="goods_type_id"/>
-        <result column="goods_name" property="goods_name"/>
-        <result column="goods_cover" property="goods_cover"/>
-        <result column="goods_cont" property="goods_cont"/>
-        <result column="sell_price" property="sell_price"/>
-        <result column="market_price" property="market_price"/>
-        <result column="goods_address" property="goods_address"/>
-        <result column="goods_person" property="goods_person"/>
-        <result column="goods_tel" property="goods_tel"/>
-        <result column="goods_qq" property="goods_qq"/>
-        <result column="goods_is_use" property="goods_is_use"/>
-        <result column="goods_is_del" property="goods_is_del"/>
-        <result column="up_time" property="up_time"/>
-        <result column="goods_count" property="goods_count"/>
-        <result column="goods_count_sale" property="goods_count_sale"/>
-        <result column="goods_position" property="goods_position"/>
-        <result column="is_zhiying" property="is_zhiying"/>
-        <result column="goods_emp_id" property="goods_emp_id"/>
-        <result column="manager_id" property="manager_id"/>
     </resultMap>
 
-    <select id="listRecordVo" resultMap="paihang_vo">
+    <select id="lists" resultMap="paihang_vo">
         SELECT m.*
         FROM (
-        SELECT sn.* ,lg.goods_type_id as goods_type_id
-        ,lg.goods_name as goods_name
-        ,lg.goods_cover as goods_cover
-        ,lg.goods_cont as goods_cont
-        ,lg.sell_price as sell_price
-        ,lg.market_price as market_price
-        ,lg.goods_address as goods_address
-        ,lg.goods_person as goods_person
-        ,lg.goods_tel as goods_tel
-        ,lg.goods_qq as goods_qq
-        ,lg.goods_is_use as goods_is_use
-        ,lg.goods_is_del as goods_is_del
-        ,lg.up_time as up_time
-        ,lg.goods_count as goods_count
-        ,lg.goods_count_sale as goods_count_sale
-        ,lg.goods_position as goods_position
-        ,lg.is_zhiying as is_zhiying
-        ,lg.goods_emp_id as goods_emp_id
-        ,lg.manager_id as manager_id
+        SELECT sn.*
+        ,lg.emp_id as emp_id
+        ,lg.cloud_caoping_title as cloud_caoping_title
+        ,lg.cloud_caoping_content as cloud_caoping_content
+        ,lg.cloud_caoping_prices as cloud_caoping_prices
+        ,lg.cloud_caoping_guige_id as cloud_caoping_guige_id
+        ,lg.cloud_caoping_type_id as cloud_caoping_type_id
+        ,lg.cloud_caoping_pic as cloud_caoping_pic
+        ,lg.cloud_caoping_use_id as cloud_caoping_use_id
+        ,lg.cloud_caoping_address as cloud_caoping_address
+        ,lg.cloud_caoping_dateline as cloud_caoping_dateline
+        ,lg.cloud_is_use as cloud_is_use
+        ,lg.cloud_is_del as cloud_is_del
+        ,lg.sale_count as sale_count
+        ,lg.lat as lat
+        ,lg.lng as lng
+        ,lg.cloud_caozhong_type_id as cloud_caozhong_type_id
+        ,lg.cloud_caozhong_guige_id as cloud_caozhong_guige_id
+        ,lg.cloud_jixie_use_id as cloud_jixie_use_id
+        ,lg.cloud_jixie_guige_id as cloud_jixie_guige_id
+        ,lg.is_type as is_type
+
+        ,le.emp_name as emp_name, le.emp_cover as emp_cover
+        ,lggcp.cloud_caoping_guige_cont as cloud_caoping_guige_cont
+        ,lusecp.cloud_caoping_use_cont as cloud_caoping_use_cont
+        ,ltypecp.cloud_caoping_type_cont as cloud_caoping_type_cont
+
+        ,lggjx.cloud_jixie_guige_cont as cloud_jixie_guige_cont
+        ,lusejx.cloud_jixie_use_cont as cloud_jixie_use_cont
+
+        ,lggcz.cloud_caozhong_guige_cont as cloud_caozhong_guige_cont
+        ,ltypecz.cloud_caozhong_type_cont as cloud_caozhong_type_cont
+
         from mm_paihang sn
-        LEFT JOIN PAOPAO_GOODS lg ON sn.goods_id=lg.goods_id
+        LEFT JOIN cloud_caoping lg ON sn.cloud_caoping_id=lg.cloud_caoping_id
+
+        LEFT JOIN lx_emp le ON le.emp_id = lg.emp_id
+        LEFT JOIN cloud_caoping_guige lggcp ON lggcp.cloud_caoping_guige_id = lg.cloud_caoping_guige_id
+        LEFT JOIN cloud_caoping_use lusecp ON lusecp.cloud_caoping_use_id = lg.cloud_caoping_use_id
+        LEFT JOIN cloud_caoping_type ltypecp ON ltypecp.cloud_caoping_type_id = lg.cloud_caoping_type_id
+
+        LEFT JOIN cloud_jixie_guige lggjx ON lggjx.cloud_jixie_guige_id = lg.cloud_jixie_guige_id
+        LEFT JOIN cloud_jixie_use lusejx ON lusejx.cloud_jixie_use_id = lg.cloud_jixie_use_id
+
+        LEFT JOIN cloud_caozhong_guige lggcz ON lggcz.cloud_caozhong_guige_id = lg.cloud_caozhong_guige_id
+        LEFT JOIN cloud_caozhong_type ltypecz ON ltypecz.cloud_caozhong_type_id = lg.cloud_caozhong_type_id
+
         WHERE 1=1
 
         <if test="is_del != null and is_del != ''">
             AND sn.is_del = #{is_del}
         </if>
 
-        <if test="is_type != null and is_type != ''">
-            AND sn.is_type = #{is_type}
+        <if test="cloud_caoping_id != null and cloud_caoping_id != ''">
+            AND sn.cloud_caoping_id = #{cloud_caoping_id}
         </if>
 
         <if test="keyword != null and keyword != ''">
-            AND  (goods_name like CONCAT('%',#{keyword},'%') OR  goods_cont = #{keyword})
+            AND  (lg.cloud_caoping_title like CONCAT('%',#{keyword},'%')
+            OR lg.cloud_caoping_content like CONCAT('%',#{keyword},'%')
+            OR le.emp_name like CONCAT('%',#{keyword},'%')
+            OR lggcp.cloud_caoping_guige_cont like CONCAT('%',#{keyword},'%')
+            OR lusecp.cloud_caoping_use_cont like CONCAT('%',#{keyword},'%')
+            OR ltypecp.cloud_caoping_type_cont like CONCAT('%',#{keyword},'%')
+            OR lggjx.cloud_jixie_guige_cont like CONCAT('%',#{keyword},'%')
+            OR lusejx.cloud_jixie_use_cont like CONCAT('%',#{keyword},'%')
+            OR lggcz.cloud_caozhong_guige_cont like CONCAT('%',#{keyword},'%')
+            OR ltypecz.cloud_caozhong_type_cont like CONCAT('%',#{keyword},'%')
+            )
         </if>
         ) m
         ORDER  BY  m.top_num DESC limit #{index},#{size}
     </select>
 
     <select id="count" resultType="Long">
-        SELECT count(sn.mm_paihang_id) FROM mm_paihang sn
-        LEFT JOIN PAOPAO_GOODS lg ON sn.goods_id=lg.goods_id
+        SELECT count(sn.mm_paihang_id)
+        from mm_paihang sn
+        LEFT JOIN cloud_caoping lg ON sn.cloud_caoping_id=lg.cloud_caoping_id
+
+        LEFT JOIN lx_emp le ON le.emp_id = lg.emp_id
+        LEFT JOIN cloud_caoping_guige lggcp ON lggcp.cloud_caoping_guige_id = lg.cloud_caoping_guige_id
+        LEFT JOIN cloud_caoping_use lusecp ON lusecp.cloud_caoping_use_id = lg.cloud_caoping_use_id
+        LEFT JOIN cloud_caoping_type ltypecp ON ltypecp.cloud_caoping_type_id = lg.cloud_caoping_type_id
+
+        LEFT JOIN cloud_jixie_guige lggjx ON lggjx.cloud_jixie_guige_id = lg.cloud_jixie_guige_id
+        LEFT JOIN cloud_jixie_use lusejx ON lusejx.cloud_jixie_use_id = lg.cloud_jixie_use_id
+
+        LEFT JOIN cloud_caozhong_guige lggcz ON lggcz.cloud_caozhong_guige_id = lg.cloud_caozhong_guige_id
+        LEFT JOIN cloud_caozhong_type ltypecz ON ltypecz.cloud_caozhong_type_id = lg.cloud_caozhong_type_id
+
         WHERE 1=1
+
         <if test="is_del != null and is_del != ''">
             AND sn.is_del = #{is_del}
+        </if>
+
+        <if test="cloud_caoping_id != null and cloud_caoping_id != ''">
+            AND sn.cloud_caoping_id = #{cloud_caoping_id}
+        </if>
+
+        <if test="keyword != null and keyword != ''">
+            AND  (lg.cloud_caoping_title like CONCAT('%',#{keyword},'%')
+            OR lg.cloud_caoping_content like CONCAT('%',#{keyword},'%')
+            OR le.emp_name like CONCAT('%',#{keyword},'%')
+            OR lggcp.cloud_caoping_guige_cont like CONCAT('%',#{keyword},'%')
+            OR lusecp.cloud_caoping_use_cont like CONCAT('%',#{keyword},'%')
+            OR ltypecp.cloud_caoping_type_cont like CONCAT('%',#{keyword},'%')
+            OR lggjx.cloud_jixie_guige_cont like CONCAT('%',#{keyword},'%')
+            OR lusejx.cloud_jixie_use_cont like CONCAT('%',#{keyword},'%')
+            OR lggcz.cloud_caozhong_guige_cont like CONCAT('%',#{keyword},'%')
+            OR ltypecz.cloud_caozhong_type_cont like CONCAT('%',#{keyword},'%')
+            )
         </if>
     </select>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.PaihangObj">
-        INSERT INTO mm_paihang( mm_paihang_id, goods_id, top_num, is_del, end_time, is_type)
-        VALUES ( #{mm_paihang_id},#{goods_id}, #{top_num}, #{is_del}, #{end_time, jdbcType=VARCHAR}, #{is_type, jdbcType=VARCHAR})
+        INSERT INTO mm_paihang( mm_paihang_id, cloud_caoping_id, top_num, is_del, end_time)
+        VALUES ( #{mm_paihang_id},#{cloud_caoping_id}, #{top_num}, #{is_del}, #{end_time})
     </insert>
 
     <update id="deleteById" parameterType="String">
@@ -101,7 +176,7 @@
     </update>
 
     <update id="updateTop"  parameterType="com.liangxunwang.unimanager.model.PaihangObj">
-        UPDATE mm_paihang SET top_num = #{top_num}, is_del = #{is_del}, end_time = #{end_time}, is_type = #{is_type}
+        UPDATE mm_paihang SET top_num = #{top_num}, is_del = #{is_del}, end_time = #{end_time}
         WHERE mm_paihang_id=#{mm_paihang_id}
     </update>
 
@@ -110,69 +185,18 @@
         UPDATE mm_paihang SET is_del='1' WHERE end_time &lt; #{nowTime}
     </update>
 
-    <select id="findByGoodsId" resultMap="paihang_vo">
-        SELECT * ,lg.goods_type_id as goods_type_id
-        ,lg.goods_name as goods_name
-        ,lg.goods_cover as goods_cover
-        ,lg.goods_cont as goods_cont
-        ,lg.sell_price as sell_price
-        ,lg.market_price as market_price
-        ,lg.goods_address as goods_address
-        ,lg.goods_person as goods_person
-        ,lg.goods_tel as goods_tel
-        ,lg.goods_qq as goods_qq
-        ,lg.goods_is_use as goods_is_use
-        ,lg.goods_is_del as goods_is_del
-        ,lg.up_time as up_time
-        ,lg.goods_count as goods_count
-        ,lg.goods_count_sale as goods_count_sale
-        ,lg.goods_position as goods_position
-        ,lg.is_zhiying as is_zhiying
-        ,lg.goods_emp_id as goods_emp_id
-        ,lg.manager_id as manager_id
-        from mm_paihang sn
-        LEFT JOIN PAOPAO_GOODS lg ON sn.goods_id=lg.goods_id
-
-        WHERE sn.goods_id=#{goods_id}
-        <if test="is_type != null and is_type != ''">
-            AND sn.is_type = #{is_type}
-        </if>
-
-    </select>
-
     <select id="findById" resultMap="paihang_vo">
-        SELECT *,lg.goods_type_id as goods_type_id
-        ,lg.goods_name as goods_name
-        ,lg.goods_cover as goods_cover
-        ,lg.goods_cont as goods_cont
-        ,lg.sell_price as sell_price
-        ,lg.market_price as market_price
-        ,lg.goods_address as goods_address
-        ,lg.goods_person as goods_person
-        ,lg.goods_tel as goods_tel
-        ,lg.goods_qq as goods_qq
-        ,lg.goods_is_use as goods_is_use
-        ,lg.goods_is_del as goods_is_del
-        ,lg.up_time as up_time
-        ,lg.goods_count as goods_count
-        ,lg.goods_count_sale as goods_count_sale
-        ,lg.goods_position as goods_position
-        ,lg.is_zhiying as is_zhiying
-        ,lg.goods_emp_id as goods_emp_id
-        ,lg.manager_id as manager_id
+        SELECT sn.*,lg.cloud_caoping_title as cloud_caoping_title
         from mm_paihang sn
-        LEFT JOIN PAOPAO_GOODS lg ON sn.goods_id=lg.goods_id
-
+         LEFT JOIN cloud_caoping lg ON sn.cloud_caoping_id=lg.cloud_caoping_id
         WHERE sn.mm_paihang_id=#{mm_paihang_id}
-        <if test="is_type != null and is_type != ''">
-            AND sn.is_type = #{is_type}
-        </if>
-        <if test="is_del != null and is_del != ''">
-            AND sn.is_del = #{is_del}
-        </if>
     </select>
 
-
+    <select id="findByGoodsId" resultMap="paihang_vo">
+        SELECT sn.*
+        from mm_paihang sn
+        WHERE sn.cloud_caoping_id=#{cloud_caoping_id}
+    </select>
 
 
 </mapper>

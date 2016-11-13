@@ -1,6 +1,7 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
 import com.liangxunwang.unimanager.model.Admin;
+import com.liangxunwang.unimanager.model.CpObj;
 import com.liangxunwang.unimanager.model.PaihangObj;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.PaihangObjVO;
@@ -9,6 +10,7 @@ import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import com.liangxunwang.unimanager.util.Page;
+import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,10 @@ public class PaihangController extends ControllerConstants {
     @Qualifier("paihangService")
     private SaveService paihangServiceSave;
 
+    @Autowired
+    @Qualifier("cpobjService")
+    private ExecuteService cpobjServiceExe;
+
     @RequestMapping("list")
     public String list(HttpSession session,ModelMap map, PaihangQuery query, Page page){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -76,7 +82,7 @@ public class PaihangController extends ControllerConstants {
     }
 
     //更改数据
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateEmp( HttpSession session, PaihangObj paihangObj){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -84,37 +90,43 @@ public class PaihangController extends ControllerConstants {
             recordServiceUpdate.update(paihangObj);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
+    }
+
+    @RequestMapping("toTuijian")
+    public String toTuijian(ModelMap map, String cloud_caoping_id) throws Exception {
+        CpObj cpObj = (CpObj) cpobjServiceExe.execute(cloud_caoping_id);
+        map.put("cpObj", cpObj);
+        return "/paihang/addpaihang";
     }
 
     /**
      * 添加排行榜
      */
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String add(HttpSession session, PaihangObj paihangObj){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
+        if(StringUtil.isNullOrEmpty(paihangObj.getCloud_caoping_id())){
+            return toJSONString(new ErrorTip(1, "请检查产品ID是否存在！"));
+        }
         try {
             paihangServiceSave.save(paihangObj);
-        }catch (ServiceException e){
+        }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals("Has_exist")){
-                //该商品已经添加到推荐首页不能重复添加
-                return toJSONString(new ErrorTip(1, "该商品已经添加到推荐首页不能重复添加！")
-                );
+                //该商品已经添加到推荐
+                return toJSONString(new ErrorTip(1, "该商品已经添加到推荐，不能重复添加！"));
             }
             if (msg.equals(Constants.SAVE_ERROR)){
-                return toJSONString(new ErrorTip(1, "保存失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "保存失败，请稍后重试！"));
             }
         }
         return toJSONString(SUCCESS);
     }
 
-
-    //-------------------每天凌晨执行，查询是否有过期的排行商户--------------------------
+    //-------------------每天凌晨执行，查询是否有过期的推荐产品--------------------------
     public String update(){
         updatePaihangVip();
         return null;
@@ -124,15 +136,14 @@ public class PaihangController extends ControllerConstants {
     @Qualifier("paihangUpdateVipService")
     private UpdateService paihangUpdateVipService;
 
-    @RequestMapping("/updatePaihangVip")
+    @RequestMapping(value = "/updatePaihangVip", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updatePaihangVip(){
         try {
             paihangUpdateVipService.update("");
             return toJSONString(SUCCESS);
-        }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
     //-------------------------------------------------

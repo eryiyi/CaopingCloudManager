@@ -1,4 +1,4 @@
-package com.liangxunwang.unimanager.service.account;
+package com.liangxunwang.unimanager.service.app;
 
 import com.liangxunwang.unimanager.dao.CpObjDao;
 import com.liangxunwang.unimanager.dao.MemberDao;
@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * Created by zhl on 2015/3/3.
  */
-@Service("cpobjService")
-public class CpobjService implements ListService,DeleteService,ExecuteService, UpdateService {
+@Service("appCpobjService")
+public class AppCpobjService implements ListService,SaveService,ExecuteService {
     @Autowired
     @Qualifier("cpObjDao")
     private CpObjDao cpObjDao;
@@ -92,27 +92,66 @@ public class CpobjService implements ListService,DeleteService,ExecuteService, U
             map.put("is_type", query.getIs_type());
         }
         List<CpObj> lists = cpObjDao.lists(map);
+        for (CpObj record : lists){
+            if (!StringUtil.isNullOrEmpty(record.getEmp_cover())){
+                if (record.getEmp_cover().startsWith("upload")){
+                    record.setEmp_cover(Constants.URL + record.getEmp_cover());
+                }else {
+                    record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
+                }
+            }
+            if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_pic())){
+                //处理图片URL链接
+                StringBuffer buffer = new StringBuffer();
+                String[] pics = new String[]{};
+                if(record!=null && record.getCloud_caoping_pic()!=null){
+                    pics = record.getCloud_caoping_pic().split(",");
+                }
+                for (int i=0; i<pics.length; i++){
+                    if (pics[i].startsWith("upload")) {
+                        buffer.append(Constants.URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }else {
+                        buffer.append(Constants.QINIU_URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }
+                }
+                record.setCloud_caoping_pic(buffer.toString());
+            }
+            record.setCloud_caoping_dateline(RelativeDateFormat.format(Long.parseLong(record.getCloud_caoping_dateline())));
+        }
         long count = cpObjDao.count(map);
         return new Object[]{lists, count};
     }
 
-
     @Override
-    public Object delete(Object object) throws ServiceException {
-        String cloud_caoping_id = (String) object;
-        cpObjDao.delete(cloud_caoping_id);
+    public Object save(Object object) throws ServiceException {
+        CpObj adObj = (CpObj) object;
+        //查询用户member对象
+        Member member = memberDao.findById(adObj.getEmp_id());
+        if(member != null){
+            if(!"1".equals(member.getIs_gys())){
+                //说明不是供应商
+                throw new ServiceException("not_has_power");
+            }
+        }
+        adObj.setCloud_caoping_id(UUIDFactory.random());
+        adObj.setCloud_caoping_dateline(System.currentTimeMillis() + "");
+        adObj.setCloud_is_del("0");
+        adObj.setCloud_is_use("0");
+        cpObjDao.save(adObj);
         return null;
     }
+
 
     @Override
     public Object execute(Object object) throws ServiceException {
         return cpObjDao.findById((String) object);
     }
 
-    @Override
-    public Object update(Object object) {
-        CpObj adObj = (CpObj) object;
-        cpObjDao.update(adObj);
-        return null;
-    }
+
 }

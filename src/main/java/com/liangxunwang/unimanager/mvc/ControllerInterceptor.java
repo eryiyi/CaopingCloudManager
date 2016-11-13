@@ -77,7 +77,7 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                 +"|(^/sendLocation\\.do$)"
                 +"|(^/saveManagerInfo\\.do$)"
                 +"|(^/appGetNearbyDianpu\\.do$)"
-                +"|(^/getIndexTuijian\\.do$)"
+                +"|(^/getTuijianProduct\\.do$)"
                 +"|(^/appGetDianpuDetailByEmpId\\.do$)"
                 +"|(^/appGetAdEmp\\.do$)"
                 +"|(^/saveGoodsComment\\.do$)"

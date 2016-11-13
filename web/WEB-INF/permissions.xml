@@ -58,20 +58,17 @@
         <permission id="REMIT_CONTRACTLIST" name="承包商结算"/>
     </group>
 
-    <group id="PAOPAO_GOODS_MANAGER" name="商品管理(商家/平台)">
-        <permission id="MINE_GOODS_LIST" name="商品列表"/>
-        <permission id="MINE_GOODS_ADD" name="发布商品"/>
-        <permission id="MINE_GOODS_ADD_DXK" name="发布定向卡商品"/>
-        <permission id="MINE_ORDER_LIST" name="订单列表"/>
-    </group>
+    <!--<group id="PAOPAO_GOODS_MANAGER" name="商品管理(商家/平台)">-->
+        <!--<permission id="MINE_GOODS_LIST" name="商品列表"/>-->
+        <!--<permission id="MINE_GOODS_ADD" name="发布商品"/>-->
+        <!--<permission id="MINE_GOODS_ADD_DXK" name="发布定向卡商品"/>-->
+        <!--<permission id="MINE_ORDER_LIST" name="订单列表"/>-->
+    <!--</group>-->
 
     <group  id="XITONG_SET" name="系统设置(商家/平台)">
         <permission id="MODIFY_PASS" name="修改密码"/>
     </group>
 
-    <group id="PAIHANG_MANAGE" name="商品推荐管理">
-        <permission id="PAIHANG_SHANGHU_MANAGE" name="商品推荐管理"/>
-    </group>
 
     <group id="MAANGER_VERSION_CODE_MANAGER" name="版本管理">
         <permission id="UPDATE_VERSION_CODE_MAANGER_AD_LIST" name="版本管理"/>
@@ -94,5 +91,11 @@
         <permission id="CAOPING_CAOZHONG_GUIGE" name="机械规格"/>
         <permission id="CAOPING_CAOZHONG_USE_TYPE" name="机械用途"/>
     </group>
+    <group id="PRODUCT_MANAGER" name="产品管理">
+        <permission id="PRODUCT_MANAGER_LIST" name="产品列表"/>
+        <permission id="PAIHANG_SHANGHU_MANAGE" name="推荐管理"/>
+    </group>
+
+
 
 </permissions>

@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/plugins/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
     <link href="/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
     <link href="/plugins/xcharts/xcharts.min.css" rel="stylesheet">
@@ -25,8 +24,6 @@
     <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
     <link rel="stylesheet" href="/ueditor/themes/default/css/ueditor.css" type="text/css">
 
-    <script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
-    <script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
 
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
     <script type="text/javascript"
@@ -177,29 +174,29 @@
                 </c:if>
 
 
-                <c:if test="${um:permission('MINE_GOODS_LIST', sessionScope.powers)||um:permission('MINE_GOODS_ADD', sessionScope.powers)||um:permission('MINE_ORDER_LIST', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fa fa-picture-o"></i>
-                            <span class="hidden-xs">商品管理</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('MINE_GOODS_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/list','1')">商品列表</a></li>
-                            </c:if>
+                <%--<c:if test="${um:permission('MINE_GOODS_LIST', sessionScope.powers)||um:permission('MINE_GOODS_ADD', sessionScope.powers)||um:permission('MINE_ORDER_LIST', sessionScope.powers)}">--%>
+                    <%--<li class="dropdown">--%>
+                        <%--<a href="#" class="dropdown-toggle">--%>
+                            <%--<i class="fa fa-picture-o"></i>--%>
+                            <%--<span class="hidden-xs">商品管理</span>--%>
+                        <%--</a>--%>
+                        <%--<ul class="dropdown-menu">--%>
+                            <%--<c:if test="${um:permission('MINE_GOODS_LIST', sessionScope.powers)}">--%>
+                                <%--<li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/list','1')">商品列表</a></li>--%>
+                            <%--</c:if>--%>
 
-                            <c:if test="${admin.emp_id != null && admin.emp_id != '0'}">
-                                <c:if test="${um:permission('MINE_GOODS_ADD', sessionScope.powers)}">
-                                    <li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/toAdd','')">发布商品</a></li>
-                                </c:if>
-                            </c:if>
+                            <%--<c:if test="${admin.emp_id != null && admin.emp_id != '0'}">--%>
+                                <%--<c:if test="${um:permission('MINE_GOODS_ADD', sessionScope.powers)}">--%>
+                                    <%--<li><a href="javascript:void(0);" onclick="toPage('/paopaogoods/toAdd','')">发布商品</a></li>--%>
+                                <%--</c:if>--%>
+                            <%--</c:if>--%>
 
-                            <c:if test="${um:permission('MINE_ORDER_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/order/list','1')">订单列表</a></li>
-                            </c:if>
-                        </ul>
-                    </li>
-                </c:if>
+                            <%--<c:if test="${um:permission('MINE_ORDER_LIST', sessionScope.powers)}">--%>
+                                <%--<li><a href="javascript:void(0);" onclick="toPage('/order/list','1')">订单列表</a></li>--%>
+                            <%--</c:if>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                <%--</c:if>--%>
 
 
 
@@ -262,19 +259,6 @@
                     </li>
                 </c:if>
 
-                <c:if test="${um:permission('PAIHANG_SHANGHU_MANAGE', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="javascript:void (0);" class="dropdown-toggle">
-                            <i class="fa fa-thumbs-up "></i>
-                            <span>商品推荐管理</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('PAIHANG_SHANGHU_MANAGE', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('/paihang/list','1')">商品推荐管理</a></li>
-                            </c:if>
-                        </ul>
-                    </li>
-                </c:if>
 
                 <c:if test="${um:permission('ADVERT_LIST', sessionScope.powers)||um:permission('ADD_ADVERT_MANAGER', sessionScope.powers)}">
                 <li class="dropdown">
@@ -441,6 +425,23 @@
                     </li>
                 </c:if>
 
+                <c:if test="${um:permission('PRODUCT_MANAGER_LIST', sessionScope.powers) ||  um:permission('PAIHANG_SHANGHU_MANAGE', sessionScope.powers) }">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">产品管理</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('PRODUCT_MANAGER_LIST', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/productController/list','1')">产品列表</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('PAIHANG_SHANGHU_MANAGE', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/paihang/list','1')">推荐管理</a></li>
+                            </c:if>
+                        </ul>
+                    </li>
+                </c:if>
+
                 <c:if test="${um:permission('MODIFY_PASS', sessionScope.powers)}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
@@ -547,22 +548,7 @@
         } else {
             window.location.href = "#module=" + _url+ "&_t="+ new Date().getTime();
         }
-
-//		$.ajax({
-//			type: "post",
-//			url: _url,
-//			data:{"page":_page},
-//			success: function(response){
-//				$("#content").html(response);
-//			}
-//
-//		});
-//		history.pushState('', 'New URL: '+_url, "/#"+_url);
     }
 
-    function loadNotice() {
-        window.location.href = "/#/ajax/toAddNotice.do"
-        window.location.reload();
-    }
 </script>
 </html>

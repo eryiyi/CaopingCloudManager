@@ -52,7 +52,7 @@ public class CptypeController extends ControllerConstants {
         return "/cptype/add";
     }
 
-    @RequestMapping("add")
+    @RequestMapping(value = "/add", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String add(HttpSession session,Cptype cptype){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -61,8 +61,7 @@ public class CptypeController extends ControllerConstants {
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
             String msg = e.getMessage();
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 
@@ -85,7 +84,7 @@ public class CptypeController extends ControllerConstants {
     /**
      * 更新
      */
-    @RequestMapping("/edit")
+    @RequestMapping(value = "/edit", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String edit(HttpSession session,Cptype cpuse){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -93,8 +92,7 @@ public class CptypeController extends ControllerConstants {
             levelServiceSaveUpdate.update(cpuse);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 

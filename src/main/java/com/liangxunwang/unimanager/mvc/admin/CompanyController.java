@@ -71,7 +71,7 @@ public class CompanyController extends ControllerConstants {
     /**
      * 更新审核
      */
-    @RequestMapping("/updateCheck")
+    @RequestMapping(value = "/updateCheck", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateCheck(HttpSession session,Company company){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -79,8 +79,7 @@ public class CompanyController extends ControllerConstants {
             appCompanyServiceUpdate.update(company);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 }

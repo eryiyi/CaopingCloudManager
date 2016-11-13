@@ -6,177 +6,271 @@ import com.liangxunwang.unimanager.model.PaihangObj;
  * Created by Administrator on 2016/2/14.
  */
 public class PaihangObjVO extends PaihangObj {
-    private String goods_type_id;
-    private String goods_name;
-    private String goods_cover;
-    private String goods_cont;
-    private String sell_price;//销售价格
-    private String market_price;//市场价格
-    private String goods_address;
-    private String goods_person;//联系人
-    private String goods_tel;
-    private String goods_qq;
+    private String emp_id;
+    private String cloud_caoping_title;
+    private String cloud_caoping_content;
+    private String cloud_caoping_prices;
+    private String cloud_caoping_guige_id;
+    private String cloud_caoping_pic;
+    private String cloud_caoping_type_id;
+    private String cloud_caoping_use_id;
+    private String cloud_caoping_address;
+    private String cloud_caoping_dateline;
+    private String cloud_is_use;
+    private String cloud_is_del;
+    private String lat;
+    private String lng;
+    private String sale_count;//销量
 
-    private String goods_is_use;
-    private String goods_is_del;
-    private String up_time;//上架时间
-    private String goods_count;//商品数量
-    private String goods_count_sale;//已卖商品数量
-    private String goods_position;
-    private String is_zhiying;//0 商家发布 1自营
+    private String cloud_caozhong_type_id;
+    private String cloud_caozhong_guige_id;
+    private String cloud_caozhong_guige_cont;
+    private String cloud_caozhong_type_cont;
 
-    private String goods_emp_id;//商家商品发布者
-    private String manager_id;//自营商品发布者
+    private String cloud_jixie_guige_id;
+    private String cloud_jixie_use_id;
+    private String cloud_jixie_guige_cont;
+    private String cloud_jixie_use_cont;
 
-    public String getGoods_type_id() {
-        return goods_type_id;
+    private String emp_name;
+    private String emp_cover;
+    private String cloud_caoping_guige_cont;
+    private String cloud_caoping_type_cont;
+    private String cloud_caoping_use_cont;
+
+    private String is_type;
+
+    public String getIs_type() {
+        return is_type;
     }
 
-    public void setGoods_type_id(String goods_type_id) {
-        this.goods_type_id = goods_type_id;
+    public void setIs_type(String is_type) {
+        this.is_type = is_type;
     }
 
-    public String getGoods_name() {
-        return goods_name;
+    public String getEmp_id() {
+        return emp_id;
     }
 
-    public void setGoods_name(String goods_name) {
-        this.goods_name = goods_name;
+    public void setEmp_id(String emp_id) {
+        this.emp_id = emp_id;
     }
 
-    public String getGoods_cover() {
-        return goods_cover;
+    public String getCloud_caoping_title() {
+        return cloud_caoping_title;
     }
 
-    public void setGoods_cover(String goods_cover) {
-        this.goods_cover = goods_cover;
+    public void setCloud_caoping_title(String cloud_caoping_title) {
+        this.cloud_caoping_title = cloud_caoping_title;
     }
 
-    public String getGoods_cont() {
-        return goods_cont;
+    public String getCloud_caoping_content() {
+        return cloud_caoping_content;
     }
 
-    public void setGoods_cont(String goods_cont) {
-        this.goods_cont = goods_cont;
+    public void setCloud_caoping_content(String cloud_caoping_content) {
+        this.cloud_caoping_content = cloud_caoping_content;
     }
 
-    public String getSell_price() {
-        return sell_price;
+    public String getCloud_caoping_prices() {
+        return cloud_caoping_prices;
     }
 
-    public void setSell_price(String sell_price) {
-        this.sell_price = sell_price;
+    public void setCloud_caoping_prices(String cloud_caoping_prices) {
+        this.cloud_caoping_prices = cloud_caoping_prices;
     }
 
-    public String getMarket_price() {
-        return market_price;
+    public String getCloud_caoping_guige_id() {
+        return cloud_caoping_guige_id;
     }
 
-    public void setMarket_price(String market_price) {
-        this.market_price = market_price;
+    public void setCloud_caoping_guige_id(String cloud_caoping_guige_id) {
+        this.cloud_caoping_guige_id = cloud_caoping_guige_id;
     }
 
-    public String getGoods_address() {
-        return goods_address;
+    public String getCloud_caoping_pic() {
+        return cloud_caoping_pic;
     }
 
-    public void setGoods_address(String goods_address) {
-        this.goods_address = goods_address;
+    public void setCloud_caoping_pic(String cloud_caoping_pic) {
+        this.cloud_caoping_pic = cloud_caoping_pic;
     }
 
-    public String getGoods_person() {
-        return goods_person;
+    public String getCloud_caoping_type_id() {
+        return cloud_caoping_type_id;
     }
 
-    public void setGoods_person(String goods_person) {
-        this.goods_person = goods_person;
+    public void setCloud_caoping_type_id(String cloud_caoping_type_id) {
+        this.cloud_caoping_type_id = cloud_caoping_type_id;
     }
 
-    public String getGoods_tel() {
-        return goods_tel;
+    public String getCloud_caoping_use_id() {
+        return cloud_caoping_use_id;
     }
 
-    public void setGoods_tel(String goods_tel) {
-        this.goods_tel = goods_tel;
+    public void setCloud_caoping_use_id(String cloud_caoping_use_id) {
+        this.cloud_caoping_use_id = cloud_caoping_use_id;
     }
 
-    public String getGoods_qq() {
-        return goods_qq;
+    public String getCloud_caoping_address() {
+        return cloud_caoping_address;
     }
 
-    public void setGoods_qq(String goods_qq) {
-        this.goods_qq = goods_qq;
+    public void setCloud_caoping_address(String cloud_caoping_address) {
+        this.cloud_caoping_address = cloud_caoping_address;
     }
 
-    public String getGoods_is_use() {
-        return goods_is_use;
+    public String getCloud_caoping_dateline() {
+        return cloud_caoping_dateline;
     }
 
-    public void setGoods_is_use(String goods_is_use) {
-        this.goods_is_use = goods_is_use;
+    public void setCloud_caoping_dateline(String cloud_caoping_dateline) {
+        this.cloud_caoping_dateline = cloud_caoping_dateline;
     }
 
-    public String getGoods_is_del() {
-        return goods_is_del;
+    public String getCloud_is_use() {
+        return cloud_is_use;
     }
 
-    public void setGoods_is_del(String goods_is_del) {
-        this.goods_is_del = goods_is_del;
+    public void setCloud_is_use(String cloud_is_use) {
+        this.cloud_is_use = cloud_is_use;
     }
 
-    public String getUp_time() {
-        return up_time;
+    public String getCloud_is_del() {
+        return cloud_is_del;
     }
 
-    public void setUp_time(String up_time) {
-        this.up_time = up_time;
+    public void setCloud_is_del(String cloud_is_del) {
+        this.cloud_is_del = cloud_is_del;
     }
 
-    public String getGoods_count() {
-        return goods_count;
+    public String getLat() {
+        return lat;
     }
 
-    public void setGoods_count(String goods_count) {
-        this.goods_count = goods_count;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public String getGoods_count_sale() {
-        return goods_count_sale;
+    public String getLng() {
+        return lng;
     }
 
-    public void setGoods_count_sale(String goods_count_sale) {
-        this.goods_count_sale = goods_count_sale;
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
-    public String getGoods_position() {
-        return goods_position;
+    public String getSale_count() {
+        return sale_count;
     }
 
-    public void setGoods_position(String goods_position) {
-        this.goods_position = goods_position;
+    public void setSale_count(String sale_count) {
+        this.sale_count = sale_count;
     }
 
-    public String getIs_zhiying() {
-        return is_zhiying;
+    public String getCloud_caozhong_type_id() {
+        return cloud_caozhong_type_id;
     }
 
-    public void setIs_zhiying(String is_zhiying) {
-        this.is_zhiying = is_zhiying;
+    public void setCloud_caozhong_type_id(String cloud_caozhong_type_id) {
+        this.cloud_caozhong_type_id = cloud_caozhong_type_id;
     }
 
-    public String getGoods_emp_id() {
-        return goods_emp_id;
+    public String getCloud_caozhong_guige_id() {
+        return cloud_caozhong_guige_id;
     }
 
-    public void setGoods_emp_id(String goods_emp_id) {
-        this.goods_emp_id = goods_emp_id;
+    public void setCloud_caozhong_guige_id(String cloud_caozhong_guige_id) {
+        this.cloud_caozhong_guige_id = cloud_caozhong_guige_id;
     }
 
-    public String getManager_id() {
-        return manager_id;
+    public String getCloud_caozhong_guige_cont() {
+        return cloud_caozhong_guige_cont;
     }
 
-    public void setManager_id(String manager_id) {
-        this.manager_id = manager_id;
+    public void setCloud_caozhong_guige_cont(String cloud_caozhong_guige_cont) {
+        this.cloud_caozhong_guige_cont = cloud_caozhong_guige_cont;
     }
+
+    public String getCloud_caozhong_type_cont() {
+        return cloud_caozhong_type_cont;
+    }
+
+    public void setCloud_caozhong_type_cont(String cloud_caozhong_type_cont) {
+        this.cloud_caozhong_type_cont = cloud_caozhong_type_cont;
+    }
+
+    public String getCloud_jixie_guige_id() {
+        return cloud_jixie_guige_id;
+    }
+
+    public void setCloud_jixie_guige_id(String cloud_jixie_guige_id) {
+        this.cloud_jixie_guige_id = cloud_jixie_guige_id;
+    }
+
+    public String getCloud_jixie_use_id() {
+        return cloud_jixie_use_id;
+    }
+
+    public void setCloud_jixie_use_id(String cloud_jixie_use_id) {
+        this.cloud_jixie_use_id = cloud_jixie_use_id;
+    }
+
+    public String getCloud_jixie_guige_cont() {
+        return cloud_jixie_guige_cont;
+    }
+
+    public void setCloud_jixie_guige_cont(String cloud_jixie_guige_cont) {
+        this.cloud_jixie_guige_cont = cloud_jixie_guige_cont;
+    }
+
+    public String getCloud_jixie_use_cont() {
+        return cloud_jixie_use_cont;
+    }
+
+    public void setCloud_jixie_use_cont(String cloud_jixie_use_cont) {
+        this.cloud_jixie_use_cont = cloud_jixie_use_cont;
+    }
+
+    public String getEmp_name() {
+        return emp_name;
+    }
+
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
+    }
+
+    public String getEmp_cover() {
+        return emp_cover;
+    }
+
+    public void setEmp_cover(String emp_cover) {
+        this.emp_cover = emp_cover;
+    }
+
+    public String getCloud_caoping_guige_cont() {
+        return cloud_caoping_guige_cont;
+    }
+
+    public void setCloud_caoping_guige_cont(String cloud_caoping_guige_cont) {
+        this.cloud_caoping_guige_cont = cloud_caoping_guige_cont;
+    }
+
+    public String getCloud_caoping_type_cont() {
+        return cloud_caoping_type_cont;
+    }
+
+    public void setCloud_caoping_type_cont(String cloud_caoping_type_cont) {
+        this.cloud_caoping_type_cont = cloud_caoping_type_cont;
+    }
+
+    public String getCloud_caoping_use_cont() {
+        return cloud_caoping_use_cont;
+    }
+
+    public void setCloud_caoping_use_cont(String cloud_caoping_use_cont) {
+        this.cloud_caoping_use_cont = cloud_caoping_use_cont;
+    }
+
+
 }

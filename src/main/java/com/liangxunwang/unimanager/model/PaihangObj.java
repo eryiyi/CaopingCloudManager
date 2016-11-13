@@ -5,19 +5,11 @@ package com.liangxunwang.unimanager.model;
  */
 public class PaihangObj {
     private String mm_paihang_id;
-    private String goods_id;//商品id
+    private String cloud_caoping_id;//商品id
     private String top_num;
     private String is_del;
     private String end_time;
-    private String is_type;//0推荐首页 1首发新品 2特惠专区
 
-    public String getIs_type() {
-        return is_type;
-    }
-
-    public void setIs_type(String is_type) {
-        this.is_type = is_type;
-    }
 
     public String getMm_paihang_id() {
         return mm_paihang_id;
@@ -27,12 +19,12 @@ public class PaihangObj {
         this.mm_paihang_id = mm_paihang_id;
     }
 
-    public String getGoods_id() {
-        return goods_id;
+    public String getCloud_caoping_id() {
+        return cloud_caoping_id;
     }
 
-    public void setGoods_id(String goods_id) {
-        this.goods_id = goods_id;
+    public void setCloud_caoping_id(String cloud_caoping_id) {
+        this.cloud_caoping_id = cloud_caoping_id;
     }
 
     public String getTop_num() {

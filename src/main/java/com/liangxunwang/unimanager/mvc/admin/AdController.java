@@ -59,7 +59,7 @@ public class AdController extends ControllerConstants {
         return "/ad/addAd";
     }
 
-    @RequestMapping("addAd")
+    @RequestMapping(value = "/addAd", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String addPiao(HttpSession session,AdObj adObj){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -100,7 +100,7 @@ public class AdController extends ControllerConstants {
     /**
      * 更新
      */
-    @RequestMapping("/editAd")
+    @RequestMapping(value = "/editAd", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateGoodsType(HttpSession session,AdObj adObj){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);

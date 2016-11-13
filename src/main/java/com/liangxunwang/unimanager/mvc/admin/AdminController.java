@@ -43,20 +43,18 @@ public class AdminController extends ControllerConstants {
     @Qualifier("adminService")
     private FindService adminServiceFind;
 
-    @RequestMapping("/updateRole")
+    @RequestMapping(value = "/updateRole", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateRole(String empId, String roleId){
         if (StringUtil.isNullOrEmpty(empId) || StringUtil.isNullOrEmpty(roleId)){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
         Object[] params = new Object[]{empId, roleId};
         adminUpdateService.update(params);
         return toJSONString(SUCCESS);
     }
 
-
-    @RequestMapping("/changePass")
+    @RequestMapping(value = "/changePass", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String changePass(String password, String id){
         try {
@@ -70,7 +68,7 @@ public class AdminController extends ControllerConstants {
     }
 
     //赋权限
-    @RequestMapping("/changroles")
+    @RequestMapping(value = "/changroles", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String changroles(String permissions, String id){
         try {
@@ -145,7 +143,7 @@ public class AdminController extends ControllerConstants {
         return "/admin/adminRole";
     }
 
-    @RequestMapping("/admin/updateType")
+    @RequestMapping(value = "/admin/updateType", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String updateType(HttpSession session, String id, String is_use ){
         try {
@@ -155,8 +153,7 @@ public class AdminController extends ControllerConstants {
             adminUpdateService.update(params);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 

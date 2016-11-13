@@ -53,7 +53,8 @@ public class CpuseController extends ControllerConstants {
         return "/cpuse/add";
     }
 
-    @RequestMapping("add")
+
+    @RequestMapping(value = "/add", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String add(HttpSession session,Cpuse cpguige){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -86,7 +87,7 @@ public class CpuseController extends ControllerConstants {
     /**
      * 更新
      */
-    @RequestMapping("/edit")
+    @RequestMapping(value = "/edit", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String edit(HttpSession session,Cpuse cpuse){
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);

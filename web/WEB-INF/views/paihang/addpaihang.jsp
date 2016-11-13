@@ -8,8 +8,8 @@
         </a>
         <ol class="breadcrumb pull-left">
             <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
-            <li><a href="javascript:void (0);">推荐首页商品管理</a></li>
-            <li><a href="javascript:void (0);">添加推荐商品</a></li>
+            <li><a href="javascript:void (0);">推荐管理</a></li>
+            <li><a href="javascript:void (0);">添加推荐</a></li>
         </ol>
 
     </div>
@@ -26,14 +26,14 @@
             </div>
             <div class="box-content">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" value="${good.id}" id="goods_id">
+                    <input type="hidden" value="${cpObj.cloud_caoping_id}" id="cloud_caoping_id">
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">商品名</label>
+                        <label class="col-sm-2 control-label">产品名称</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="goods_name" readonly="true" value="${good.name}"
-                                   placeholder="商品名" class="form-control" data-toggle="tooltip" data-placement="bottom"
+                            <input type="text" id="cloud_caoping_title" readonly="true" value="${cpObj.cloud_caoping_title}"
+                                   placeholder="产品名称" class="form-control" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
                     </div>
@@ -67,19 +67,6 @@
                         </div>
                     </div>
 
-                    <%--展示位置--%>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">展示位置</label>
-                        <%--0推荐首页 1首发新品 2特惠专区--%>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_type">
-                                <option value="">--选择--</option>
-                                <option value="0" >推荐首页</option>
-                                <option value="1" >首发新品</option>
-                                <option value="2" >特惠专区</option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
@@ -97,11 +84,11 @@
 <script type="text/javascript">
 
     function addPaihang() {
-        var goods_id = $("#goods_id").val();
+        var cloud_caoping_id = $("#cloud_caoping_id").val();
         var is_del = $("#is_del").val();
         var top_num = $("#top_num").val();
         var end_time = $("#end_time").val();
-        var is_type = $("#is_type").val();
+
         if (top_num.replace(/\s/g, '') == '') {
             alert("请填写置顶数字，最小为0，填写整数！");
             return;
@@ -114,20 +101,15 @@
             alert("请选择到期日期！");
             return;
         }
-        if (is_type.replace(/\s/g, '') == '') {
-            alert("请选择推荐商品显示位置！");
-            return;
-        }
 
         $.ajax({
             cache: true,
             type: "POST",
             url: "/paihang/add.do",
             data: {
-                "goods_id": goods_id,
+                "cloud_caoping_id": cloud_caoping_id,
                 "is_del": is_del,
                 "top_num": top_num,
-                "is_type": is_type,
                 "end_time": end_time
             },
             async: false,
@@ -137,8 +119,7 @@
                     alert("添加成功");
                     window.location.href = "#module=/paihang/list&page=1"+ "&_t=" + new Date().getTime();
                 } else {
-                    var _case = {1: "添加失败", 2: "添加失败，该商品已经存在推荐首页"};
-                    alert(_case[data.code])
+                    alert(data.message)
                 }
             }
         });

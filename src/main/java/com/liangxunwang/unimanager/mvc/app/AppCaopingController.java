@@ -40,12 +40,12 @@ public class AppCaopingController extends ControllerConstants {
 
 
     @Autowired
-    @Qualifier("cpobjService")
-    private ListService cpobjServiceList;
+    @Qualifier("appCpobjService")
+    private ListService appCpobjServiceList;
 
     @Autowired
-    @Qualifier("cpobjService")
-    private SaveService cpobjServiceSave;
+    @Qualifier("appCpobjService")
+    private SaveService appCpobjService;
 
 
     /**
@@ -112,9 +112,9 @@ public class AppCaopingController extends ControllerConstants {
         query.setIndex(page.getPage()==0?1:page.getPage());
         query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
         try {
-            List<CpObj> list = (List<CpObj>) cpobjServiceList.list(query);
+            Object[] results= ( Object[] ) appCpobjServiceList.list(query);
             DataTip tip = new DataTip();
-            tip.setData(list);
+            tip.setData(results[0]);
             return toJSONString(tip);
         }catch (ServiceException e){
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
@@ -148,7 +148,7 @@ public class AppCaopingController extends ControllerConstants {
             return toJSONString(new ErrorTip(10, "请检查用户ID是否存在！"));
         }
         try {
-            cpobjServiceSave.save(cpObj);
+            appCpobjService.save(cpObj);
             DataTip tip = new DataTip();
             tip.setData(SUCCESS);
             return toJSONString(tip);

@@ -23,26 +23,20 @@ public class AppPaihangController extends ControllerConstants {
     @Qualifier("paihangService")
     private ListService paihangService;
 
-    //查询推荐首页商品
-    @RequestMapping(value = "/getIndexTuijian", produces = "text/plain;charset=UTF-8")
+    //查询推荐
+    @RequestMapping(value = "/getTuijianProduct", produces = "text/plain;charset=UTF-8")
     @ResponseBody
-    public String getRecord(PaihangQuery query, Page page){
-        query.setIndex(page.getIndex()==0?1:page.getIndex());
+    public String getTuijianProduct(PaihangQuery query, Page page){
+        query.setIndex(page.getPage()==0?1:page.getPage());
         query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
         try {
+            query.setIs_del("0");
             Object[] results = (Object[]) paihangService.list(query);
             DataTip tip = new DataTip();
             tip.setData(results[0]);
             return toJSONString(tip);
-        }catch (ServiceException e){
-            String msg = e.getMessage();
-            if (msg.equals("accessTokenNull")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
-            }else{
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
-            }
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
 

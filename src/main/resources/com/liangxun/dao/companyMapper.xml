@@ -69,16 +69,16 @@
             AND lc.lng_company > (#{lng}-1) AND   (#{lng} + 1) > lc.lng_company
         </if>
 
-        <if test="is_paihang == '1' and is_time == '1' ">
+        <if test="is_paihang == 1 and is_time == 1 ">
             ORDER BY lc.paihang_num DESC,lc.dateline DESC
         </if>
         <if test="is_paihang == null and is_time == null ">
             ORDER BY lc.dateline DESC
         </if>
-        <if test="is_paihang == '1' and is_time == null ">
+        <if test="is_paihang == 1 and is_time == null ">
             ORDER BY lc.paihang_num DESC
         </if>
-        <if test="is_paihang == null and is_time == '1' ">
+        <if test="is_paihang == null and is_time == 1 ">
             ORDER BY lc.dateline DESC
         </if>
 

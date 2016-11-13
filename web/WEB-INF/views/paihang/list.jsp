@@ -58,19 +58,14 @@
                     <tr>
                         <%--<th>全选<input type="checkbox" name="allmails" onclick="checkAll()"></th>--%>
                             <th>#</th>
-                        <th>商品名</th>
+                        <th>产品名称</th>
                         <th>销售价格</th>
-                        <th>市场价格</th>
-                        <th>联系人</th>
-                        <th>电话</th>
+                        <th>用户名</th>
                         <th>上架时间</th>
-                        <th>商品数量</th>
                         <th>已卖商品数量</th>
-                        <th>商家/自营</th>
                         <th>是否显示</th>
                         <th>置顶数字</th>
                         <th>结束时间</th>
-                        <th>展示位置</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -79,30 +74,17 @@
                         <tr>
                             <%--<td><input type="checkbox" id="${e.mm_paihang_id}" name="checkbox_one"></td>--%>
                                 <td>${st.index + 1}</td>
-                            <td>${e.goods_name}</td>
-                            <td>${e.sell_price}</td>
-                            <td>${e.market_price}</td>
-                            <td>${e.goods_person}</td>
-                            <td>${e.goods_tel}</td>
-                            <td>${um:format(e.up_time, 'yyyy-MM-dd')}</td>
-                            <td>${e.goods_count}</td>
-                            <td>${e.goods_count_sale}</td>
-                            <td>
-                                <c:if test="${e.is_zhiying=='0'}">商家</c:if>
-                                <c:if test="${e.is_zhiying=='1'}">平台自营</c:if>
-                            </td>
+                            <td>${e.cloud_caoping_title}</td>
+                            <td>${e.cloud_caoping_prices}</td>
+                            <td>${e.emp_name}</td>
+                            <td>${um:format(e.cloud_caoping_dateline, 'yyyy-MM-dd')}</td>
+                            <td>${e.sale_count}</td>
                             <td>
                                 <c:if test="${e.is_del=='0'}">是</c:if>
                                 <c:if test="${e.is_del=='1'}">否</c:if>
                             </td>
                             <td>${e.top_num}</td>
                             <td>${e.end_time}</td>
-                                <td>
-                                    <c:if test="${e.is_type=='0'}">推荐首页</c:if>
-                                    <c:if test="${e.is_type=='1'}">首发新品</c:if>
-                                    <c:if test="${e.is_type=='2'}">特惠专区</c:if>
-                                </td>
-                                <%--<td>${um:format(e.end_time, 'yyyy-MM-dd')}</td>--%>
                             <td>
                                 <a class="btn btn-default btn-sm"
                                    href="#module=/paihang/toDetail&mm_paihang_id=${e.mm_paihang_id}"
@@ -232,8 +214,7 @@
                         if (data.success) {
                             window.location.href = "/upload" + data.data;//这样就可以弹出下载对话框了
                         } else {
-                            var _case = {1: "导出失败"};
-                            alert(_case[data.code])
+                            alert(data.message)
                         }
                     }
                 });

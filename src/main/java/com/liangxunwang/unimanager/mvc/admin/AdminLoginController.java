@@ -25,16 +25,14 @@ public class AdminLoginController extends ControllerConstants {
     @Qualifier("adminLoginService")
     private ExecuteService adminLoginService;
 
-    @RequestMapping("/adminLogin")
+    @RequestMapping(value = "/adminLogin", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String adminLogin(HttpSession session,HttpServletRequest request, @Param(value = "username")String username,@Param(value = "password") String password){
         if (StringUtil.isNullOrEmpty(username)){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
         if (StringUtil.isNullOrEmpty(password)){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
         Object[] params = new Object[]{username, password};
 
@@ -45,23 +43,19 @@ public class AdminLoginController extends ControllerConstants {
             String permissions = (String) results[1];
 
             if(permissions == null || permissions.isEmpty()) {
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }
             session.setAttribute(ControllerConstants.PERMISSIONS, permissions);
             return toJSONString(SUCCESS);
         }catch (Exception e){
             String msg = e.getMessage();
             if (msg.equals("USERNAME_ERROR")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }
             if (msg.equals("PASSWORD_ERROR")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }else {
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }
         }
     }
