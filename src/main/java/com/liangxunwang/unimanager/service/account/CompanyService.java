@@ -57,20 +57,6 @@ public class CompanyService implements ListService {
         List<Company> lists = companyDao.lists(map);
         if(lists != null){
             for(Company company : lists){
-                if (!StringUtil.isNullOrEmpty(company.getCompany_pic())){
-                    if (company.getCompany_pic().startsWith("upload")){
-                        company.setCompany_pic(Constants.URL + company.getCompany_pic());
-                    }else {
-                        company.setCompany_pic(Constants.QINIU_URL + company.getCompany_pic());
-                    }
-                }
-                if(!StringUtil.isNullOrEmpty(company.getEmp_cover())){
-                    if (company.getEmp_cover().startsWith("upload")){
-                        company.setEmp_cover(Constants.URL + company.getEmp_cover());
-                    }else {
-                        company.setEmp_cover(Constants.QINIU_URL + company.getEmp_cover());
-                    }
-                }
                 company.setDateline(RelativeDateFormat.format(Long.parseLong(company.getDateline())));
             }
         }

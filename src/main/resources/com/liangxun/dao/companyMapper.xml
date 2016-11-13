@@ -44,6 +44,9 @@
         <if test="emp_id != null and emp_id != ''">
             AND lc.emp_id = #{emp_id}
         </if>
+        <if test="is_gys != null and is_gys != ''">
+            AND le.is_gys = #{is_gys}
+        </if>
         <if test="is_check != null and is_check != ''">
             AND lc.is_check = #{is_check}
         </if>

@@ -62,6 +62,8 @@ public class ApplyGysService implements ListService,SaveService,DeleteService,Ex
         //根据emp_id查询是否申请过了
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("emp_id", adObj.getEmp_id());
+        map.put("index", 1);
+        map.put("size", 10);
         List<ApplyGys> lists = applyGysDao.lists(map);
         if(lists != null && lists.size()>0){
             throw new ServiceException("has_exist");

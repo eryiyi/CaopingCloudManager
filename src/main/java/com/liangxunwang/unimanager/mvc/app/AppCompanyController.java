@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.swing.text.html.ListView;
 import java.util.List;
 
 /**
@@ -38,6 +39,10 @@ public class AppCompanyController extends ControllerConstants {
     @Autowired
     @Qualifier("appCompanyService")
     private UpdateService appCompanyServiceUpdate;
+
+    @Autowired
+    @Qualifier("appCompanyService")
+    private ListService appCompanyServiceList;
 
 
     /**
@@ -104,9 +109,6 @@ public class AppCompanyController extends ControllerConstants {
         }
     }
 
-    @Autowired
-    @Qualifier("companyService")
-    private ListService companyService;
 
     /**
      * 查询名企排行
@@ -118,7 +120,8 @@ public class AppCompanyController extends ControllerConstants {
         try {
             query.setIndex(page.getPage()==0?1:page.getPage());
             query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
-            Object[] result = (Object[]) companyService.list(query);
+            query.setIs_gys("1");
+            Object[] result = (Object[]) appCompanyServiceList.list(query);
             DataTip tip = new DataTip();
             tip.setData(result[0]);
             return toJSONString(tip);

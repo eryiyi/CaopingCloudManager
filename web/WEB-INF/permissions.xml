@@ -47,10 +47,7 @@
 
     <group id="SYSTEM_MANAGE_COMPANY" name="公司管理">
         <permission id="COMPANY_MANAGER_INFO" name="公司列表"/>
-    </group>
-
-    <group id="GYS_MANAGER" name="供应商管理">
-        <permission id="GYS_MANAGER_LIST" name="供应商列表"/>
+        <permission id="GYS_MANAGER_LIST" name="公司认证申请"/>
     </group>
 
     <group id="REMIT_MANAGER" name="汇款结算">

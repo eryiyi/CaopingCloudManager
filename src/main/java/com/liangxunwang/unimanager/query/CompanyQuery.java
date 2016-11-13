@@ -17,6 +17,15 @@ public class CompanyQuery {
     private String lng;
     private String is_time;
     private String is_count;
+    private String is_gys;
+
+    public String getIs_gys() {
+        return is_gys;
+    }
+
+    public void setIs_gys(String is_gys) {
+        this.is_gys = is_gys;
+    }
 
     public String getLat() {
         return lat;
