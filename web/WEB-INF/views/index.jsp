@@ -415,6 +415,23 @@
                     </li>
                 </c:if>
 
+                <c:if test="${um:permission('CAR_TYPE_LIST', sessionScope.powers) || um:permission('CAR_LENGTH_LIST', sessionScope.powers) }">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-picture-o"></i>
+                            <span class="hidden-xs">物流设置</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <c:if test="${um:permission('CAR_TYPE_LIST', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/carTypeController/list','1')">车型</a></li>
+                            </c:if>
+                            <c:if test="${um:permission('CAR_LENGTH_LIST', sessionScope.powers)}">
+                                <li><a href="javascript:void(0);" onclick="toPage('/carLengthController/list','1')">车长</a></li>
+                            </c:if>
+                        </ul>
+                    </li>
+                </c:if>
+
                 <c:if test="${um:permission('PRODUCT_MANAGER_LIST', sessionScope.powers) ||  um:permission('PAIHANG_SHANGHU_MANAGE', sessionScope.powers) }">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">

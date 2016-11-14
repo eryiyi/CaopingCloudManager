@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.CarTypeDao">
+    <resultMap id="carType" type="com.liangxunwang.unimanager.model.CarType">
+        <id column="car_type_id" property="car_type_id"/>
+        <result column="car_type_name" property="car_type_name"/>
+        <result column="is_use" property="is_use"/>
+        <result column="car_num" property="car_num"/>
+    </resultMap>
+
+    <select id="lists" resultMap="carType">
+        SELECT * from car_type
+        where 1 =1
+        <if test="is_use != null and is_use != ''">
+            AND is_use = #{is_use}
+        </if>
+        ORDER BY car_num DESC
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.CarType">
+        INSERT INTO car_type(car_type_id, car_type_name, is_use, car_num)
+        VALUES (#{car_type_id}, #{car_type_name}, #{is_use}, #{car_num})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM car_type where car_type_id = #{car_type_id}
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="carType">
+        SELECT * FROM car_type where car_type_id=#{car_type_id}
+    </select>
+
+    <update id="update" parameterType="com.liangxunwang.unimanager.model.CarType">
+        UPDATE car_type SET car_type_name=#{car_type_name},car_num=#{car_num},
+        is_use=#{is_use}
+         WHERE car_type_id=#{car_type_id}
+    </update>
+
+</mapper>

@@ -88,6 +88,10 @@
         <permission id="CAOPING_CAOZHONG_GUIGE" name="机械规格"/>
         <permission id="CAOPING_CAOZHONG_USE_TYPE" name="机械用途"/>
     </group>
+    <group id="CAR_TYPE_MANAGE" name="物流设置">
+        <permission id="CAR_TYPE_LIST" name="车型"/>
+        <permission id="CAR_LENGTH_LIST" name="车长"/>
+    </group>
     <group id="PRODUCT_MANAGER" name="产品管理">
         <permission id="PRODUCT_MANAGER_LIST" name="产品列表"/>
         <permission id="PAIHANG_SHANGHU_MANAGE" name="推荐管理"/>

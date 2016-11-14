@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangxunwang.unimanager.dao.TransportDao">
+    <resultMap id="transport" type="com.liangxunwang.unimanager.model.Transport">
+        <id column="transport_id" property="transport_id"/>
+        <result column="emp_id" property="emp_id"/>
+        <result column="is_type" property="is_type"/>
+        <result column="start_provinceid" property="start_provinceid"/>
+        <result column="start_cityid" property="start_cityid"/>
+        <result column="start_areaid" property="start_areaid"/>
+        <result column="end_provinceid" property="end_provinceid"/>
+        <result column="end_cityid" property="end_cityid"/>
+        <result column="end_areaid" property="end_areaid"/>
+        <result column="start_time" property="start_time"/>
+        <result column="end_time" property="end_time"/>
+        <result column="detail" property="detail"/>
+        <result column="car_length_id" property="car_length_id"/>
+        <result column="car_type_id" property="car_type_id"/>
+        <result column="car_num" property="car_num"/>
+        <result column="person" property="person"/>
+        <result column="tel" property="tel"/>
+        <result column="is_use" property="is_use"/>
+        <result column="is_del" property="is_del"/>
+        <result column="dateline" property="dateline"/>
+        <result column="lat" property="lat"/>
+        <result column="lng" property="lng"/>
+        <result column="car_pic" property="car_pic"/>
+
+        <result column="emp_name" property="emp_name"/>
+        <result column="car_length_name" property="car_length_name"/>
+        <result column="car_type_name" property="car_type_name"/>
+
+        <result column="start_pname" property="start_pname"/>
+        <result column="start_cityName" property="start_cityName"/>
+        <result column="start_areaName" property="start_areaName"/>
+
+        <result column="end_pname" property="end_pname"/>
+        <result column="end_cityName" property="end_cityName"/>
+        <result column="end_areaName" property="end_areaName"/>
+    </resultMap>
+
+    <select id="lists" resultMap="transport">
+        SELECT lapp.*,
+        lemp.emp_name as emp_name,
+        lleng.car_length_name as car_length_name,
+        lcartype.car_type_name as car_type_name
+        ,lp.pname as start_pname,lcity.cityName as start_cityName,larea.areaName as start_areaName
+        ,lpp.pname as end_pname,lcityp.cityName as end_cityName,lareap.areaName as end_areaName
+
+        from car_transport lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.start_provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lapp.start_cityid
+        LEFT JOIN area larea ON larea.areaid = lapp.start_areaid
+
+        LEFT JOIN province lpp ON lpp.provinceid = lapp.end_provinceid
+        LEFT JOIN city lcityp ON lcityp.cityid = lapp.end_cityid
+        LEFT JOIN area lareap ON lareap.areaid = lapp.end_areaid
+
+        LEFT JOIN car_length lleng ON lleng.car_length_id = lapp.car_length_id
+        LEFT JOIN car_type lcartype ON lcartype.car_type_id = lapp.car_type_id
+
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lapp.emp_id = #{emp_id}
+        </if>
+        <if test="is_type != null and is_type != ''">
+            AND lapp.is_type = #{is_type}
+        </if>
+        <if test="is_use != null and is_use != ''">
+            AND lapp.is_use = #{is_use}
+        </if>
+        <if test="is_del != null and is_del != ''">
+            AND lapp.is_del = #{is_del}
+        </if>
+
+        <if test="keyWords !=null and keyWords !=''">
+            AND (lemp.emp_name like CONCAT('%',#{keyWords},'%') OR
+            lp.pname like CONCAT('%',#{keyWords},'%') OR
+            lcity.cityName like CONCAT('%',#{keyWords},'%') OR
+            larea.areaName like CONCAT('%',#{keyWords},'%') OR
+            lpp.pname like CONCAT('%',#{keyWords},'%') OR
+            lcityp.cityName like CONCAT('%',#{keyWords},'%') OR
+            lareap.areaName like CONCAT('%',#{keyWords},'%') OR
+            lcartype.car_type_name like CONCAT('%',#{keyWords},'%') )
+        </if>
+
+        <if test="lat != null and lat != ''">
+            AND lapp.lat > (#{lat}-1) AND   (#{lat} + 1) > lapp.lat
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lapp.lng > (#{lng}-1) AND   (#{lng} + 1) > lapp.lng
+        </if>
+
+        ORDER BY lapp.dateline DESC
+
+        limit #{index},#{size}
+    </select>
+
+    <select id="count" resultType="Long">
+        SELECT count(apply_gys_id)
+        from car_transport lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.start_provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lapp.start_cityid
+        LEFT JOIN area larea ON larea.areaid = lapp.start_areaid
+
+        LEFT JOIN province lpp ON lpp.provinceid = lapp.end_provinceid
+        LEFT JOIN city lcityp ON lcityp.cityid = lapp.end_cityid
+        LEFT JOIN area lareap ON lareap.areaid = lapp.end_areaid
+
+        LEFT JOIN car_length lleng ON lleng.car_length_id = lapp.car_length_id
+        LEFT JOIN car_type lcartype ON lcartype.car_type_id = lapp.car_type_id
+
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lapp.emp_id = #{emp_id}
+        </if>
+        <if test="is_type != null and is_type != ''">
+            AND lapp.is_type = #{is_type}
+        </if>
+        <if test="is_use != null and is_use != ''">
+            AND lapp.is_use = #{is_use}
+        </if>
+        <if test="is_del != null and is_del != ''">
+            AND lapp.is_del = #{is_del}
+        </if>
+
+        <if test="keyWords !=null and keyWords !=''">
+            AND (lemp.emp_name like CONCAT('%',#{keyWords},'%') OR
+            lp.pname like CONCAT('%',#{keyWords},'%') OR
+            lcity.cityName like CONCAT('%',#{keyWords},'%') OR
+            larea.areaName like CONCAT('%',#{keyWords},'%') OR
+            lpp.pname like CONCAT('%',#{keyWords},'%') OR
+            lcityp.cityName like CONCAT('%',#{keyWords},'%') OR
+            lareap.areaName like CONCAT('%',#{keyWords},'%') OR
+            lcartype.car_type_name like CONCAT('%',#{keyWords},'%') )
+        </if>
+
+        <if test="lat != null and lat != ''">
+            AND lapp.lat > (#{lat}-1) AND   (#{lat} + 1) > lapp.lat
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lapp.lng > (#{lng}-1) AND   (#{lng} + 1) > lapp.lng
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.liangxunwang.unimanager.model.Transport">
+        INSERT INTO car_transport(transport_id,emp_id,is_type,
+        start_provinceid,start_cityid,start_areaid,
+        end_provinceid,end_cityid,end_areaid,
+        start_time,end_time,detail,car_length_id,car_type_id,car_num,person,tel,dateline,lat,lng,car_pic)
+        VALUES (#{transport_id},#{emp_id},#{is_type},
+        #{start_provinceid},#{start_cityid},#{start_areaid},
+        #{end_provinceid},#{end_cityid},#{end_areaid},
+        #{start_time},#{end_time},#{detail, jdbcType=VARCHAR},#{car_length_id, jdbcType=VARCHAR},#{car_type_id, jdbcType=VARCHAR},
+        #{car_num, jdbcType=VARCHAR},#{person},#{tel},#{dateline},#{lat, jdbcType=VARCHAR},#{lng, jdbcType=VARCHAR},#{car_pic, jdbcType=VARCHAR})
+    </insert>
+
+
+    <select id="findById" parameterType="String" resultMap="transport">
+        SELECT lapp.*,
+        lemp.emp_name as emp_name,
+        lleng.car_length_name as car_length_name,
+        lcartype.car_type_name as car_type_name,
+        ,lp.pname as start_pname,lcity.cityName as start_cityName,larea.areaName as start_areaName
+        ,lpp.pname as end_pname,lcityp.cityName as end_cityName,lareap.areaName as end_areaName
+
+        from car_transport lapp
+        LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
+        LEFT JOIN province lp ON lp.provinceid = lapp.start_provinceid
+        LEFT JOIN city lcity ON lcity.cityid = lapp.start_cityid
+        LEFT JOIN area larea ON larea.areaid = lapp.start_areaid
+
+        LEFT JOIN province lpp ON lpp.provinceid = lapp.end_provinceid
+        LEFT JOIN city lcityp ON lcityp.cityid = lapp.end_cityid
+        LEFT JOIN area lareap ON lareap.areaid = lapp.end_areaid
+
+        LEFT JOIN car_length lleng ON lleng.car_length_id = lapp.car_length_id
+        LEFT JOIN car_type lleng ON lcartype.car_type_id = lapp.car_type_id
+
+         where lapp.transport_id=#{transport_id}
+    </select>
+
+    <update id="updateUse" parameterType="com.liangxunwang.unimanager.model.Transport">
+        UPDATE car_transport SET is_use=#{is_use}
+         WHERE transport_id=#{transport_id}
+    </update>
+
+    <update id="updateDel" parameterType="com.liangxunwang.unimanager.model.Transport">
+        UPDATE car_transport SET is_del=#{is_del}
+        WHERE transport_id=#{transport_id}
+    </update>
+
+</mapper>
