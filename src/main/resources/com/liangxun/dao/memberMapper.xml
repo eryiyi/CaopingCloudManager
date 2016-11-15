@@ -291,12 +291,17 @@
         emp_name=#{empName},
         emp_sex=#{empSex},
         emp_cover=#{empCover},
-        level_id=#{level_id},
-        lx_attribute_id=#{lx_attribute_id,jdbcType=VARCHAR},
+        is_vip_one=#{is_vip_one},
+        is_vip_two=#{is_vip_two},
+        is_vip_three=#{is_vip_three},
+        is_vip_four=#{is_vip_four},
+        is_vip_five=#{is_vip_five},
+        is_shiming_rz=#{is_shiming_rz},
+        is_qiye_rz=#{is_qiye_rz},
+        is_gys=#{is_gys},
         is_use=#{isUse}
         WHERE emp_id=#{empId}
     </update>
-
 
     <update id="updateMemberDxkById" parameterType="com.liangxunwang.unimanager.model.Member">
         UPDATE lx_emp SET

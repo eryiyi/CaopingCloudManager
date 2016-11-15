@@ -98,6 +98,14 @@
                         <th>手机号</th>
                         <th>零钱</th>
                         <th>积分</th>
+                        <th>信用用户</th>
+                        <th>100分用户</th>
+                        <th>vip</th>
+                        <th>名誉用户</th>
+                        <th>信用商户</th>
+                        <th>是否实名认证</th>
+                        <th>是否企业认证</th>
+                        <th>是否供应商</th>
                         <th>是否禁用</th>
                         <th>注册时间</th>
                         <th>操作</th>
@@ -112,6 +120,36 @@
                             <td>${e.empMobile}</td>
                             <td>${e.package_money}</td>
                             <td>${e.jfcount}</td>
+                            <td>
+                                <c:if test="${e.is_vip_one == '0'}">否</c:if>
+                                <c:if test="${e.is_vip_one == '1'}">是</c:if>
+                            </td>
+                            <td>
+                                <c:if test="${e.is_vip_two == '0'}">否</c:if>
+                                <c:if test="${e.is_vip_two == '1'}">是</c:if>
+                            </td>
+                            <td>
+                                <c:if test="${e.is_vip_three == '0'}">否</c:if>
+                                <c:if test="${e.is_vip_three == '1'}">是</c:if>
+                            </td> <td>
+                            <c:if test="${e.is_vip_four == '0'}">否</c:if>
+                            <c:if test="${e.is_vip_four == '1'}">是</c:if>
+                        </td> <td>
+                            <c:if test="${e.is_vip_five == '0'}">否</c:if>
+                            <c:if test="${e.is_vip_five == '1'}">是</c:if>
+                        </td>
+                            <td>
+                                <c:if test="${e.is_shiming_rz == '0'}">否</c:if>
+                                <c:if test="${e.is_shiming_rz == '1'}">是</c:if>
+                            </td>
+                            <td>
+                                <c:if test="${e.is_qiye_rz == '0'}">否</c:if>
+                                <c:if test="${e.is_qiye_rz == '1'}">是</c:if>
+                            </td>
+                            <td>
+                                <c:if test="${e.is_gys == '0'}">否</c:if>
+                                <c:if test="${e.is_gys == '1'}">是</c:if>
+                            </td>
 
                             <td>
                                 <c:if test="${e.isUse == '0'}">否</c:if>
