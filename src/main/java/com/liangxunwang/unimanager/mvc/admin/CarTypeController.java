@@ -22,23 +22,23 @@ import java.util.List;
 public class CarTypeController extends ControllerConstants {
 
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private ListService carTypeServiceList;
 
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private SaveService carTypeServiceSave;
 
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private ExecuteService carTypeServiceExe;
 
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private UpdateService carTypeServiceUpdate;
 
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private DeleteService carTypeServiceDel;
 
 

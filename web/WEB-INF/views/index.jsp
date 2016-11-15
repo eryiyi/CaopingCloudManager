@@ -311,26 +311,26 @@
                             <c:if test="${um:permission('JIFEN_LIST', sessionScope.powers)}">
                                 <li><a href="javascript:void(0);" onclick="toPage('listCount','1')">积分列表</a></li>
                             </c:if>
-                            <c:if test="${um:permission('EDIT_JIFEN_GUIZE', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('toEditJifenGuize','')">积分规则</a></li>
-                            </c:if>
+                            <%--<c:if test="${um:permission('EDIT_JIFEN_GUIZE', sessionScope.powers)}">--%>
+                                <%--<li><a href="javascript:void(0);" onclick="toPage('toEditJifenGuize','')">积分规则</a></li>--%>
+                            <%--</c:if>--%>
                         </ul>
                     </li>
                 </c:if>
 
-                <c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)||um:permission('ADD_LEVEL', sessionScope.powers)}">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fa fa-desktop"></i>
-                            <span class="hidden-xs">会员等级维护</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)}">
-                                <li><a href="javascript:void(0);" onclick="toPage('listLevel','1')">会员等级列表</a></li>
-                            </c:if>
-                        </ul>
-                    </li>
-                </c:if>
+                <%--<c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)||um:permission('ADD_LEVEL', sessionScope.powers)}">--%>
+                    <%--<li class="dropdown">--%>
+                        <%--<a href="#" class="dropdown-toggle">--%>
+                            <%--<i class="fa fa-desktop"></i>--%>
+                            <%--<span class="hidden-xs">会员等级维护</span>--%>
+                        <%--</a>--%>
+                        <%--<ul class="dropdown-menu">--%>
+                            <%--<c:if test="${um:permission('LEVEL_LIST', sessionScope.powers)}">--%>
+                                <%--<li><a href="javascript:void(0);" onclick="toPage('listLevel','1')">会员等级列表</a></li>--%>
+                            <%--</c:if>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                <%--</c:if>--%>
 
                 <c:if test="${um:permission('LX_XIAOFEI_LIST', sessionScope.powers)}">
                     <li class="dropdown">

@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * Created by zhl on 2016/11/15.
  */
+@Service("carTypesService")
 public class CarTypesService  implements ListService,SaveService,DeleteService,ExecuteService, UpdateService {
     @Autowired
     @Qualifier("carTypeDao")
