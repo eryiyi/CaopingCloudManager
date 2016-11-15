@@ -21,9 +21,9 @@
         <permission id="AREA_LIST" name="省份列表"/>
     </group>
 
-    <group id="LEVEL_MANAGE" name="等级维护">
-        <permission id="LEVEL_LIST" name="等级列表"/>
-    </group>
+    <!--<group id="LEVEL_MANAGE" name="等级维护">-->
+        <!--<permission id="LEVEL_LIST" name="等级列表"/>-->
+    <!--</group>-->
 
 
     <group id="LX_XIAOFEI_MANAGE" name="消费记录">
@@ -37,7 +37,7 @@
 
     <group id="POINT_MANAGE" name="积分管理">
         <permission id="JIFEN_LIST" name="积分列表"/>
-        <permission id="EDIT_JIFEN_GUIZE" name="积分规则"/>
+        <!--<permission id="EDIT_JIFEN_GUIZE" name="积分规则"/>-->
     </group>
 
     <group id="NOTICE_MANAGE" name="公告管理">
@@ -62,7 +62,7 @@
         <!--<permission id="MINE_ORDER_LIST" name="订单列表"/>-->
     <!--</group>-->
 
-    <group  id="XITONG_SET" name="系统设置(商家/平台)">
+    <group  id="XITONG_SET" name="系统设置">
         <permission id="MODIFY_PASS" name="修改密码"/>
     </group>
 

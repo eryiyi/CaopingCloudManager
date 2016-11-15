@@ -25,7 +25,7 @@ import java.util.List;
 @Controller
 public class AppCarController extends ControllerConstants {
     @Autowired
-    @Qualifier("carTypeService")
+    @Qualifier("carTypesService")
     private ListService carTypeServiceList;
 
     @Autowired
