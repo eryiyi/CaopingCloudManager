@@ -18,6 +18,7 @@
     <link href="/plugins/justified-gallery/justifiedGallery.css" rel="stylesheet">
     <link href="/css/style_v2.css" rel="stylesheet">
     <link href="/plugins/chartist/chartist.min.css" rel="stylesheet">
+    <link href="/plugins/icon/css/style.css" rel="stylesheet">
 
     <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"></script>
