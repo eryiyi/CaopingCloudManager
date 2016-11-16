@@ -65,19 +65,10 @@
             async: false,
             success: function (_data) {
                 var data = $.parseJSON(_data);
-//                alert(data);
                 if (data.success) {
                     window.location.href = "/main.do";
                 } else {
-                    var _case = {
-                        1: "用户名不能为空",
-                        2: "密码不能为空",
-                        3: "该用户不存在",
-                        4: "密码不正确",
-                        5: "登陆失败",
-                        6: "您的账号没有权限，请联系草坪云管理员"
-                    };
-                    alert(_case[data.code])
+                    alert(data.message)
                 }
             }
         });

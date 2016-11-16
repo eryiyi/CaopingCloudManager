@@ -65,6 +65,12 @@ public class AppTransportService implements ListService,SaveService,ExecuteServi
         if(!StringUtil.isNullOrEmpty(query.getIs_type())){
             map.put("is_type", query.getIs_type());
         }
+        if(!StringUtil.isNullOrEmpty(query.getAreaidStart())){
+            map.put("areaidStart", query.getAreaidStart());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getAreaidEnd())){
+            map.put("areaidEnd", query.getAreaidEnd());
+        }
         List<Transport> lists = transportDao.lists(map);
         for (Transport record : lists){
             if(!StringUtil.isNullOrEmpty(record.getCar_pic())){

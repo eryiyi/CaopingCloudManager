@@ -47,8 +47,7 @@ public class AdminLoginController extends ControllerConstants {
             }
             session.setAttribute(ControllerConstants.PERMISSIONS, permissions);
             return toJSONString(SUCCESS);
-        }catch (Exception e){
-            String msg = e.getMessage();
+        }catch (Exception e){String msg = e.getMessage();
             if (msg.equals("USERNAME_ERROR")){
                 return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }

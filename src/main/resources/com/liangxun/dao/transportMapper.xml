@@ -76,6 +76,13 @@
             AND lapp.is_del = #{is_del}
         </if>
 
+        <if test="areaidStart != null and areaidStart != ''">
+            AND lapp.start_areaid = #{areaidStart}
+        </if>
+        <if test="areaidEnd != null and areaidEnd != ''">
+            AND lapp.end_areaid = #{areaidEnd}
+        </if>
+
         <if test="keyWords !=null and keyWords !=''">
             AND (lemp.emp_name like CONCAT('%',#{keyWords},'%') OR
             lp.pname like CONCAT('%',#{keyWords},'%') OR
@@ -126,6 +133,13 @@
         </if>
         <if test="is_del != null and is_del != ''">
             AND lapp.is_del = #{is_del}
+        </if>
+
+        <if test="areaidStart != null and areaidStart != ''">
+            AND lapp.start_areaid = #{areaidStart}
+        </if>
+        <if test="areaidEnd != null and areaidEnd != ''">
+            AND lapp.end_areaid = #{areaidEnd}
         </if>
 
         <if test="keyWords !=null and keyWords !=''">

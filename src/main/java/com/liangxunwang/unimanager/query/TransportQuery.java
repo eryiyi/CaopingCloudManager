@@ -14,6 +14,25 @@ public class TransportQuery {
     private String lng;
     private String keyWords;
 
+    private String areaidStart;//出发地
+    private String areaidEnd;//抵达地
+
+    public String getAreaidStart() {
+        return areaidStart;
+    }
+
+    public void setAreaidStart(String areaidStart) {
+        this.areaidStart = areaidStart;
+    }
+
+    public String getAreaidEnd() {
+        return areaidEnd;
+    }
+
+    public void setAreaidEnd(String areaidEnd) {
+        this.areaidEnd = areaidEnd;
+    }
+
     public String getKeyWords() {
         return keyWords;
     }
