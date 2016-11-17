@@ -55,7 +55,7 @@ public class AppDianpuFavourController extends ControllerConstants {
     }
 
     //保存店铺收藏
-    @RequestMapping("/saveDianpuFavour")
+    @RequestMapping(value = "/saveDianpuFavour", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String saveDianpuFavour(DianPuFavour dianPuFavour){
         //查询该用户是否已经收藏
@@ -63,8 +63,9 @@ public class AppDianpuFavourController extends ControllerConstants {
             dianpuFavourServiceSave.save(dianPuFavour);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISFAVOUR")){//已经收藏过了
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "已经关注成功！"));
+            }else {
+                return toJSONString(new ErrorTip(1, "操作失败，请稍后重试！"));
             }
         }
         return toJSONString(SUCCESS);//保存成功

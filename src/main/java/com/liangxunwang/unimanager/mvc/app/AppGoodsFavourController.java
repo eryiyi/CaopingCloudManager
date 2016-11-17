@@ -39,16 +39,14 @@ public class AppGoodsFavourController extends ControllerConstants{
     private DeleteService deleteAppGoodsFavourService;
 
     //保存商品收藏
-    @RequestMapping("/saveGoodsFavour")
+    @RequestMapping(value = "/saveGoodsFavour", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String saveGoodsFavour(GoodsFavour goodsFavour){
         if (StringUtil.isNullOrEmpty(goodsFavour.getGoods_id())){
-            return toJSONString(new ErrorTip(1, "没有选中商品，请稍后重试！")
-            );//没有选中商品
+            return toJSONString(new ErrorTip(1, "没有选中产品，请稍后重试！"));//没有选中商品
         }
         if(StringUtil.isNullOrEmpty(goodsFavour.getEmp_id_favour())){
-            return toJSONString(new ErrorTip(1, "收藏会员ID不能为空，请稍后重试！")
-            );//收藏会员ID不能为空
+            return toJSONString(new ErrorTip(1, "收藏会员ID不能为空，请稍后重试！"));//收藏会员ID不能为空
         }
 
         //查询该用户是否已经收藏
@@ -56,8 +54,7 @@ public class AppGoodsFavourController extends ControllerConstants{
             saveAppGoodsFavourService.save(goodsFavour);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISFAVOUR")){//已经收藏过了
-                return toJSONString(new ErrorTip(1, "已经收藏过了！")
-                );
+                return toJSONString(new ErrorTip(1, "已经收藏过了！"));
             }
         }
         return toJSONString(SUCCESS);//保存成功

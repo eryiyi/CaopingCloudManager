@@ -35,7 +35,7 @@
         </a>
         <ul class="glide__track">
             <c:forEach items="${voPic}" var="e">
-                <li class="glide__slide"><img src="${e}" alt=""/></li>
+                <li class="glide__slide"><img src="${e}" alt="" style="height: 200px;"/></li>
             </c:forEach>
         </ul>
     </div>

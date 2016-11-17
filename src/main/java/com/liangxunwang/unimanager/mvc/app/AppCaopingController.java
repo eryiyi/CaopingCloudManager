@@ -192,4 +192,23 @@ public class AppCaopingController extends ControllerConstants {
         map.put("cyNum", cyNum);
         return "/product/viewGoods";
     }
+
+
+
+    /**
+     * 获得草坪详情
+     * @return
+     */
+    @RequestMapping(value = "/appGetCpDetail", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String appGetCpDetail(String cloud_caoping_id){
+        try {
+            CpObj cpObj = (CpObj) appCpobjServiceExe.execute(cloud_caoping_id);
+            DataTip tip = new DataTip();
+            tip.setData(cpObj);
+            return toJSONString(tip);
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
 }

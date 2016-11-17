@@ -153,7 +153,42 @@ public class AppCpobjService implements ListService,SaveService,ExecuteService {
 
     @Override
     public Object execute(Object object) {
-        return cpObjDao.findById((String) object);
+        CpObj record = cpObjDao.findById((String) object);
+        if(record != null){
+            if (!StringUtil.isNullOrEmpty(record.getEmp_cover())){
+                if (record.getEmp_cover().startsWith("upload")){
+                    record.setEmp_cover(Constants.URL + record.getEmp_cover());
+                }else {
+                    record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
+                }
+            }
+            if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_pic())){
+                //处理图片URL链接
+                StringBuffer buffer = new StringBuffer();
+                String[] pics = new String[]{};
+                if(record!=null && record.getCloud_caoping_pic()!=null){
+                    pics = record.getCloud_caoping_pic().split(",");
+                }
+                for (int i=0; i<pics.length; i++){
+                    if (pics[i].startsWith("upload")) {
+                        buffer.append(Constants.URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }else {
+                        buffer.append(Constants.QINIU_URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }
+                }
+                record.setCloud_caoping_pic(buffer.toString());
+            }
+            if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_dateline())){
+                record.setCloud_caoping_dateline(RelativeDateFormat.format(Long.parseLong(record.getCloud_caoping_dateline())));
+            }
+        }
+        return record;
     }
 
 
