@@ -83,9 +83,13 @@ public class PaopaoGoodsService implements ListService, SaveService, DeleteServi
                     }else {
                         vo.setManagerCover(Constants.QINIU_URL + vo.getManagerCover());
                     }
+
                 }
             }
-            vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+            if(!StringUtil.isNullOrEmpty(vo.getUpTime())){
+                vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+            }
+
             //插入浏览记录
             if(!StringUtil.isNullOrEmpty(empid) && !StringUtil.isNullOrEmpty(id)){
                 Map<String, Object> map = new HashMap<String, Object>();

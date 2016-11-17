@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="um" uri="/unimanager-tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,12 +31,12 @@
     <div class="glide__wrapper">
         <a class="pic-btn">
             <span class="product-name">${vo.emp_name}</span>
-            <img src="pics/lg_grass_bg.png" alt=""/>
+            <img src="/grass/pics/lg_grass_bg.png" alt=""/>
         </a>
         <ul class="glide__track">
-            <li class="glide__slide"><img src="/grass/pics/01.jpg" alt=""/></li>
-            <li class="glide__slide"><img src="/grass/pics/02.jpg" alt=""/></li>
-            <li class="glide__slide"><img src="/grass/pics/03.jpg" alt=""/></li>
+            <c:forEach items="${voPic}" var="e">
+                <li class="glide__slide"><img src="${e}" alt=""/></li>
+            </c:forEach>
         </ul>
     </div>
     <div class="glide__bullets"></div>
@@ -63,11 +65,11 @@
 <!--价格-->
 <div class="row price clearfix">
     <div class="price-left">
-        <h3><span>￥</span>100</h3>
+        <h3><span>￥</span>${e.cloud_caoping_prices}</h3>
     </div>
     <div class="price-right">
-        <p>已销售892件</p>
-        <p>物流：运费到付  产地：江苏沐阳</p>
+        <p>已销售${vo.sale_count}件</p>
+        <p>产地：${vo.cloud_caoping_address}</p>
     </div>
 </div>
 <!--认证-->
@@ -126,39 +128,57 @@
         <a target="company">公司简介</a>
     </div>
     <div class="body-content detail">
-        <img src="/grass/pics/02.jpg"/>
-        <p>【红通头号嫌犯杨秀珠抵达首都机场 新浪新闻正直击】目前杨秀珠乘坐的飞机已抵达首都机场。稍后会在休息区宣布对其进行逮捕。目前，已查清其涉案金额达2.5亿元。美国移民与海关执法局去年5月确认，由于违反美方免签证计划相关条款，杨秀珠受到羁押。</p>
+        <c:forEach items="${voPic}" var="e">
+            <img src="${e}"/>
+        </c:forEach>
+
+        <p>${vo.cloud_caoping_content}</p>
     </div>
 
     <div class="body-content info hide">
         <table>
-            <tr>
-                <th>草坪属性</th>
-                <td>暖季草坪</td>
-            </tr>
-            <tr>
-                <th>草坪用途</th>
-                <td>园林绿化、观赏草坪、游憩草坪、体育草坪、护坡草坪</td>
-            </tr>
-            <tr>
-                <th>草坪规格</th>
-                <td><p>30x60cm</p><p>40x90cm</p></td>
-            </tr>
-            <tr>
-                <th>一份面积</th>
-                <td>10m<sup>2</sup></td>
-            </tr>
-            <tr>
-                <th>种植面积</th>
-                <td>5000亩</td>
-            </tr>
+            <c:if test="${vo.is_type == '0'}">
+                <tr>
+                    <th>草坪规格</th>
+                    <td>${vo.cloud_caoping_guige_cont}</td>
+                </tr>
+                <tr>
+                    <th>草坪属性</th>
+                    <td>${vo.cloud_caoping_type_cont}</td>
+                </tr>
+                <tr>
+                    <th>草坪用途</th>
+                    <td>${vo.cloud_caoping_use_cont}</td>
+                </tr>
+            </c:if>
+            <c:if test="${vo.is_type == '1'}">
+                <tr>
+                    <th>草种规格</th>
+                    <td>${vo.cloud_caozhong_guige_cont}</td>
+                </tr>
+                <tr>
+                    <th>草种品种</th>
+                    <td>${vo.cloud_caozhong_type_cont}</td>
+                </tr>
+            </c:if>
+
+            <c:if test="${vo.is_type == '2'}">
+                <tr>
+                    <th>机械规格</th>
+                    <td>${vo.cloud_jixie_guige_cont}</td>
+                </tr>
+                <tr>
+                    <th>机械用途</th>
+                    <td>${vo.cloud_jixie_use_cont}</td>
+                </tr>
+            </c:if>
         </table>
     </div>
     <div class="body-content company hide">
         <div class="company-head clearfix">
-            <img src="/grass/pics/02.jpg" />
+            <img src="${vo.emp_cover}" />
             <div class="name">
-                <p>溧阳草坪农业开发有限公司</p>
+                <p>${company.company_name}${vo.emp_name}</p>
                 <p>
                     <img class="ico" src="/grass/pics/sm_dscv_top.png"/>
                     <img class="ico" src="/grass/pics/sm_dscv_hot.png"/>
@@ -170,7 +190,7 @@
         <div class="company-body">
             <div class="pos clearfix">
                 <div>
-                    <p>157</p>
+                    <p>${cyNum}</p>
                     <span>草原规模</span>
                 </div>
                 <div>
@@ -184,22 +204,22 @@
             </div>
             <div class="detail">
                 <img src="/grass/pics/03.jpg" alt=""/>
-                <p>【红通头号嫌犯杨秀珠抵达首都机场 新浪新闻正直击】目前杨秀珠乘坐的飞机已抵达首都机场。稍后会在休息区宣布对其进行逮捕。目前，已查清其涉案金额达2.5亿元。美国移民与海关执法局去年5月确认，由于违反美方免签证计划相关条款，杨秀珠受到羁押。</p>
+                <p>${company.company_detail}</p>
             </div>
         </div>
         <div class="company-footer">
             <table>
                 <tr>
                     <th>总经理</th>
-                    <td>胡其</td>
+                    <td>${company.company_name}</td>
                 </tr>
                 <tr>
                     <th>电话</th>
-                    <td>0531 - 546874894</td>
+                    <td>${company.company_tel}</td>
                 </tr>
                 <tr>
                     <th>公司地址</th>
-                    <td>江苏省宿迁市溧阳县</td>
+                    <td>${company.company_address}</td>
                 </tr>
             </table>
         </div>

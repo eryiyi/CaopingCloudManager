@@ -115,7 +115,8 @@ public class AppPaopaoGoodsService implements UpdateService,ListService {
                     vo.setManagerCover(Constants.QINIU_URL + vo.getManagerCover());
                 }
             }
-            vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+            if(!StringUtil.isNullOrEmpty(vo.getUpTime())){vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));}
+
         }
 
         return list;

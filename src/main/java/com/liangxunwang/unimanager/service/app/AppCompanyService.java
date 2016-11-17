@@ -72,7 +72,10 @@ public class AppCompanyService implements ExecuteService ,SaveService,UpdateServ
                         company.setEmp_cover(Constants.QINIU_URL + company.getEmp_cover());
                     }
                 }
-                company.setDateline(RelativeDateFormat.format(Long.parseLong(company.getDateline())));
+                if(!StringUtil.isNullOrEmpty(company.getDateline())){
+                    company.setDateline(RelativeDateFormat.format(Long.parseLong(company.getDateline())));
+                }
+
             }
         }
         long count = companyDao.count(map);

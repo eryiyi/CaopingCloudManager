@@ -77,7 +77,9 @@ public class NoticeController extends ControllerConstants {
 
         List<Notice> list = (List<Notice>) listNoticeService.list(query);
         for (Notice notice : list){
-            notice.setDateline(RelativeDateFormat.format(Long.parseLong(notice.getDateline())));
+            if(!StringUtil.isNullOrEmpty(notice.getDateline())){
+                notice.setDateline(RelativeDateFormat.format(Long.parseLong(notice.getDateline())));
+            }
         }
         DataTip dataTip = new DataTip();
         dataTip.setData(list);

@@ -184,8 +184,10 @@ public class GoodsCommentService implements SaveService, ListService{
                 vo.setComment_pic(buffer.toString());
             }
 
+            if(!StringUtil.isNullOrEmpty(vo.getDateline())){
+                vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            }
 
-            vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
         }
         return list;
     }

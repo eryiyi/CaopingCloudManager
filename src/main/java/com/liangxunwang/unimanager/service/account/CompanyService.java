@@ -57,7 +57,9 @@ public class CompanyService implements ListService {
         List<Company> lists = companyDao.lists(map);
         if(lists != null){
             for(Company company : lists){
-                company.setDateline(RelativeDateFormat.format(Long.parseLong(company.getDateline())));
+                if(!StringUtil.isNullOrEmpty(company.getDateline())){
+                    company.setDateline(RelativeDateFormat.format(Long.parseLong(company.getDateline())));
+                }
             }
         }
         long count = companyDao.count(map);

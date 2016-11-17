@@ -20,10 +20,7 @@ import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.service.UpdateService;
-import com.liangxunwang.unimanager.util.Constants;
-import com.liangxunwang.unimanager.util.DateUtil;
-import com.liangxunwang.unimanager.util.RelativeDateFormat;
-import com.liangxunwang.unimanager.util.UUIDFactory;
+import com.liangxunwang.unimanager.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -91,9 +88,16 @@ public class ManagerEmpService implements SaveService, ListService, UpdateServic
         String adminId = (String) object;
         List<ManagerEmpVO> list = managerEmpDao.list(adminId);
         for (ManagerEmpVO vo : list){
-            vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
-            vo.setStart(DateUtil.getDate(vo.getStart(), "yyyy-MM-dd"));
-            vo.setEnd(DateUtil.getDate(vo.getEnd(), "yyyy-MM-dd"));
+            if(!StringUtil.isNullOrEmpty(vo.getDateline())){
+                vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            }
+            if(!StringUtil.isNullOrEmpty(vo.getStart())){
+                vo.setStart(DateUtil.getDate(vo.getStart(), "yyyy-MM-dd"));
+            }
+            if(!StringUtil.isNullOrEmpty(vo.getEnd())){
+                vo.setEnd(DateUtil.getDate(vo.getEnd(), "yyyy-MM-dd"));
+            }
+
         }
         return list ;
     }

@@ -49,7 +49,10 @@ public class AppCommentService implements ListService ,SaveService,DeleteService
                     record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
                 }
             }
-            record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            if(!StringUtil.isNullOrEmpty(record.getDateline())){
+                record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            }
+
         }
 
         return list;
@@ -81,7 +84,10 @@ public class AppCommentService implements ListService ,SaveService,DeleteService
                     record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
                 }
             }
-            record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            if(!StringUtil.isNullOrEmpty(record.getDateline())){
+                record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            }
+
         }
         return record;
     }

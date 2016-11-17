@@ -5,19 +5,18 @@ import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.query.CpObjQuery;
 import com.liangxunwang.unimanager.query.NewsQuery;
-import com.liangxunwang.unimanager.service.ExecuteService;
-import com.liangxunwang.unimanager.service.ListService;
-import com.liangxunwang.unimanager.service.SaveService;
-import com.liangxunwang.unimanager.service.ServiceException;
+import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import com.liangxunwang.unimanager.util.Page;
 import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -46,6 +45,10 @@ public class AppCaopingController extends ControllerConstants {
     @Autowired
     @Qualifier("appCpobjService")
     private SaveService appCpobjService;
+
+    @Autowired
+    @Qualifier("appCpobjService")
+    private ExecuteService appCpobjServiceExe;
 
 
     /**
@@ -160,5 +163,33 @@ public class AppCaopingController extends ControllerConstants {
                 return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
             }
         }
+    }
+
+
+    @Autowired
+    @Qualifier("appCompanyService")
+    private ExecuteService appCompanyService;
+    @Autowired
+    @Qualifier("countCpService")
+    private ExecuteService countCpServiceExe;
+
+
+    @RequestMapping(value = "/toDetailCp", produces = "text/plain;charset=UTF-8")
+    public String toDetailMsg(String id,ModelMap map, HttpSession session) throws Exception {
+        Admin admin = (Admin) session.getAttribute(ACCOUNT_KEY);
+        CpObj cpObj = (CpObj) appCpobjServiceExe.execute(id);
+        if(!StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_pic())){
+            String[] voPic = cpObj.getCloud_caoping_pic().split(",");
+            map.put("voPic", voPic);
+        }
+        //产品详情
+        map.put("vo", cpObj);
+        //公司详情
+        Company company = (Company) appCompanyService.execute(cpObj.getEmp_id());
+        map.put("company", company);
+        //草原规模：发布多少条产品信息
+        String cyNum = (String) countCpServiceExe.execute(cpObj.getEmp_id());
+        map.put("cyNum", cyNum);
+        return "/product/viewGoods";
     }
 }

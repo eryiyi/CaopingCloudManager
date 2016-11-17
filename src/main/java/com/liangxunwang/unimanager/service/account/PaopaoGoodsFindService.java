@@ -69,8 +69,11 @@ public class PaopaoGoodsFindService implements FindService {
 //                        vo.setManagerCover(Constants.QINIU_URL + vo.getManagerCover());
 //                    }
 //                }
+                if(!StringUtil.isNullOrEmpty(vo.getUpTime())){
+                    vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+                }
             }
-            vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+
             return vo;
     }
 

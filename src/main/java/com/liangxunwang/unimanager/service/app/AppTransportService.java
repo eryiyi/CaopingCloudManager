@@ -95,7 +95,10 @@ public class AppTransportService implements ListService,SaveService,ExecuteServi
                 }
                 record.setCar_pic(buffer.toString());
             }
-            record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            if(!StringUtil.isNullOrEmpty(record.getDateline())){
+                record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            }
+
         }
 //        long count = memberDao.count(map);
         return lists;

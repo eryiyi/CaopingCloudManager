@@ -8,6 +8,7 @@ import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.service.UpdateService;
 import com.liangxunwang.unimanager.util.Constants;
 import com.liangxunwang.unimanager.util.RelativeDateFormat;
+import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,9 @@ public class RelateService implements ListService,UpdateService {
                 list.get(i).setEmpCover(Constants.QINIU_URL + list.get(i).getEmpCover());
             }
 //            vo.setEmpCover(Constants.URL+vo.getEmpCover());
-            list.get(i).setDateline(RelativeDateFormat.format(Long.parseLong(list.get(i).getDateline())));
+            if(!StringUtil.isNullOrEmpty(list.get(i).getDateline())){
+                list.get(i).setDateline(RelativeDateFormat.format(Long.parseLong(list.get(i).getDateline())));
+            }
         }
         return list;
     }

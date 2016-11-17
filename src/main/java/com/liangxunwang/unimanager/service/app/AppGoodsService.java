@@ -97,7 +97,10 @@ public class AppGoodsService implements ListService {
                     vo.setCover(Constants.QINIU_URL + vo.getCover());
                 }
             }
-            vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+            if(!StringUtil.isNullOrEmpty(vo.getUpTime())){
+                vo.setUpTime(RelativeDateFormat.format(Long.parseLong(vo.getUpTime())));
+            }
+
         }
         return lists;
     }

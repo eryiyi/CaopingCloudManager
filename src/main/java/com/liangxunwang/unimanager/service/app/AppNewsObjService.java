@@ -89,7 +89,10 @@ public class AppNewsObjService implements ListService ,SaveService,DeleteService
                 record.setMm_msg_picurl(buffer.toString());
             }
 
-            record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            if(!StringUtil.isNullOrEmpty(record.getDateline())){
+                record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            }
+
         }
 
         return list;
@@ -146,7 +149,10 @@ public class AppNewsObjService implements ListService ,SaveService,DeleteService
                 }
                 record.setMm_msg_picurl(buffer.toString());
             }
-            record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            if(!StringUtil.isNullOrEmpty(record.getDateline())){
+                record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
+            }
+
         }
         return record;
     }

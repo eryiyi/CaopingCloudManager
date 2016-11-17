@@ -5,6 +5,7 @@ import com.liangxunwang.unimanager.model.ShoppingAddress;
 import com.liangxunwang.unimanager.mvc.vo.ShoppingAddressVO;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.RelativeDateFormat;
+import com.liangxunwang.unimanager.util.StringUtil;
 import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +52,9 @@ public class AppShoppingAddressService implements SaveService ,ListService ,Dele
         String empId = (String) object;
         List<ShoppingAddressVO> list = appShoppingAddressDao.findList(empId);
         for (ShoppingAddressVO vo : list){
-            vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            if(!StringUtil.isNullOrEmpty(vo.getDateline())){
+                vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            }
         }
         return list;
     }
@@ -87,7 +90,9 @@ public class AppShoppingAddressService implements SaveService ,ListService ,Dele
         }else {
             List<ShoppingAddressVO> list = appShoppingAddressDao.findList(empId);
             if(list != null && list.size()>0){
-                list.get(0).setDateline(RelativeDateFormat.format(Long.parseLong(list.get(0).getDateline())));
+                if(!StringUtil.isNullOrEmpty(list.get(0).getDateline())){
+                    list.get(0).setDateline(RelativeDateFormat.format(Long.parseLong(list.get(0).getDateline())));
+                }
                 return list.get(0);
             }else {
                 return null;

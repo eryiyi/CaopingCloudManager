@@ -122,7 +122,10 @@ public class AppCpobjService implements ListService,SaveService,ExecuteService {
                 }
                 record.setCloud_caoping_pic(buffer.toString());
             }
-            record.setCloud_caoping_dateline(RelativeDateFormat.format(Long.parseLong(record.getCloud_caoping_dateline())));
+            if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_dateline())){
+                record.setCloud_caoping_dateline(RelativeDateFormat.format(Long.parseLong(record.getCloud_caoping_dateline())));
+            }
+
         }
         long count = cpObjDao.count(map);
         return new Object[]{lists, count};
@@ -149,7 +152,7 @@ public class AppCpobjService implements ListService,SaveService,ExecuteService {
 
 
     @Override
-    public Object execute(Object object) throws ServiceException {
+    public Object execute(Object object) {
         return cpObjDao.findById((String) object);
     }
 

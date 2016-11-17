@@ -70,7 +70,10 @@ public class AppGoodsFavourService implements SaveService ,ListService ,DeleteSe
                 }
                 vo.setGoods_cover(buffer.toString());
             }
-            vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            if(!StringUtil.isNullOrEmpty(vo.getDateline())){
+                vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+            }
+
         }
         return list;
     }
