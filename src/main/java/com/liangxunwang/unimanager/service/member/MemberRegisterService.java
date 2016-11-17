@@ -6,6 +6,7 @@ import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.dao.MinePackageDao;
 import com.liangxunwang.unimanager.huanxin.comm.HxConstants;
 import com.liangxunwang.unimanager.huanxin.comm.Roles;
+import com.liangxunwang.unimanager.huanxin.comm.httpclient.utils.ChatUtils;
 import com.liangxunwang.unimanager.huanxin.comm.httpclient.vo.ClientSecretCredential;
 import com.liangxunwang.unimanager.huanxin.comm.httpclient.vo.Credential;
 import com.liangxunwang.unimanager.model.Count;
@@ -61,7 +62,7 @@ public class MemberRegisterService implements SaveService, ExecuteService {
         }
         member.setIsUse("0");//默认没有禁用
         member.setEmpSex("0");//默认女
-        member.setHxUsername(member.getDateline() + member.getEmpMobile());
+        member.setHxUsername(member.getEmpId());
         member.setLevel_id(Constants.DEFAULT_LEVEL);//默认青铜会员
 //        String emp_number = "";
         try {
@@ -117,7 +118,7 @@ public class MemberRegisterService implements SaveService, ExecuteService {
             }
             throw new ServiceException(Constants.SAVE_ERROR);
         }
-//        Boolean suc=ChatUtils.register(member.getHxUsername(), member.getEmpPass());
+        Boolean suc= ChatUtils.register(member.getEmpId(), "123456");
 //        if(suc) {
 //            College college=collegeDao.getGroupId(member.getSchoolId());
 //            GroupUtils.addGroup(college.getGroupId(), member.getDateline() + member.getEmpMobile());

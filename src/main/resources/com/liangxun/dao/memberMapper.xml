@@ -317,4 +317,14 @@
     <update id="updateGys" parameterType="String">
         UPDATE lx_emp SET is_gys=#{is_gys} WHERE emp_id=#{emp_id}
     </update>
+
+    <select id="listMemberInfoByUsername" resultMap="my_member" parameterType="String">
+        SELECT * from lx_emp WHERE emp_id IN
+        <foreach collection="hxUsername" item="username" open="(" separator="," close=")">
+            #{username}
+        </foreach>
+    </select>
+
+
+
 </mapper>

@@ -521,6 +521,7 @@
 
         function checkHash() {
             var newHash = window.location.hash;
+
             if (newHash == "") {
 //                window.location.hash = "#module=main";
                 return;
