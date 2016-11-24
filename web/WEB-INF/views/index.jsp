@@ -24,7 +24,8 @@
     <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
     <link rel="stylesheet" href="/ueditor/themes/default/css/ueditor.css" type="text/css">
-
+    <%--CHART-JS--%>
+    <script type="text/javascript" charset="utf-8" src="/js/Chart.bundle.min.js"></script>
 
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
     <script type="text/javascript"

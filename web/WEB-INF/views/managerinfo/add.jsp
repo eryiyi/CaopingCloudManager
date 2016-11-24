@@ -8,17 +8,10 @@
             <i class="fa fa-bars"></i>
         </a>
         <ol class="breadcrumb pull-left">
-            <li><a href="javascript:void (0);">主页</a></li>
+            <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
             <li><a href="javascript:void (0);">店铺管理</a></li>
             <li><a href="javascript:void (0);">信息维护</a></li>
         </ol>
-        <div id="social" class="pull-right">
-            <a href="#"><i class="fa fa-google-plus"></i></a>
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-youtube"></i></a>
-        </div>
     </div>
 </div>
 

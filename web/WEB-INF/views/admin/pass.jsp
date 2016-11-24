@@ -6,17 +6,11 @@
             <i class="fa fa-bars"></i>
         </a>
         <ol class="breadcrumb pull-left">
-            <li><a href="/index.do">主页</a></li>
+            <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
             <li><a href="#">系统管理</a></li>
             <li><a href="#">修改密码</a></li>
         </ol>
-        <div id="social" class="pull-right">
-            <a href="#"><i class="fa fa-google-plus"></i></a>
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-linkedin"></i></a>
-            <a href="#"><i class="fa fa-youtube"></i></a>
-        </div>
+
     </div>
 </div>
 

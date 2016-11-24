@@ -11,6 +11,15 @@ public class Admin {
     private String permissions;
     private String emp_id;
     private String manager_cover;
+    private String is_pingtai;//是否是平台账号  默认0否 1是
+
+    public String getIs_pingtai() {
+        return is_pingtai;
+    }
+
+    public void setIs_pingtai(String is_pingtai) {
+        this.is_pingtai = is_pingtai;
+    }
 
     public String getManager_cover() {
         return manager_cover;

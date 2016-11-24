@@ -54,7 +54,7 @@ public class AppShoppingAddressController extends ControllerConstants{
     //查询列表
     @RequestMapping(value = "/listShoppingAddress", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public String listFavour(String empId){
+    public String listShoppingAddress(String empId){
         List<ShoppingAddressVO> list = (List<ShoppingAddressVO>) listAppShoppingAddressService.list(empId);
         DataTip tip = new DataTip();
         tip.setData(list);

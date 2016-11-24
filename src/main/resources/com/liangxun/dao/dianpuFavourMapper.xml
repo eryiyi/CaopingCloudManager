@@ -30,12 +30,12 @@
         le.emp_name as emp_name,
         le.emp_mobile as emp_mobile,
         le.emp_cover as emp_cover,
-        lmanager.company_address as company_address,
-        lmanager.company_person as company_person,
         lmanager.company_name as company_name,
+        lmanager.company_person as company_person,
+        lmanager.company_address as company_address,
         lmanager.company_pic as company_pic
         from dianpu_favour sn
-        LEFT JOIN manager_info lmanager ON lmanager.emp_id = sn.emp_id
+        LEFT JOIN company lmanager ON lmanager.emp_id = sn.emp_id
         LEFT JOIN lx_emp le ON le.emp_id = sn.emp_id
         WHERE 1=1
         <if test="emp_id_favour != null and emp_id_favour != ''">
@@ -55,7 +55,7 @@
         lmanager.company_name as company_name,
         lmanager.company_pic as company_pic
         from dianpu_favour sn
-        LEFT JOIN manager_info lmanager ON lmanager.emp_id = sn.emp_id
+        LEFT JOIN company lmanager ON lmanager.emp_id = sn.emp_id
         LEFT JOIN lx_emp le ON le.emp_id = sn.emp_id_favour
         WHERE 1=1
         <if test="emp_id != null and emp_id != ''">

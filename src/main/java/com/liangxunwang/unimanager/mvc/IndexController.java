@@ -42,8 +42,27 @@ public class IndexController extends ControllerConstants {
     }
 
     @RequestMapping("/mainPage")
-    public String mainPage(ModelMap map){
+    public String mainPage(HttpSession session,ModelMap map){
+        Admin admin = (Admin) session.getAttribute(ControllerConstants.ACCOUNT_KEY);
+        if(admin != null){
+            if("1".equals(admin.getIs_pingtai())){
+                //说明是后台管理员用户
+                List<Object> list = (List<Object>) indexListService.list(null);
+                map.put("memberCount", list.get(0));
+                map.put("memberCountNoDay", list.get(1));
+                map.put("countSj", list.get(2));
 
+                map.put("countGoodsAll", list.get(3));
+                map.put("countGoods1", list.get(4));
+                map.put("countGoods2", list.get(5));
+
+                map.put("countOrderAll", list.get(6));
+                map.put("countOrderDone", list.get(7));
+                map.put("countOrderDay", list.get(8));
+
+                map.put("countGoods3", list.get(9));
+            }
+        }
         return "/main";
     }
 

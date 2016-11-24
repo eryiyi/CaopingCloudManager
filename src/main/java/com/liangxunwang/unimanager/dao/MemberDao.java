@@ -164,6 +164,10 @@ public interface MemberDao {
      * @return
      */
     long memberCount();
+    //今日注册会员数量
+    long countDay(Map<String, Object> map);
+
+
 
     /**
      * 被关禁闭会员数量

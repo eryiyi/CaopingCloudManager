@@ -11,7 +11,6 @@
             <li><a href="javascript:void (0);">金牌榜</a></li>
             <li><a href="javascript:void (0);">上榜商户详情</a></li>
         </ol>
-
     </div>
 </div>
 

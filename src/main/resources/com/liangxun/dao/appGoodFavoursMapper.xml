@@ -36,9 +36,9 @@
     </select>
 
     <select id="findList" resultMap="goods_favour_vo">
-        SELECT lf.*, lg.sell_price as goods_money, lg.GOODS_COVER as goods_cover, lg.GOODS_NAME as goods_name
+        SELECT lf.*, lg.cloud_caoping_prices as goods_money, lg.cloud_caoping_pic as goods_cover, lg.cloud_caoping_title as goods_name
         FROM  GOODS_FAVOUR lf
-        LEFT JOIN Paopao_goods lg ON lg.GOODS_ID=lf.GOODS_ID
+        LEFT JOIN cloud_caoping lg ON lg.cloud_caoping_id=lf.GOODS_ID
         WHERE lf.EMP_ID_FAVOUR = #{empId}
         ORDER BY lf.dateline DESC
         limit #{index},#{size}

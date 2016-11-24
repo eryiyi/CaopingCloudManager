@@ -221,5 +221,12 @@
         AND COMPLETION_TIME &lt; #{endTime}
     </update>
 
+    <select id="countDay" resultType="Long">
+        SELECT count(pso.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER pso
+        WHERE '1'='1'
+        <if test="dateline != null and dateline != ''">
+            AND pso.create_time like CONCAT('%',#{dateline},'%')
+        </if>
+    </select>
 
 </mapper>

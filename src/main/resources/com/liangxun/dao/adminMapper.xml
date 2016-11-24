@@ -11,6 +11,8 @@
         <result column="emp_id" property="emp_id"/>
         <result column="manager_cover" property="manager_cover"/>
         <result column="permissions" property="permissions"/>
+        <result column="is_pingtai" property="is_pingtai"/>
+
     </resultMap>
 
     <resultMap id="my_admin_vo" type="com.liangxunwang.unimanager.mvc.vo.AdminVO">
@@ -21,6 +23,8 @@
         <result column="emp_id" property="emp_id"/>
         <result column="manager_cover" property="manager_cover"/>
         <result column="permissions" property="permissions"/>
+        <result column="is_pingtai" property="is_pingtai"/>
+
 
         <result column="emp_number" property="emp_number"/>
         <result column="empMobile" property="empMobile"/>
