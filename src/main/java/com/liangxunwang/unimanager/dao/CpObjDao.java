@@ -37,5 +37,7 @@ public interface CpObjDao {
      */
     public void update(CpObj cpObj);
 
+    public void updateDelete(CpObj cpObj);
+
     long count(Map<String, Object> map);
 }

@@ -222,6 +222,12 @@
     <delete id="delete" parameterType="String">
         DELETE FROM cloud_caoping where cloud_caoping_id = #{cloud_caoping_id}
     </delete>
+    <update id="updateDelete" parameterType="com.liangxunwang.unimanager.model.CpObj">
+        UPDATE cloud_caoping SET
+        cloud_is_del = #{cloud_is_del}
+        WHERE cloud_caoping_id=#{cloud_caoping_id}
+    </update>
+
 
     <select id="findById" parameterType="String" resultMap="cpobj">
       SELECT sn.*,le.emp_name as emp_name, le.emp_cover as emp_cover

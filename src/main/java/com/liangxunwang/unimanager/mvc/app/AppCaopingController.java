@@ -50,6 +50,10 @@ public class AppCaopingController extends ControllerConstants {
     @Qualifier("appCpobjService")
     private ExecuteService appCpobjServiceExe;
 
+    @Autowired
+    @Qualifier("appCpobjService")
+    private DeleteService appCpobjServiceDelete;
+
 
     /**
      * 获得草坪规格
@@ -211,4 +215,26 @@ public class AppCaopingController extends ControllerConstants {
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
         }
     }
+
+
+    /**
+     * app删除产品
+     * @return
+     */
+    @RequestMapping(value = "/appDeleteProductById", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String appDeleteProductById(String cloud_caoping_id){
+        if(StringUtil.isNullOrEmpty(cloud_caoping_id)){
+            return toJSONString(new ErrorTip(1, "产品ID不能为空！"));
+        }
+        try {
+            appCpobjServiceDelete.delete(cloud_caoping_id);
+            DataTip tip = new DataTip();
+            tip.setData(SUCCESS);
+            return toJSONString(tip);
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
+
 }

@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by zhl on 2015/3/3.
  */
 @Service("appCpobjService")
-public class AppCpobjService implements ListService,SaveService,ExecuteService {
+public class AppCpobjService implements ListService,SaveService,ExecuteService ,DeleteService{
     @Autowired
     @Qualifier("cpObjDao")
     private CpObjDao cpObjDao;
@@ -192,4 +192,13 @@ public class AppCpobjService implements ListService,SaveService,ExecuteService {
     }
 
 
+    @Override
+    public Object delete(Object object) throws ServiceException {
+        String cloud_caoping_id = (String) object;
+        CpObj cpObj = new CpObj();
+        cpObj.setCloud_caoping_id(cloud_caoping_id);
+        cpObj.setCloud_is_del("1");
+        cpObjDao.updateDelete(cpObj);
+        return null;
+    }
 }

@@ -164,6 +164,8 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                 +"|(^/toDetailCp\\.do$)"
                 +"|(^/appGetCpDetail\\.do$)"
 
+                +"|(^/appDeleteProductById\\.do$)"
+
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"
                 +"|(^/paopaogoods/shareGoodsUrl\\.do$)"
