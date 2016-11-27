@@ -37,18 +37,16 @@
             </div>
             <div class="box-content">
 
-                <div class="col-sm-4 col-xs-3">
-
+                <div class="form-group">
                     <div class="col-sm-6">
                         <input class="form-control" id="keyWords" value="${query.keyWords}" type="text"
                                placeholder="昵称">
                     </div>
                 </div>
 
-                <div class="col-xs-3 col-sm-2">
-                    <i class="fa fa-search"></i>
-                    <a href="javascript:void (0);" onclick="nextPage('1')">搜索</a>
-                </div>
+                <button type="submit" onclick="nextPage('1')"
+                        class="btn form-control btn-warning btn-sm btn-block">搜索
+                </button>
 
                 <form action="" class="form">
                     <div class="form-group">

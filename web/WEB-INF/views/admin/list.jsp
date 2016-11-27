@@ -11,7 +11,6 @@
             <li><a href="javascript:void(0)">管理员</a></li>
             <li><a href="javascript:void(0)">管理员列表</a></li>
         </ol>
-
     </div>
 </div>
 
@@ -38,6 +37,7 @@
             </div>
             <div class="box-content">
                 <form class="form-inline">
+
                     <div class="form-group">
                         <select class="form-control" id="isUse">
                             <option value="">--选择用户状态--</option>
@@ -58,6 +58,7 @@
                         <th>头像</th>
                         <th>账号</th>
                         <th>电话</th>
+                        <th>是否平台账号</th>
                         <th>状态</th>
                         <th>操作</th>
                         <th>操作</th>
@@ -67,9 +68,13 @@
                     <c:forEach items="${list}" var="e" varStatus="st">
                         <tr>
                             <td>${e.username}</td>
-                            <td>${e.manager_cover}</td>
+                            <td><img src="${e.manager_cover}" style="width:60px;height: 60px;"></td>
                             <td>${e.emp_number}</td>
                             <td>${e.empMobile}</td>
+                            <td>
+                                <c:if test="${e.is_pingtai=='0'}">否</c:if>
+                                <c:if test="${e.is_pingtai=='1'}">是</c:if>
+                            </td>
                             <td>
                                 <c:if test="${e.isUse=='0'}">启用</c:if>
                                 <c:if test="${e.isUse=='1'}">禁用</c:if>
@@ -140,7 +145,8 @@
         var size = getCookie("contract_size");
         var isUse = $("#isUse").val();
         if (_index <= ${page.pageCount} && _index >= 1) {
-            window.location.href = "#module=/admin/list&page=" + page + "&size=" + size + "&isUse=" + isUse + "&_t=" + new Date().getTime();
+            window.location.href = "#module=/admin/list&page=" + _index + "&size=" + size
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -151,7 +157,8 @@
         var isUse = $("#isUse").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
-            window.location.href = "#module=/admin/list&page=" + page + "&size=" + size + "&isUse=" + isUse + "&_t=" + new Date().getTime();
+            window.location.href = "#module=/admin/list&page=" + page + "&size=" + size
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -163,7 +170,8 @@
         var isUse = $("#isUse").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
-            window.location.href = "#module=/admin/list&page=" + page + "&size=" + size + "&isUse=" + isUse + "&_t=" + new Date().getTime();
+            window.location.href = "#module=/admin/list&page=" + page + "&size=" + size
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }

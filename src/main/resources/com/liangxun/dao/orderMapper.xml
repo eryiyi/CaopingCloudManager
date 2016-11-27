@@ -34,6 +34,9 @@
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
+        <result column="is_comment" property="is_comment"/>
+        <result column="is_return" property="is_return"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
     </resultMap>
 
     <resultMap id="my_order_vo" type="com.liangxunwang.unimanager.mvc.vo.OrdersVO">
@@ -76,6 +79,9 @@
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
+        <result column="is_comment" property="is_comment"/>
+        <result column="is_return" property="is_return"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
     </resultMap>
 
     <resultMap id="settlement" type="com.liangxunwang.unimanager.model.Settlement">
@@ -124,17 +130,26 @@
             AND pso.COMPLETION_TIME &lt; #{endTime}
         </if>
 
+        <if test="is_zhiying != null and is_zhiying != ''">
+            AND pg.is_zhiying = #{is_zhiying}
+        </if>
+
      ORDER BY pso.create_time DESC
       limit #{index},#{size}
     </select>
 
     <select id="count" resultType="Long">
         SELECT count(pso.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER pso
-        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
         LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
+        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
+        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
+        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
+        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
+        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
+        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
         WHERE '1'='1'
         <if test="empId != null and empId != ''">
-            AND SELLER_EMP_ID = #{empId}
+            AND pso.SELLER_EMP_ID = #{empId}
         </if>
         <if test="empName != null and empName != ''">
             AND le.EMP_NAME like  CONCAT('%',#{empName},'%')
@@ -164,6 +179,10 @@
         </if>
         <if test="endTime != null and endTime != ''">
             AND pso.COMPLETION_TIME &lt; #{endTime}
+        </if>
+
+        <if test="is_zhiying != null and is_zhiying != ''">
+            AND pg.is_zhiying = #{is_zhiying}
         </if>
 
     </select>
@@ -196,7 +215,6 @@
         <if test="endTime != null and endTime != ''">
             AND pso.COMPLETION_TIME &lt; #{endTime}
         </if>
-
     </select>
 
     <select id="settlement" resultMap="settlement">
@@ -221,12 +239,26 @@
         AND COMPLETION_TIME &lt; #{endTime}
     </update>
 
+
+    <select id="listOrdersEnd" resultMap="my_order_vo" parameterType="String">
+        SELECT pso.*, le.EMP_NAME, lp.EMP_NAME as seller_name, psa.PHONE,psa.ADDRESS, p.PNAME, cy.cityName, a.AREANAME, pg.GOODS_NAME FROM PAOPAO_SHOPPING_ORDER pso
+        LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
+        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
+        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
+        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
+        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
+        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
+        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
+        WHERE '1'='1'
+        AND #{time}-pso.PAY_TIME &gt;#{period}
+        AND pso.PAY_STATUS='1' AND (pso.STATUS = '6' OR  pso.STATUS = '2')
+    </select>
+
+
     <select id="countDay" resultType="Long">
         SELECT count(pso.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER pso
         WHERE '1'='1'
-        <if test="dateline != null and dateline != ''">
-            AND pso.create_time like CONCAT('%',#{dateline},'%')
-        </if>
+        AND pso.create_time &gt; #{startTime}
+        AND pso.create_time &lt; #{endTime}
     </select>
-
 </mapper>

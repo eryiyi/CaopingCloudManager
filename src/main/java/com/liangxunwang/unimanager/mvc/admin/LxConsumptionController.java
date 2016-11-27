@@ -3,7 +3,6 @@ package com.liangxunwang.unimanager.mvc.admin;
 import com.liangxunwang.unimanager.model.*;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
-import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.query.LxConsumptionQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -82,7 +81,7 @@ public class LxConsumptionController extends ControllerConstants {
     @Qualifier("cardEmpService")
     private ExecuteService cardEmpServiceExe;
 
-    //定向充值卡充值
+    //后台定向充值卡充值
     @RequestMapping("/toChongzhiDxk")
     public String toChongzhiDxk(HttpSession session,ModelMap map, String emp_id) throws Exception {
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
@@ -131,48 +130,32 @@ public class LxConsumptionController extends ControllerConstants {
     @Qualifier("countRecordService")
     private SaveService countRecordServiceSave;
 
-
-
-    @Autowired
-    @Qualifier("cardEmpService")
-    private SaveService cardEmpServiceSave;
-
-    @Autowired
-    @Qualifier("cardEmpService")
-    private UpdateService cardEmpServiceUpdate;
-
-    @Autowired
-    @Qualifier("memberUpdateDxkByIdService")
-    private UpdateService memberUpdateDxkByIdService;
-
     /**
      * 充值  记录  积分增加 积分记录
      */
-    @RequestMapping("/chongzhi")
+    @RequestMapping("/chongzhiLq")
     @ResponseBody
-    public String chongzhi(HttpSession session,LxConsumption lxConsumption) throws Exception {
+    public String chongzhiLq(HttpSession session,LxConsumption lxConsumption) throws Exception {
         Admin manager = (Admin) session.getAttribute(ACCOUNT_KEY);
         try {
             //充值
             if(StringUtil.isNullOrEmpty(lxConsumption.getLx_consumption_count()) || "0".equals(lxConsumption.getLx_consumption_count())){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );//金额为空或0
+                return toJSONString(new ErrorTip(1, "金额不能为空！"));
             }
             if(StringUtil.isNullOrEmpty(lxConsumption.getEmp_id())){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );//会员不存在，请检查会员！
+                return toJSONString(new ErrorTip(1, "会员ID不存在，请检查会员！"));
             }
             MinePackage minePackage = new MinePackage();
             minePackage.setEmp_id(lxConsumption.getEmp_id());//会员ID
             minePackage.setPackage_money(lxConsumption.getLx_consumption_count());//充值金额
-            minePackageServiceUpdate.update(minePackage);
+            minePackageServiceUpdate.update(minePackage);//零钱更新
             //增加充值记录
             if("1".equals(lxConsumption.getLx_consumption_type())){
-                lxConsumption.setLx_consumption_cont("后台充值，金额" + lxConsumption.getLx_consumption_count());
+                lxConsumption.setLx_consumption_cont("后台零钱充值，金额" + lxConsumption.getLx_consumption_count());
             }else if("3".equals(lxConsumption.getLx_consumption_type())){
-                lxConsumption.setLx_consumption_cont("定向卡充值，金额" + lxConsumption.getLx_consumption_count());
+                lxConsumption.setLx_consumption_cont("后台定向卡充值，金额" + lxConsumption.getLx_consumption_count());
             }
-            lxConsumptionServiceSave.save(lxConsumption);
+            lxConsumptionServiceSave.save(lxConsumption);//消费记录
             //充值成功 ，给上级增加积分
             //1.查询上级
             MemberVO memberVO = (MemberVO) memberFindByIdService.findById(lxConsumption.getEmp_id());
@@ -194,7 +177,7 @@ public class LxConsumptionController extends ControllerConstants {
                             countRecord.setEmp_id(memberVO.getEmp_up());
                             countRecord.setLx_count_record_count("+"+String.valueOf(jifenCount));
                             if("1".equals(lxConsumption.getLx_consumption_type())){
-                                countRecord.setLx_count_record_cont(memberVO.getEmpName()+"("+memberVO.getEmpMobile()+")充值" + lxConsumption.getLx_consumption_count()+"元");
+                                countRecord.setLx_count_record_cont(memberVO.getEmpName()+"("+memberVO.getEmpMobile()+")后台充值零钱" + lxConsumption.getLx_consumption_count()+"元");
                             }else if("3".equals(lxConsumption.getLx_consumption_type())){
                                 countRecord.setLx_count_record_cont(memberVO.getEmpName()+"("+memberVO.getEmpMobile()+")定向卡充值" + lxConsumption.getLx_consumption_count()+"元");
                             }
@@ -203,35 +186,13 @@ public class LxConsumptionController extends ControllerConstants {
                     }
                 }
             }
-
-            if("3".equals(lxConsumption.getLx_consumption_type())){
-                //定向卡充值 需要特别处理
-                //查看该会员是第几次定向卡充值
-                CardEmp cardEmp = (CardEmp) cardEmpServiceExe.execute(lxConsumption.getEmp_id());
-                if(cardEmp != null){
-                    //更新
-                    cardEmp.setLx_card_emp_year(String.valueOf(Integer.parseInt(cardEmp.getLx_card_emp_year()) + 1));//上一年的基础上加1年
-                    cardEmp.setLx_card_emp_end_time(DateUtil.getMs(lxConsumption.getLx_card_emp_end_time(), "MM/dd/yyyy") + "");
-                    cardEmpServiceUpdate.update(cardEmp);
-                }else{
-                    //插入
-                    cardEmp = new CardEmp();
-                    cardEmp.setEmp_id(lxConsumption.getEmp_id());
-                    cardEmp.setLx_card_emp_end_time(DateUtil.getMs(lxConsumption.getLx_card_emp_end_time(), "MM/dd/yyyy") + "");
-                    cardEmpServiceSave.save(cardEmp);
-                }
-                //更新会员为定向卡会员
-                Member member = new Member();
-                member.setEmpId(lxConsumption.getEmp_id());
-                member.setIs_card_emp("1");//定向卡会员 0否 1是  能购买零元商品
-                memberUpdateDxkByIdService.update(member);
-            }
-
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(3, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "充值失败！"));
         }
     }
+
+
+
 
 }

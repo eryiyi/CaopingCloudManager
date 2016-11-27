@@ -32,4 +32,8 @@ public interface MinePackageDao {
      * @param minePackage
      */
     public void update(MinePackage minePackage);
+    //减零钱
+    public void updateDel(MinePackage minePackage);
+
+
 }

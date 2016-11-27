@@ -13,6 +13,7 @@ import com.liangxunwang.unimanager.query.OrdersQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
 import com.liangxunwang.unimanager.util.Page;
+import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ import java.util.Map;
  * Created by Administrator on 2015/8/13.
  */
 @Controller
-public class AppOrderMakeController extends ControllerConstants{
+public class AppOrderMakeController extends ControllerConstants {
 
     @Autowired
     @Qualifier("appOrderMakeService")
@@ -60,11 +61,13 @@ public class AppOrderMakeController extends ControllerConstants{
     @Autowired
     @Qualifier("appOrderService")
     private SaveService SaveappOrderService;
+    @Autowired
+    @Qualifier("appOrderMakeLqService")
+    private SaveService appOrderMakeLqService;
 
     @Autowired
     @Qualifier("appOrderService")
     private ExecuteService executeOrderService;
-
 
     /**
      * 订单接收---形成订单
@@ -82,12 +85,10 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单生成失败，请稍后重试！"));
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单生成失败，商品库存不多了！"));
             }
         }
         return null;
@@ -100,6 +101,12 @@ public class AppOrderMakeController extends ControllerConstants{
     @RequestMapping("/orderSaveSingle")
     @ResponseBody
     public String orderSaveSingle(String order_no, String doublePrices){
+        if(StringUtil.isNullOrEmpty(order_no)){
+            return toJSONString(new ErrorTip(1, "订单支付失败，订单号不能为空！"));
+        }
+        if(StringUtil.isNullOrEmpty(doublePrices)){
+            return toJSONString(new ErrorTip(1, "订单支付失败，订单金额不能为空！"));
+        }
         Map<String,String> map = new HashMap<String, String>();
         map.put("order_no", order_no);
         map.put("doublePrices", doublePrices);
@@ -110,8 +117,7 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单支付失败，请稍后重试！"));
             }
         }
         return null;
@@ -125,7 +131,16 @@ public class AppOrderMakeController extends ControllerConstants{
     @RequestMapping("/orderSaveWx")
     @ResponseBody
     public String orderSaveWx(String list){
+        if(StringUtil.isNullOrEmpty(list)){
+            return toJSONString(new ErrorTip(1, "订单不能为空，请检查！"));
+        }
         OrdersDATA data = new Gson().fromJson(list,OrdersDATA.class);
+        if(data == null){
+            return toJSONString(new ErrorTip(1, "订单生成失败，数据异常，请检查！"));
+        }
+        if(data.getList() == null){
+            return toJSONString(new ErrorTip(1, "订单生成失败，数据异常，请检查！"));
+        }
         try {
             Object[] strs = (Object[]) appOrderMakeWxService.save(data.getList());
             WxPayObj wxPayObj = new WxPayObj();
@@ -136,12 +151,10 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单生成失败，请稍后重试！"));
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单生成失败，商品库存不多了！"));
             }
         }
         return null;
@@ -154,6 +167,12 @@ public class AppOrderMakeController extends ControllerConstants{
     @RequestMapping("/orderSaveSingleWx")
     @ResponseBody
     public String orderSaveSingleWx(String order_no, String doublePrices){
+        if(StringUtil.isNullOrEmpty(order_no)){
+            return toJSONString(new ErrorTip(1, "订单生成失败，订单号不能为空！"));
+        }
+        if(StringUtil.isNullOrEmpty(doublePrices)){
+            return toJSONString(new ErrorTip(1, "订单生成失败，订单金额不能为空！"));
+        }
         Map<String,String> map = new HashMap<String, String>();
         map.put("order_no", order_no);
         map.put("doublePrices", doublePrices);
@@ -167,19 +186,79 @@ public class AppOrderMakeController extends ControllerConstants{
             return toJSONString(tip);
         }catch (ServiceException e){
             if (e.getMessage().equals("ISWRONG")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单生成失败，请稍后重试！"));
             }
             if (e.getMessage().equals("outOfNum")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-                );
+                return toJSONString(new ErrorTip(1, "订单支付失败，商品库存不多了！"));
             }
         }
         return null;
     }
 
 
+    /**
+     * 订单接收---形成订单--零钱支付
+     * @param list
+     * @return
+     */
+    @RequestMapping("/orderSaveLq")
+    @ResponseBody
+    public String orderSaveLq(String list){
+        OrdersDATA data = new Gson().fromJson(list,OrdersDATA.class);
+        try {
+            OrderInfoAndSign orderInfoAndSign = (OrderInfoAndSign) appOrderMakeLqService.save(data.getList());
+            DataTip tip = new DataTip();
+            tip.setData(orderInfoAndSign);
+            return toJSONString(tip);
+        }catch (ServiceException e){
+            if (e.getMessage().equals("ISWRONG")){
+                return toJSONString(new ErrorTip(1, "订单生成失败，请稍后重试！"));
+            }else
+            if (e.getMessage().equals("outOfNum")){
+                return toJSONString(new ErrorTip(1, "订单生成失败，商品库存不足！"));
+            }
+            else
+            if (e.getMessage().equals("money_is_null")){
+                return toJSONString(new ErrorTip(1, "订单生成失败，零钱余额不足！"));
+            }
+        }
+        return null;
+    }
 
+
+    @Autowired
+    @Qualifier("appOrderSingleLqService")
+    private SaveService appOrderSingleLqServiceSave;
+
+    /**
+     * 订单接收--补款--单个订单 -零钱
+     * @return
+     */
+    @RequestMapping("/orderSaveSingleLq")
+    @ResponseBody
+    public String orderSaveSingleLq(String order_no, String doublePrices){
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("order_no", order_no);
+        map.put("doublePrices", doublePrices);
+        try {
+            OrderInfoAndSign orderInfoAndSign = (OrderInfoAndSign) appOrderSingleLqServiceSave.save(map);
+            DataTip tip = new DataTip();
+            tip.setData(orderInfoAndSign);
+            return toJSONString(tip);
+        }catch (ServiceException e){
+            if (e.getMessage().equals("ISWRONG")){
+                return toJSONString(new ErrorTip(1, "订单支付失败，请稍后重试！"));
+            }else
+            if (e.getMessage().equals("outOfNum")){
+                return toJSONString(new ErrorTip(1, "订单支付失败，商品库存不足！"));
+            }
+            else
+            if (e.getMessage().equals("money_is_null")){
+                return toJSONString(new ErrorTip(1, "订单支付失败，零钱余额不足！"));
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -209,8 +288,7 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "查询失败，请稍后重试！"));
         }
     }
 
@@ -218,6 +296,17 @@ public class AppOrderMakeController extends ControllerConstants{
     @RequestMapping("/updateOrder")
     @ResponseBody
     public String cancleOrder(String order_no ,String status, String returnMsg, String returnOrder){
+        if(StringUtil.isNullOrEmpty(order_no)){
+            return toJSONString(new ErrorTip(1, "订单号不能为空！"));
+        }
+        if(StringUtil.isNullOrEmpty(status)){
+            return toJSONString(new ErrorTip(1, "请选择订单状态！"));
+        }
+        if("7".equals(status)){
+            if(StringUtil.isNullOrEmpty(returnOrder)){
+                return toJSONString(new ErrorTip(1, "请确认退货订单号！"));
+            }
+        }
         Map<String,String> map = new HashMap<String, String>();
         map.put("order_no",order_no);
         map.put("status",status);
@@ -248,6 +337,9 @@ public class AppOrderMakeController extends ControllerConstants{
     @RequestMapping("/selectOrderNum")
     @ResponseBody
     public String selectOrderNum(String empId) throws Exception {
+        if(StringUtil.isNullOrEmpty(empId)){
+            return toJSONString(new ErrorTip(1, "会员ID不能为空！"));
+        }
         Map<String,Object> map = new HashMap<String, Object>();
         map.put("emp_id",empId);
         map.put("time_status", "0");
@@ -289,8 +381,7 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(list);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "查询失败，请稍后重试！"));
         }
     }
 
@@ -304,8 +395,7 @@ public class AppOrderMakeController extends ControllerConstants{
             tip.setData(order);
             return toJSONString(tip);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "查询失败，请稍后重试！"));
         }
     }
 
@@ -326,6 +416,20 @@ public class AppOrderMakeController extends ControllerConstants{
         OrderVo orderVo = (OrderVo) appOrderCancelService.execute(order_no);
         map1.put("vo", orderVo);
         return "/order/detailOrder";
+    }
+
+    @Autowired
+    @Qualifier("appOrderCancelService")
+    private UpdateService appOrderCancelServiceUpdate;
+    /**
+     * 订单更新，已经评价了
+     * @return
+     */
+    @RequestMapping("/orderUpdateComment")
+    @ResponseBody
+    public String orderUpdateComment(String order_no){
+        appOrderCancelServiceUpdate.update(order_no);
+        return toJSONString(SUCCESS);
     }
 
 }

@@ -5,7 +5,6 @@ package com.liangxunwang.unimanager.util;
  */
 public class Constants {
     //服务器地址
-//    public static final String URL = "http://157j1274e3.iask.in/";
 //        public static final String URL = "http://139.196.169.8:8080/";
         public static final String URL = "http://192.168.0.224:8080/";
 

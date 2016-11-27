@@ -8,8 +8,8 @@
         </a>
         <ol class="breadcrumb pull-left">
             <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
-            <li><a href="javascript:void(0)">消费记录</a></li>
-            <li><a href="javascript:void(0)">消费记录</a></li>
+            <li><a href="javascript:void(0)">管理员</a></li>
+            <li><a href="javascript:void(0)">商家列表</a></li>
         </ol>
 
     </div>
@@ -21,7 +21,7 @@
             <div class="box-header">
                 <div class="box-name ui-draggable-handle">
                     <i class="fa fa-table"></i>
-                    <span>消费记录</span>
+                    <span>商家列表</span>
                 </div>
                 <div class="box-icons">
                     <a class="collapse-link">
@@ -37,76 +37,70 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content">
-
                 <form class="form-inline">
+
                     <div class="form-group">
-                        <div class="col-sm-6">
-                            <input class="form-control" id="phone_number" value="${query.phoneNumber}" type="text"
-                                   placeholder="手机号">
+                        <div class="col-sm-4">
+                            <input class="form-control" id="cont" value="${query.cont}" type="text"
+                                   placeholder="手机号|姓名">
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <div class="col-sm-6">
-                            <input class="form-control" id="keyWords" value="${query.keyWords}" type="text"
-                                   placeholder="昵称">
-                        </div>
+                        <select class="form-control" id="isUse">
+                            <option value="">--选择用户状态--</option>
+                            <option value="0" ${query.isUse=='0'?'selected':''}>禁用</option>
+                            <option value="1" ${query.isUse=='1'?'selected':''}>启用</option>
+                        </select>
                     </div>
-                    <button type="submit" onclick="nextPage('1')"
-                            class="btn form-control btn-warning btn-sm btn-block">搜索
+
+                    <button type="submit" onclick="searchOrder('1')"
+                            class="btn form-control btn-warning btn-sm btn-block">查找
                     </button>
-
                 </form>
 
-                <form action="" class="form">
-                    <div class="form-group">
-                        <div class="col-md-2 col-lg-2">
-                            <button type="button" onclick="Daochu_Select()"
-                                    class="btn w12 form-control btn-block btn-danger btn-sm">批量导出Excel
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th><input type="checkbox" name="allmails" onclick="checkAll()"></th>
-                        <th>#</th>
-                        <th>用户昵称</th>
-                        <th>用户手机号</th>
-                        <th>消费描述</th>
-                        <th>消费金额</th>
-                        <th>订单号</th>
-                        <th>类型</th>
-                        <th>消费时间</th>
+                        <th>姓名</th>
+                        <th>头像</th>
+                        <th>账号</th>
+                        <th>电话</th>
+                        <th>是否平台账号</th>
+                        <th>状态</th>
+                        <th>操作</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${list}" var="e" varStatus="st">
                         <tr>
-                            <td><input type="checkbox" id="${e.lx_consumption_id}" name="checkbox_one"></td>
-                            <td>${st.index + 1}</td>
-                            <td>${e.emp_name}</td>
-                            <td>${e.emp_mobile}</td>
-                            <td>${e.lx_consumption_cont}</td>
-                            <td>${e.lx_consumption_count}</td>
-                            <td>${e.order_no}</td>
+                            <td>${e.username}</td>
+                            <td><img src="${e.manager_cover}" style="width:60px;height: 60px;"></td>
+                            <td>${e.emp_number}</td>
+                            <td>${e.empMobile}</td>
                             <td>
-                                <c:if test="${e.lx_consumption_type == '0'}">购买商品</c:if>
-                                <c:if test="${e.lx_consumption_type == '1'}">零钱充值</c:if>
-                                <c:if test="${e.lx_consumption_type == '2'}">手机端充值</c:if>
-                                <c:if test="${e.lx_consumption_type == '3'}">定向卡充值</c:if>
+                                <c:if test="${e.is_pingtai=='0'}">否</c:if>
+                                <c:if test="${e.is_pingtai=='1'}">是</c:if>
                             </td>
-                            <td> ${um:format(e.dateline, 'yyyy-MM-dd HH:mm')} </td>
                             <td>
-                                <a class="btn btn-default btn-sm" href="javascript:void (0)"
-                                   onclick="editRole('${e.lx_consumption_id}')" role="button">查看</a>
+                                <c:if test="${e.isUse=='0'}">启用</c:if>
+                                <c:if test="${e.isUse=='1'}">禁用</c:if>
+                            </td>
+
+                            <td>
+                                <a class="btn btn-default btn-sm" href="#module=/admin/detail&id=${e.id}"
+                                   role="button">管理</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-default btn-sm" href="#module=/admin/role&id=${e.id}"
+                                   role="button">赋权限</a>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+
                 <div style="margin-top: 20px;border-top: 1px solid #dedede;padding-bottom:15px; height: 50px">
                     <span style="line-height:28px;margin-top:25px;padding-left:10px; float: left">共${page.count}条/${page.pageCount}页</span>
                     <ul class="pagination" style="padding-left:100px; float: right">
@@ -148,35 +142,21 @@
                         </c:choose>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-
-    function editRole(_id) {
-            $.ajax({
-                type: "GET",
-                data: {"lx_consumption_id": _id},
-                url: "/lxConsumptionController/toDetail.do",
-                success: function (response) {
-                    $("#content").html(response);
-                }
-            });
-    }
-
-</script>
-
-<script type="text/javascript">
     function searchIndex(e) {
         if (e.keyCode != 13) return;
         var _index = $("#index").val();
         var size = getCookie("contract_size");
-        var phone = $("#phone_number").val();
-        var keywords = $("#keyWords").val();
+        var isUse = $("#isUse").val();
+        var cont = $("#cont").val();
         if (_index <= ${page.pageCount} && _index >= 1) {
-            window.location.href = "#module=lxConsumptionController/list&page=" + _index + "&size=" + size + "&phoneNumber=" + phone + "&keyWords=" + keywords + "&_t=" + new Date().getTime();
+            window.location.href = "#module=/admin/listSj&page=" + _index + "&size=" + size
+            + "&cont=" + cont
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -184,60 +164,32 @@
     function nextPage(_page) {
         var page = parseInt(_page);
         var size = $("#size").val();
-        var phone = $("#phone_number").val();
-        var keywords = $("#keyWords").val();
+        var isUse = $("#isUse").val();
+        var cont = $("#cont").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
-            window.location.href = "#module=lxConsumptionController/list&page=" + page + "&size=" + size + "&phoneNumber=" + phone + "&keyWords=" + keywords + "&_t=" + new Date().getTime();
+            window.location.href = "#module=/admin/listSj&page=" + page + "&size=" + size
+            + "&cont=" + cont
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
     }
 
-
-    function Daochu_Select() {
-        var select_id = '';
-        var select = document.getElementsByName("checkbox_one");
-        for (var i = 0; i < select.length; i++) {
-            if (select[i].checked == true) {
-                select_id = select_id + select[i].id + ',';
-            }
-        }
-        if (select_id == '') {
-            alert('请选择数据！');
-            return
+    function searchOrder(_page) {
+        var page = parseInt(_page);
+        var size = $("#size").val();
+        var isUse = $("#isUse").val();
+        var cont = $("#cont").val();
+        addCookie("contract_size", size, 36);
+        if ((page <= ${page.pageCount} && page >= 1)) {
+            window.location.href = "#module=/admin/listSj&page=" + page + "&size=" + size
+            + "&cont=" + cont
+            + "&isUse=" + isUse + "&_t=" + new Date().getTime();
         } else {
-            if (confirm("确定要导出所选择的数据吗？")) {
-                $.ajax({
-                    url: "/consumptionExportExcel.do",
-                    data: {"ids": select_id},
-                    type: "POST",
-                    success: function (_data) {
-                        var data = $.parseJSON(_data);
-                        if (data.success) {
-                            window.location.href = "/upload" + data.data;//这样就可以弹出下载对话框了
-                        } else {
-                            var _case = {1: "导出失败"};
-                            alert(_case[data.code])
-                        }
-                    }
-                });
-            }
+            alert("请输入1-${page.pageCount}的页码数");
         }
     }
-
-    function checkAll() {
-        var all = document.getElementsByName("allmails")[0];
-        var select = document.getElementsByName("checkbox_one");
-        if (all.checked) {
-            for (var i = 0; i < select.length; i++) {
-                select[i].checked = true;
-            }
-        } else {
-            for (var i = 0; i < select.length; i++) {
-                select[i].checked = false;
-            }
-        }
-    }
-
 </script>
+
+

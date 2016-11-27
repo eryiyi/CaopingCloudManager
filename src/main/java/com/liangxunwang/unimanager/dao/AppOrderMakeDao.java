@@ -27,6 +27,7 @@ public interface AppOrderMakeDao {
 
     //更新订单
     void updateOrderById(Order order);
+    void updateOrderByTradeId(Order order);
     void updateTradeById(String out_trade_no);
 
     //查询用户订单
@@ -39,16 +40,16 @@ public interface AppOrderMakeDao {
     void sureOrder(Order order);
 
     //更新订单--单一的分订单--去付款
-    void updateOrderBySingle(@Param(value = "order_no")String order_no,@Param(value = "pay_time")String pay_time);
+    void updateOrderBySingle(@Param(value = "order_no") String order_no, @Param(value = "pay_time") String pay_time);
 
     //查询今日订单总数量
-    long selectOrderNumByDay(Map<String,Object> map);
+    long selectOrderNumByDay(Map<String, Object> map);
 
     //查询总的订单数量
-    long selectOrderNum(Map<String,Object> map);
+    long selectOrderNum(Map<String, Object> map);
 
     //查询总的收入
-    String selectSum(Map<String,Object> map);
+    String selectSum(Map<String, Object> map);
 
     //商家查询自己用户的订单
     List<OrderVo> listOrdersSj(Map<String, Object> map);
@@ -62,6 +63,8 @@ public interface AppOrderMakeDao {
 
     //删除订单
     void deleteOrderById(String order_no);
+    //评价了订单
+    void updateIsComment(String order_no);
     //根据交易号查询订单列表
     List<Order> findOrderByTradeNo(String out_trade_no);
 

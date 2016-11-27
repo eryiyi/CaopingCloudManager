@@ -11,6 +11,7 @@
             <li><a href="javaScript:void(0)">订单管理</a></li>
             <li><a href="javaScript:void(0)">订单列表</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -37,6 +38,7 @@
             </div>
             <div class="box-content">
                 <form class="form-inline">
+                    <input type="hidden" id="is_zhiying" name="is_zhiying" value="${query.is_zhiying}">
                     <div class="form-group">
                         <input type="text" class="form-control" id="emp_name" value="${query.empName}"
                                placeholder="买家名称">
@@ -45,6 +47,8 @@
                         <input type="tel" class="form-control" id="emp_phone" value="${query.empPhone}"
                                placeholder="买家电话">
                     </div>
+
+
                     <div class="form-group">
                         <select class="form-control" id="order_status">
                             <option value="">--选择订单状态--</option>
@@ -206,10 +210,19 @@
         var empPhone = $("#emp_phone").val();
         var orderStatus = $("#order_status").val();
         var payStatus = $("#pay_status").val();
+        var is_zhiying = $("#is_zhiying").val();
         var distributionStatus = $("#distribution_status").val();
         var is_dxk_order = $("#is_dxk_order").val();
         if (_index <= ${page.pageCount} && _index >= 1) {
-            window.location.href = "#module=/order/list&page=" + page + "&size=" + size + "&empName=" + empName + "&empPhone=" + empPhone + "&orderStatus=" + orderStatus + "&payStatus=" + payStatus + "&distribStatus=" + distributionStatus+"&is_dxk_order=" + is_dxk_order+ "&_t="+ new Date().getTime();
+            window.location.href = "#module=/order/list&page=" + page + "&size=" + size
+            + "&empName=" + empName
+            + "&is_zhiying=" + is_zhiying
+            + "&empPhone=" + empPhone
+            + "&orderStatus=" + orderStatus
+            + "&payStatus=" + payStatus
+            + "&distribStatus=" + distributionStatus
+            +"&is_dxk_order=" + is_dxk_order
+            + "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -221,11 +234,21 @@
         var empPhone = $("#emp_phone").val();
         var orderStatus = $("#order_status").val();
         var payStatus = $("#pay_status").val();
+        var is_zhiying = $("#is_zhiying").val();
         var distributionStatus = $("#distribution_status").val();
         var is_dxk_order = $("#is_dxk_order").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
-            window.location.href = "#module=/order/list&page=" + page + "&size=" + size + "&empName=" + empName + "&empPhone=" + empPhone + "&orderStatus=" + orderStatus + "&payStatus=" + payStatus + "&distribStatus=" + distributionStatus+"&is_dxk_order=" + is_dxk_order+ "&_t="+ new Date().getTime();
+            window.location.href = "#module=/order/list&page=" + page
+            + "&size=" + size
+            + "&empName=" + empName
+            + "&is_zhiying=" + is_zhiying
+            + "&empPhone=" + empPhone
+            + "&orderStatus=" + orderStatus
+            + "&payStatus=" + payStatus
+            + "&distribStatus=" + distributionStatus
+            +"&is_dxk_order=" + is_dxk_order
+            + "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }
@@ -238,11 +261,21 @@
         var empPhone = $("#emp_phone").val();
         var orderStatus = $("#order_status").val();
         var payStatus = $("#pay_status").val();
+        var is_zhiying = $("#is_zhiying").val();
         var distributionStatus = $("#distribution_status").val();
         var is_dxk_order = $("#is_dxk_order").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
-            window.location.href = "#module=/order/list&page=" + page + "&size=" + size + "&empName=" + empName + "&empPhone=" + empPhone + "&orderStatus=" + orderStatus + "&payStatus=" + payStatus + "&distribStatus=" + distributionStatus+ "&is_dxk_order=" + is_dxk_order+ "&_t="+ new Date().getTime();
+            window.location.href = "#module=/order/list&page=" + page
+            + "&size=" + size
+            + "&empName=" + empName
+            + "&is_zhiying=" + is_zhiying
+            + "&empPhone=" + empPhone
+            + "&orderStatus=" + orderStatus
+            + "&payStatus=" + payStatus
+            + "&distribStatus=" + distributionStatus
+            + "&is_dxk_order=" + is_dxk_order
+            + "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
         }

@@ -36,6 +36,14 @@
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
+
+        <result column="is_comment" property="is_comment"/>
+        <result column="is_return" property="is_return"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
+
+        <result column="payable_amount_all" property="payable_amount_all"/>
+        <result column="pv_amount" property="pv_amount"/>
+
     </resultMap>
 
     <resultMap id="orderVO" type="com.liangxunwang.unimanager.mvc.vo.OrderVo">
@@ -76,6 +84,14 @@
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
+
+        <result column="is_comment" property="is_comment"/>
+        <result column="is_return" property="is_return"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
+
+        <result column="payable_amount_all" property="payable_amount_all"/>
+        <result column="pv_amount" property="pv_amount"/>
+
     </resultMap>
 
 
@@ -104,7 +120,7 @@
     </insert>
 
     <insert id="saveList" parameterType="com.liangxunwang.unimanager.model.Order">
-        insert into PAOPAO_SHOPPING_ORDER (order_no, goods_id, emp_id,seller_emp_id, PROVINCEID, CITYID, AREAID, address_id, goods_count, payable_amount,create_time, pay_time, send_time, accept_time,completion_time, status, pay_status, distribution_type, distribution_status,postscript,point,trade_no,invoice,invoice_title,taxes,out_trade_no,isAccount,trade_type)
+        insert into PAOPAO_SHOPPING_ORDER (order_no, goods_id, emp_id,seller_emp_id, PROVINCEID, CITYID, AREAID, address_id, goods_count, payable_amount,create_time, pay_time, send_time, accept_time,completion_time, status, pay_status, distribution_type, distribution_status,postscript,point,trade_no,invoice,invoice_title,taxes,out_trade_no,isAccount,trade_type,payable_amount_all,pv_amount)
         VALUES(#{order_no,jdbcType=VARCHAR},
             #{goods_id,jdbcType=VARCHAR},
             #{emp_id,jdbcType=VARCHAR},
@@ -132,9 +148,15 @@
             #{taxes,jdbcType=VARCHAR},
             #{out_trade_no,jdbcType=VARCHAR},
             #{isAccount,jdbcType=VARCHAR},
-            #{trade_type,jdbcType=VARCHAR}
+            #{trade_type,jdbcType=VARCHAR},
+            #{payable_amount_all,jdbcType=VARCHAR},
+            #{pv_amount,jdbcType=VARCHAR}
             )
     </insert>
+
+    <update id="updateOrderByTradeId" parameterType="com.liangxunwang.unimanager.model.Order">
+        UPDATE  PAOPAO_SHOPPING_ORDER SET pay_time=#{pay_time},accept_time=#{pay_time},completion_time=#{pay_time}, status='5', pay_status='1' WHERE out_trade_no=#{out_trade_no}
+    </update>
 
     <update id="updateOrderById" parameterType="com.liangxunwang.unimanager.model.Order">
         UPDATE  PAOPAO_SHOPPING_ORDER SET pay_time=#{pay_time}, status='2', pay_status='1' WHERE out_trade_no=#{out_trade_no}
@@ -246,5 +268,9 @@
         #{pay_status,jdbcType=VARCHAR}
         )
     </insert>
+
+    <update id="updateIsComment" parameterType="String">
+        UPDATE PAOPAO_SHOPPING_ORDER SET is_comment='1'  WHERE order_no=#{order_no}
+    </update>
 
 </mapper>

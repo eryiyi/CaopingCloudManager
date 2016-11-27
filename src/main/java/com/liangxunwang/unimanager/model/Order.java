@@ -1,7 +1,5 @@
 package com.liangxunwang.unimanager.model;
 
-import java.io.Serializable;
-
 /**
  * Created by Administrator on 2015/8/14.
  * 订单表
@@ -40,6 +38,33 @@ public class Order {
     private String returnOrder;//退货单号
     private String is_return;//是否退货完成 0否 1是（卖家已处理）
     private String is_dxk_order;//是否0元订单； 默认0否  1是
+    private String is_comment;//是否评价； 默认0否  1是
+    private String payable_amount_all;//没打折之前的金额
+    private String pv_amount;//商品的pv在订单中的总和 这是返利用到的（商品pv,pv即利润）
+
+    public String getPayable_amount_all() {
+        return payable_amount_all;
+    }
+
+    public void setPayable_amount_all(String payable_amount_all) {
+        this.payable_amount_all = payable_amount_all;
+    }
+
+    public String getPv_amount() {
+        return pv_amount;
+    }
+
+    public void setPv_amount(String pv_amount) {
+        this.pv_amount = pv_amount;
+    }
+
+    public String getIs_comment() {
+        return is_comment;
+    }
+
+    public void setIs_comment(String is_comment) {
+        this.is_comment = is_comment;
+    }
 
     public String getIs_dxk_order() {
         return is_dxk_order;

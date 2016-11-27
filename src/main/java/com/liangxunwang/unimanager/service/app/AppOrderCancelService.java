@@ -7,6 +7,7 @@ import com.liangxunwang.unimanager.mvc.vo.OrderVo;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
+import com.liangxunwang.unimanager.service.UpdateService;
 import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
  * Created by Administrator on 2015/8/15.
  */
 @Service("appOrderCancelService")
-public class AppOrderCancelService implements SaveService,ExecuteService {
+public class AppOrderCancelService implements SaveService,ExecuteService,UpdateService {
 
     @Autowired
     @Qualifier("appOrderCancelDao")
@@ -43,5 +44,12 @@ public class AppOrderCancelService implements SaveService,ExecuteService {
     public Object execute(Object object) throws ServiceException, Exception {
         OrderVo orderVo = appOrderMakeSaveDao.findOrderByOrderNo((String) object);
         return orderVo;
+    }
+
+    //更新订单--已经评价了
+    @Override
+    public Object update(Object object) {
+        appOrderMakeSaveDao.updateIsComment((String) object);
+        return null;
     }
 }
