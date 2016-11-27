@@ -39,7 +39,7 @@ public class OrderDxkService implements  SaveService {
         order.setStatus("2");
         order.setPay_status("1");
         order.setIs_dxk_order("1");
-        appOrderMakeDao.saveDxkOrder(order);
+//        appOrderMakeDao.saveDxkOrder(order);
         return null;
     }
 }

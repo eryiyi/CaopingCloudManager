@@ -8,12 +8,9 @@ import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageRequest
 import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageResponse;
 import com.liangxunwang.unimanager.baidu.log.YunLogEvent;
 import com.liangxunwang.unimanager.baidu.log.YunLogHandler;
-import com.liangxunwang.unimanager.dao.AppOrderMakeDao;
-import com.liangxunwang.unimanager.dao.MemberDao;
-import com.liangxunwang.unimanager.dao.PaopaoGoodsDao;
-import com.liangxunwang.unimanager.dao.RelateDao;
+import com.liangxunwang.unimanager.dao.*;
 import com.liangxunwang.unimanager.model.*;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
 import com.liangxunwang.unimanager.query.OrdersQuery;
 import com.liangxunwang.unimanager.service.*;
@@ -39,8 +36,8 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
     private AppOrderMakeDao appOrderMakeSaveDao;
 
     @Autowired
-    @Qualifier("paopaoGoodsDao")
-    private PaopaoGoodsDao paopaoGoodsDao;
+    @Qualifier("cpObjDao")
+    private CpObjDao cpObjDao;
 
     @Autowired
     @Qualifier("memberDao")
@@ -55,20 +52,20 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
     public Object save(Object object) throws ServiceException {
         List<Order> lists = (List<Order>) object;
         //先判断商品剩余数量，是否大于要购买的数量
-        for(Order order:lists){
-//            order.getGoods_count();//订单数量
-            if(!StringUtil.isNullOrEmpty(order.getGoods_count())){
-                //根据商品ID查询商品数量
-                PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-                if(vo != null){
-                    if(!StringUtil.isNullOrEmpty(vo.getCount())){
-                        if(Integer.parseInt(vo.getCount()) < Integer.parseInt(order.getGoods_count())){
-                            throw new ServiceException("outOfNum");//超出数量限制
-                        }
-                    }
-                }
-            }
-        }
+//        for(Order order:lists){
+////            order.getGoods_count();//订单数量
+//            if(!StringUtil.isNullOrEmpty(order.getGoods_count())){
+//                //根据商品ID查询商品数量
+//                PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
+//                if(vo != null){
+//                    if(!StringUtil.isNullOrEmpty(vo.getCount())){
+//                        if(Integer.parseInt(vo.getCount()) < Integer.parseInt(order.getGoods_count())){
+//                            throw new ServiceException("outOfNum");//超出数量限制
+//                        }
+//                    }
+//                }
+//            }
+//        }
         Double doublePrices = 0.0;
         if(lists!=null && lists.size() > 0){
             for(Order order:lists){
@@ -104,19 +101,19 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
         }
 
         //商品数量要减去已购买的数量
-        for(Order order:lists){
-//            order.getGoods_count();//订单数量
-            if(!StringUtil.isNullOrEmpty(order.getGoods_id())){
-                PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-                if(paopaoGoods != null){
-                    paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
-                }
-            }
-        }
+//        for(Order order:lists){
+////            order.getGoods_count();//订单数量
+//            if(!StringUtil.isNullOrEmpty(order.getGoods_id())){
+//                PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
+//                if(paopaoGoods != null){
+//                    paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
+//                }
+//            }
+//        }
 
         //生成sign签名
         // 订单
-        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "meirenmeiba", "isbody", String.valueOf(doublePrices));
+        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "cpCloud", "isbody", String.valueOf(doublePrices));
 
         // 对订单做RSA 签名
         String sign = StringUtil.sign(orderInfo);
@@ -169,7 +166,7 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
             String pay_time =  System.currentTimeMillis() + "";
             appOrderMakeSaveDao.updateOrderBySingle(order_no,pay_time);
             //根据订单号查询订单详情
-            OrderVo order = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
+            OrdersVO order = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
             //发通知给卖家：买家已付款
             Member member =  memberDao.findById(order.getSeller_emp_id());
             if(member != null){
@@ -202,80 +199,80 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("index", index);
         map.put("size", size);
-        if (!StringUtil.isNullOrEmpty(query.getEmpId())) {
-            map.put("emp_id", query.getEmpId());
+        if (!StringUtil.isNullOrEmpty(query.getEmp_id())) {
+            map.put("emp_id", query.getEmp_id());
         }
         if (!StringUtil.isNullOrEmpty(query.getStatus())) {
             map.put("status", query.getStatus());
         }
-        if("0".equals(query.getEmptype())){
-            //会员查询自己的订单
-//            private String completion_time;//订单完成时间
-
-            List<OrderVo> list = appOrderMakeSaveDao.listOrders(map);
-            for (OrderVo record : list){
-                if(!StringUtil.isNullOrEmpty(record.getCreate_time())){
-                    record.setCreate_time(RelativeDateFormat.format(Long.parseLong(record.getCreate_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getPay_time())){
-                    record.setPay_time(RelativeDateFormat.format(Long.parseLong(record.getPay_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getAccept_time())){
-                    record.setAccept_time(RelativeDateFormat.format(Long.parseLong(record.getAccept_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getSend_time())){
-                    record.setSend_time(RelativeDateFormat.format(Long.parseLong(record.getSend_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getCompletion_time())){
-                    record.setCompletion_time(RelativeDateFormat.format(Long.parseLong(record.getCompletion_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getEmpCover())){
-                    if (record.getEmpCover().startsWith("upload")) {
-                        record.setEmpCover(Constants.URL + record.getEmpCover());
-                    }else {
-                        record.setEmpCover(Constants.QINIU_URL + record.getEmpCover());
-                    }
-                }
-                if(!StringUtil.isNullOrEmpty(record.getGoodsCover())){
-                    if (record.getGoodsCover().startsWith("upload")) {
-                        record.setGoodsCover(Constants.URL + record.getGoodsCover());
-                    }else {
-                        record.setGoodsCover(Constants.QINIU_URL + record.getGoodsCover());
-                    }
-                }
-
-            }
-            return list;
+        if (!StringUtil.isNullOrEmpty(query.getIs_comment())) {
+            map.put("is_comment", query.getIs_comment());
         }
-        if("2".equals(query.getEmptype())){
-            //商家查询自己管理的订单
-            List<OrderVo> list = appOrderMakeSaveDao.listOrdersSj(map);
-            for (OrderVo record : list){
-                if(!StringUtil.isNullOrEmpty(record.getCreate_time())){
-                    record.setCreate_time(RelativeDateFormat.format(Long.parseLong(record.getCreate_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getPay_time())){
-                    record.setPay_time(RelativeDateFormat.format(Long.parseLong(record.getPay_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getAccept_time())){
-                    record.setAccept_time(RelativeDateFormat.format(Long.parseLong(record.getAccept_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getSend_time())){
-                    record.setSend_time(RelativeDateFormat.format(Long.parseLong(record.getSend_time())));
-                }
-                if(!StringUtil.isNullOrEmpty(record.getCompletion_time())){
-                    record.setCompletion_time(RelativeDateFormat.format(Long.parseLong(record.getCompletion_time())));
-                }
-                if (record.getEmpCover().startsWith("upload")) {
-                    record.setEmpCover(Constants.URL + record.getEmpCover());
+        if (!StringUtil.isNullOrEmpty(query.getSeller_emp_id())) {
+            map.put("seller_emp_id", query.getSeller_emp_id());
+        }
+        if (!StringUtil.isNullOrEmpty(query.getPay_status())) {
+            map.put("pay_status", query.getPay_status());
+        }
+
+        List<OrdersVO> list = appOrderMakeSaveDao.listOrders(map);
+        for (OrdersVO record : list){
+            if(!StringUtil.isNullOrEmpty(record.getCreate_time())){
+                record.setCreate_time(RelativeDateFormat.format(Long.parseLong(record.getCreate_time())));
+            }
+            if(!StringUtil.isNullOrEmpty(record.getPay_time())){
+                record.setPay_time(RelativeDateFormat.format(Long.parseLong(record.getPay_time())));
+            }
+            if(!StringUtil.isNullOrEmpty(record.getAccept_time())){
+                record.setAccept_time(RelativeDateFormat.format(Long.parseLong(record.getAccept_time())));
+            }
+            if(!StringUtil.isNullOrEmpty(record.getSend_time())){
+                record.setSend_time(RelativeDateFormat.format(Long.parseLong(record.getSend_time())));
+            }
+            if(!StringUtil.isNullOrEmpty(record.getCompletion_time())){
+                record.setCompletion_time(RelativeDateFormat.format(Long.parseLong(record.getCompletion_time())));
+            }
+            if(!StringUtil.isNullOrEmpty(record.getEmp_cover())){
+                if (record.getEmp_cover().startsWith("upload")) {
+                    record.setEmp_cover(Constants.URL + record.getEmp_cover());
                 }else {
-                    record.setEmpCover(Constants.QINIU_URL + record.getEmpCover());
+                    record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
                 }
-                record.setGoodsCover(Constants.URL + record.getGoodsCover());
             }
-            return list;
+            if(!StringUtil.isNullOrEmpty(record.getEmp_cover_seller())){
+                if (record.getEmp_cover_seller().startsWith("upload")) {
+                    record.setEmp_cover_seller(Constants.URL + record.getEmp_cover_seller());
+                }else {
+                    record.setEmp_cover_seller(Constants.QINIU_URL + record.getEmp_cover_seller());
+                }
+            }
+
+            if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_pic())){
+                //处理图片URL链接
+                StringBuffer buffer = new StringBuffer();
+                String[] pics = new String[]{};
+                if(record!=null && record.getCloud_caoping_pic()!=null){
+                    pics = record.getCloud_caoping_pic().split(",");
+                }
+                for (int i=0; i<pics.length; i++){
+                    if (pics[i].startsWith("upload")) {
+                        buffer.append(Constants.URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }else {
+                        buffer.append(Constants.QINIU_URL + pics[i]);
+                        if (i < pics.length - 1) {
+                            buffer.append(",");
+                        }
+                    }
+                }
+                record.setCloud_caoping_pic(buffer.toString());
+            }
+
         }
-        return null;
+        return list;
+
     }
 
 
@@ -341,7 +338,7 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
     @Override
     public Object findById(Object object) throws ServiceException {
         String order_no = (String) object;
-        OrderVo record = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
+        OrdersVO record = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
 
         if(!StringUtil.isNullOrEmpty(record.getCreate_time())){
             record.setCreate_time(RelativeDateFormat.format(Long.parseLong(record.getCreate_time())));
@@ -359,16 +356,42 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
             record.setCompletion_time(RelativeDateFormat.format(Long.parseLong(record.getCompletion_time())));
         }
 
-        if (record.getEmpCover().startsWith("upload")) {
-            record.setEmpCover(Constants.URL + record.getEmpCover());
-        }else {
-            record.setEmpCover(Constants.QINIU_URL + record.getEmpCover());
+        if(!StringUtil.isNullOrEmpty(record.getEmp_cover())){
+            if (record.getEmp_cover().startsWith("upload")) {
+                record.setEmp_cover(Constants.URL + record.getEmp_cover());
+            }else {
+                record.setEmp_cover(Constants.QINIU_URL + record.getEmp_cover());
+            }
+        }
+        if(!StringUtil.isNullOrEmpty(record.getEmp_cover_seller())){
+            if (record.getEmp_cover_seller().startsWith("upload")) {
+                record.setEmp_cover_seller(Constants.URL + record.getEmp_cover_seller());
+            }else {
+                record.setEmp_cover_seller(Constants.QINIU_URL + record.getEmp_cover_seller());
+            }
         }
 
-        if (record.getGoodsCover().startsWith("upload")) {
-            record.setGoodsCover(Constants.URL + record.getGoodsCover());
-        }else {
-            record.setGoodsCover(Constants.QINIU_URL + record.getGoodsCover());
+        if(!StringUtil.isNullOrEmpty(record.getCloud_caoping_pic())){
+            //处理图片URL链接
+            StringBuffer buffer = new StringBuffer();
+            String[] pics = new String[]{};
+            if(record!=null && record.getCloud_caoping_pic()!=null){
+                pics = record.getCloud_caoping_pic().split(",");
+            }
+            for (int i=0; i<pics.length; i++){
+                if (pics[i].startsWith("upload")) {
+                    buffer.append(Constants.URL + pics[i]);
+                    if (i < pics.length - 1) {
+                        buffer.append(",");
+                    }
+                }else {
+                    buffer.append(Constants.QINIU_URL + pics[i]);
+                    if (i < pics.length - 1) {
+                        buffer.append(",");
+                    }
+                }
+            }
+            record.setCloud_caoping_pic(buffer.toString());
         }
 
         return record;

@@ -166,6 +166,48 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
 
                 +"|(^/appDeleteProductById\\.do$)"
 
+                        +"|(^/appGetBankCards\\.do$)"
+                        +"|(^/appSaveBankCards\\.do$)"
+                        +"|(^/deleteBankCard\\.do$)"
+                        +"|(^/appGetPackage\\.do$)"
+                        +"|(^/getVersionCode\\.do$)"
+
+                        +"|(^/appSaveBrowsing\\.do$)"
+                        +"|(^/appGetBrowsing\\.do$)"
+                        +"|(^/orderSaveWx\\.do$)"
+                        +"|(^/getKefuTel\\.do$)"
+                        +"|(^/appShareReg\\.do$)"
+                        +"|(^/saveEmpShare\\.do$)"
+                        +"|(^/orderSaveSingleWx\\.do$)"
+                        +"|(^/scanOrder\\.do$)"
+                        +"|(^/appGetCountRecord\\.do$)"
+                        +"|(^/appGetCount\\.do$)"
+                        +"|(^/appGetConsumption\\.do$)"
+
+                        +"|(^/appSaveBankApply\\.do$)"
+                        +"|(^/appGetBankApply\\.do$)"
+                        +"|(^/appGetLikes\\.do$)"
+                        +"|(^/appGetCardEmp\\.do$)"
+                        +"|(^/appSaveDxkOrder\\.do$)"
+
+                        +"|(^/appGetCountComment\\.do$)"
+                        +"|(^/orderSaveLq\\.do$)"
+                        +"|(^/orderSaveSingleLq\\.do$)"
+                        +"|(^/appGetCountCommentDianpu\\.do$)"
+                        +"|(^/orderUpdateComment\\.do$)"
+                        +"|(^/listDianpuComment\\.do$)"
+                        +"|(^/appToChongzhiDxk\\.do$)"
+                        +"|(^/appChongzhiDxk\\.do$)"
+                        +"|(^/appListNotice\\.do$)"
+                        +"|(^/viewNotice\\.do$)"
+                        +"|(^/getPaihangDianpu\\.do$)"
+
+                        +"|(^/appLqPayZfb\\.do$)"
+                        +"|(^/appLqPayWx\\.do$)"
+                        +"|(^/appUpdateLqCz\\.do$)"
+                        +"|(^/findPwrByMobile\\.do$)"
+
+
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"
                 +"|(^/paopaogoods/shareGoodsUrl\\.do$)"

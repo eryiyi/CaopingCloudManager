@@ -68,20 +68,28 @@
         <result column="out_trade_no" property="out_trade_no"/>
         <result column="isAccount" property="isAccount"/>
 
-        <result column="emp_name" property="empName"/>
-        <result column="phone" property="phone"/>
-        <result column="seller_name" property="sellerName"/>
-        <result column="pname" property="provinceName"/>
-        <result column="cityName" property="cityName"/>
-        <result column="areaName" property="areaName"/>
-        <result column="address" property="address"/>
-        <result column="goods_name" property="goodsName"/>
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
         <result column="is_comment" property="is_comment"/>
         <result column="is_return" property="is_return"/>
         <result column="is_dxk_order" property="is_dxk_order"/>
+
+        <result column="emp_mobile" property="emp_mobile"/>
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
+
+        <result column="emp_mobile_seller" property="emp_mobile_seller"/>
+        <result column="emp_name_seller" property="emp_name_seller"/>
+        <result column="emp_cover_seller" property="emp_cover_seller"/>
+
+        <result column="provinceName" property="provinceName"/>
+        <result column="cityName" property="cityName"/>
+        <result column="areaName" property="areaName"/>
+        <result column="cloud_caoping_title" property="cloud_caoping_title"/>
+        <result column="cloud_caoping_pic" property="cloud_caoping_pic"/>
+        <result column="cloud_caoping_address" property="cloud_caoping_address"/>
+        <result column="cloud_caoping_prices" property="cloud_caoping_prices"/>
     </resultMap>
 
     <resultMap id="settlement" type="com.liangxunwang.unimanager.model.Settlement">
@@ -92,111 +100,129 @@
     </resultMap>
 
     <select id="listOrders" resultMap="my_order_vo">
-        SELECT pso.*, le.EMP_NAME, lp.EMP_NAME as seller_name, psa.PHONE,psa.ADDRESS, p.PNAME, cy.cityName, a.AREANAME, pg.GOODS_NAME FROM PAOPAO_SHOPPING_ORDER pso
-        LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
-        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
-        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
-        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
-        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
-        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
-        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
+        SELECT ord.* ,
+        le.emp_mobile as emp_mobile,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+
+        les.emp_mobile as emp_mobile_seller,
+        les.emp_name as emp_name_seller,
+        les.emp_cover as emp_cover_seller,
+
+        lg.cloud_caoping_title as cloud_caoping_title,
+        lg.cloud_caoping_pic as cloud_caoping_pic,
+        lg.cloud_caoping_address as cloud_caoping_address,
+        lg.cloud_caoping_prices as cloud_caoping_prices,
+        lpro.pname as provinceName,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
+
+        from PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
         WHERE '1'='1'
-        <if test="empId != null and empId != ''">
-            AND pso.SELLER_EMP_ID=#{empId}
+        <if test="emp_id != null and emp_id != ''">
+            AND ord.emp_id=#{emp_id}
         </if>
-        <if test="empName != null and empName != ''">
-            AND le.EMP_NAME like  CONCAT('%',#{empName},'%')
+        <if test="seller_emp_id != null and seller_emp_id != ''">
+            AND ord.seller_emp_id=#{seller_emp_id}
         </if>
-        <if test="empPhone != null and empPhone != ''">
-            AND psa.PHONE = #{empPhone}
+        <if test="status != null and status != ''">
+            AND ord.status = #{status}
         </if>
-        <if test="payStatus != null and payStatus != ''">
-            AND pso.PAY_STATUS = #{payStatus}
+        <if test="pay_status != null and pay_status != ''">
+            AND ord.pay_status = #{pay_status}
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            AND pso.STATUS = #{orderStatus}
+        <if test="is_comment != null and is_comment != ''">
+            AND ord.is_comment = #{is_comment}
         </if>
         <if test="distribStatus != null and distribStatus != ''">
-            AND pso.DISTRIBUTION_STATUS = #{distribStatus}
+            AND ord.DISTRIBUTION_STATUS = #{distribStatus}
         </if>
-        <if test="is_dxk_order != null and is_dxk_order != ''">
-            AND pso.is_dxk_order = #{is_dxk_order}
-        </if>
-
         <if test="startTime != null and startTime != ''">
-            AND pso.COMPLETION_TIME &gt; #{startTime}
+            AND ord.COMPLETION_TIME &gt; #{startTime}
         </if>
         <if test="endTime != null and endTime != ''">
-            AND pso.COMPLETION_TIME &lt; #{endTime}
+            AND ord.COMPLETION_TIME &lt; #{endTime}
         </if>
 
         <if test="is_zhiying != null and is_zhiying != ''">
-            AND pg.is_zhiying = #{is_zhiying}
+            AND lg.is_zhiying = #{is_zhiying}
         </if>
 
-     ORDER BY pso.create_time DESC
+     ORDER BY ord.create_time DESC
       limit #{index},#{size}
     </select>
 
     <select id="count" resultType="Long">
-        SELECT count(pso.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER pso
-        LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
-        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
-        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
-        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
-        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
-        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
-        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
+        SELECT count(ord.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
         WHERE '1'='1'
-        <if test="empId != null and empId != ''">
-            AND pso.SELLER_EMP_ID = #{empId}
+        <if test="emp_id != null and emp_id != ''">
+            AND ord.emp_id=#{emp_id}
         </if>
-        <if test="empName != null and empName != ''">
-            AND le.EMP_NAME like  CONCAT('%',#{empName},'%')
+        <if test="seller_emp_id != null and seller_emp_id != ''">
+            AND ord.seller_emp_id=#{seller_emp_id}
         </if>
-        <if test="empPhone != null and empPhone != ''">
-            AND psa.PHONE = #{empPhone}
+        <if test="status != null and status != ''">
+            AND ord.status = #{status}
         </if>
-        <if test="payStatus != null and payStatus != ''">
-            AND pso.PAY_STATUS = #{payStatus}
+        <if test="pay_status != null and pay_status != ''">
+            AND ord.pay_status = #{pay_status}
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            AND pso.STATUS = #{orderStatus}
+        <if test="is_comment != null and is_comment != ''">
+            AND ord.is_comment = #{is_comment}
         </if>
         <if test="distribStatus != null and distribStatus != ''">
-            AND pso.DISTRIBUTION_STATUS = #{distribStatus}
+            AND ord.DISTRIBUTION_STATUS = #{distribStatus}
         </if>
-
-        <if test="status != null and status != ''">
-            AND pso.STATUS=#{status}
-        </if>
-        <if test="is_dxk_order != null and is_dxk_order != ''">
-            AND pso.is_dxk_order = #{is_dxk_order}
-        </if>
-
         <if test="startTime != null and startTime != ''">
-            AND pso.COMPLETION_TIME &gt; #{startTime}
+            AND ord.COMPLETION_TIME &gt; #{startTime}
         </if>
         <if test="endTime != null and endTime != ''">
-            AND pso.COMPLETION_TIME &lt; #{endTime}
+            AND ord.COMPLETION_TIME &lt; #{endTime}
         </if>
 
         <if test="is_zhiying != null and is_zhiying != ''">
-            AND pg.is_zhiying = #{is_zhiying}
+            AND lg.is_zhiying = #{is_zhiying}
         </if>
-
     </select>
 
     <select id="findById" resultMap="my_order_vo" parameterType="String">
-        SELECT pso.*, le.EMP_NAME, lp.EMP_NAME as seller_name, psa.PHONE,psa.ADDRESS, p.PNAME, cy.cityName, a.AREANAME, pg.GOODS_NAME FROM PAOPAO_SHOPPING_ORDER pso
-        LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
-        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
-        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
-        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
-        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
-        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
-        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
-        WHERE pso.ORDER_NO=#{id}
+         SELECT ord.* ,
+        le.emp_mobile as emp_mobile,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+
+        les.emp_mobile as emp_mobile_seller,
+        les.emp_name as emp_name_seller,
+        les.emp_cover as emp_cover_seller,
+
+        lg.cloud_caoping_title as cloud_caoping_title,
+        lg.cloud_caoping_pic as cloud_caoping_pic,
+        lg.cloud_caoping_address as cloud_caoping_address,
+        lg.cloud_caoping_prices as cloud_caoping_prices,
+        lpro.pname as provinceName,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
+
+        from PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
+        WHERE ord.ORDER_NO=#{id}
     </select>
 
     <select id="income" resultType="Float">
@@ -241,17 +267,33 @@
 
 
     <select id="listOrdersEnd" resultMap="my_order_vo" parameterType="String">
-        SELECT pso.*, le.EMP_NAME, lp.EMP_NAME as seller_name, psa.PHONE,psa.ADDRESS, p.PNAME, cy.cityName, a.AREANAME, pg.GOODS_NAME FROM PAOPAO_SHOPPING_ORDER pso
-        LEFT JOIN LX_EMP le ON pso.EMP_ID=le.EMP_ID
-        LEFT JOIN LX_EMP lp ON pso.SELLER_EMP_ID=lp.EMP_ID
-        LEFT JOIN PAOPAO_SHOPPING_ADDRESS psa ON pso.ADDRESS_ID=psa.ADDRESS_ID
-        LEFT JOIN PROVINCE p ON pso.PROVINCEID=p.PROVINCEID
-        LEFT JOIN CITY cy ON pso.CITYID=cy.CITYID
-        LEFT JOIN AREA a ON pso.AREAID=a.AREAID
-        LEFT JOIN PAOPAO_GOODS pg ON pso.GOODS_ID=pg.GOODS_ID
+      SELECT ord.* ,
+        le.emp_mobile as emp_mobile,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+
+        les.emp_mobile as emp_mobile_seller,
+        les.emp_name as emp_name_seller,
+        les.emp_cover as emp_cover_seller,
+
+        lg.cloud_caoping_title as cloud_caoping_title,
+        lg.cloud_caoping_pic as cloud_caoping_pic,
+        lg.cloud_caoping_address as cloud_caoping_address,
+        lg.cloud_caoping_prices as cloud_caoping_prices,
+        lpro.pname as provinceName,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
+
+        from PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
         WHERE '1'='1'
-        AND #{time}-pso.PAY_TIME &gt;#{period}
-        AND pso.PAY_STATUS='1' AND (pso.STATUS = '6' OR  pso.STATUS = '2')
+        AND #{time}-ord.PAY_TIME &gt;#{period}
+        AND ord.PAY_STATUS='1' AND (ord.STATUS = '6' OR  ord.STATUS = '2')
     </select>
 
 

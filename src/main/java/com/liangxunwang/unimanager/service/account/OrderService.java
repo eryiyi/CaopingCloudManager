@@ -43,7 +43,6 @@ public class OrderService implements ListService, DeleteService, FindService, Up
     private ManagerInfoDao infoDao;
     @Override
     public Object delete(Object object) throws ServiceException {
-
         return null;
     }
 
@@ -51,40 +50,34 @@ public class OrderService implements ListService, DeleteService, FindService, Up
     public Object list(Object object) throws ServiceException {
         if (object instanceof OrdersQuery){
             OrdersQuery query = (OrdersQuery) object;
-            String empId = query.getEmpId();
             int index = (query.getIndex() - 1) * query.getSize();
             int size = query.getIndex() * query.getSize();
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("index", index);
             map.put("size", size);
-            if (!StringUtil.isNullOrEmpty(empId)) {
-                map.put("empId", empId);
+            if (!StringUtil.isNullOrEmpty(query.getEmp_id())) {
+                map.put("emp_id", query.getEmp_id());
             }
-            if (!StringUtil.isNullOrEmpty(query.getEmpName())){
-                map.put("empName", query.getEmpName());
+            if (!StringUtil.isNullOrEmpty(query.getStatus())) {
+                map.put("status", query.getStatus());
             }
-            if (!StringUtil.isNullOrEmpty(query.getEmpPhone())){
-                map.put("empPhone", query.getEmpPhone());
+            if (!StringUtil.isNullOrEmpty(query.getIs_comment())) {
+                map.put("is_comment", query.getIs_comment());
             }
-            if (!StringUtil.isNullOrEmpty(query.getOrderStatus())){
-                map.put("orderStatus", query.getOrderStatus());
+            if (!StringUtil.isNullOrEmpty(query.getSeller_emp_id())) {
+                map.put("seller_emp_id", query.getSeller_emp_id());
             }
-            if (!StringUtil.isNullOrEmpty(query.getPayStatus())){
-                map.put("payStatus", query.getPayStatus());
-            }
-            if (!StringUtil.isNullOrEmpty(query.getDistribStatus())){
-                map.put("distribStatus", query.getDistribStatus());
-            }
-            if (!StringUtil.isNullOrEmpty(query.getIs_dxk_order())){
-                map.put("is_dxk_order", query.getIs_dxk_order());
+            if (!StringUtil.isNullOrEmpty(query.getPay_status())) {
+                map.put("pay_status", query.getPay_status());
             }
 
             List<OrdersVO> list = orderDao.listOrders(map);
             long count = orderDao.count(map);
 
             return new Object[]{list, count};
-        }else if (object instanceof SettlementQuery ){
+        }
+        else if (object instanceof SettlementQuery ){
             SettlementQuery query = (SettlementQuery) object;
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("index", 1);
@@ -118,12 +111,8 @@ public class OrderService implements ListService, DeleteService, FindService, Up
 
     @Override
     public Object update(Object object) {
-
         Long t = Constants.DAY_MILLISECOND*6;
-
         orderDao.updateOrderStatus(System.currentTimeMillis()+"", t+"");
-
-        //
         return null;
     }
 

@@ -6,7 +6,7 @@ package com.liangxunwang.unimanager.model;
  */
 public class Order {
     private String order_no;//订单号
-    private String goods_id;//商品ID关联
+    private String cloud_caoping_id;//商品ID关联
     private String emp_id;//买家ID
     private String seller_emp_id;//卖家ID
     private String provinceId;//省ID
@@ -154,12 +154,12 @@ public class Order {
         this.order_no = order_no;
     }
 
-    public String getGoods_id() {
-        return goods_id;
+    public String getCloud_caoping_id() {
+        return cloud_caoping_id;
     }
 
-    public void setGoods_id(String goods_id) {
-        this.goods_id = goods_id;
+    public void setCloud_caoping_id(String cloud_caoping_id) {
+        this.cloud_caoping_id = cloud_caoping_id;
     }
 
     public String getEmp_id() {

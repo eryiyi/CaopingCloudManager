@@ -1,35 +1,24 @@
 package com.liangxunwang.unimanager.service.app;
 
-import com.liangxunwang.unimanager.baidu.channel.auth.ChannelKeyPair;
-import com.liangxunwang.unimanager.baidu.channel.client.BaiduChannelClient;
-import com.liangxunwang.unimanager.baidu.channel.exception.ChannelClientException;
-import com.liangxunwang.unimanager.baidu.channel.exception.ChannelServerException;
-import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageRequest;
-import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageResponse;
-import com.liangxunwang.unimanager.baidu.log.YunLogEvent;
-import com.liangxunwang.unimanager.baidu.log.YunLogHandler;
 import com.liangxunwang.unimanager.dao.AppOrderMakeDao;
+import com.liangxunwang.unimanager.dao.CpObjDao;
 import com.liangxunwang.unimanager.dao.MemberDao;
-import com.liangxunwang.unimanager.dao.PaopaoGoodsDao;
 import com.liangxunwang.unimanager.dao.RelateDao;
-import com.liangxunwang.unimanager.model.*;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
-import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
-import com.liangxunwang.unimanager.query.OrdersQuery;
-import com.liangxunwang.unimanager.service.*;
-import com.liangxunwang.unimanager.util.*;
+import com.liangxunwang.unimanager.model.Order;
+import com.liangxunwang.unimanager.model.ShoppingTrade;
+import com.liangxunwang.unimanager.service.SaveService;
+import com.liangxunwang.unimanager.service.ServiceException;
+import com.liangxunwang.unimanager.util.Constants;
+import com.liangxunwang.unimanager.util.MD5;
+import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/8/14.
@@ -42,8 +31,8 @@ public class AppOrderMakeWxService implements SaveService{
     private AppOrderMakeDao appOrderMakeSaveDao;
 
     @Autowired
-    @Qualifier("paopaoGoodsDao")
-    private PaopaoGoodsDao paopaoGoodsDao;
+    @Qualifier("cpObjDao")
+    private CpObjDao cpObjDao;
 
     @Autowired
     @Qualifier("memberDao")
@@ -58,14 +47,14 @@ public class AppOrderMakeWxService implements SaveService{
     public Object save(Object object) throws ServiceException {
         List<Order> lists = (List<Order>) object;
         //先判断商品剩余数量，是否大于要购买的数量
-        for(Order order:lists){
-            order.getGoods_count();//订单数量
-            //根据商品ID查询商品数量
-            PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-            if(Integer.parseInt(vo.getCount()) < Integer.parseInt(order.getGoods_count())){
-                throw new ServiceException("outOfNum");//超出数量限制
-            }
-        }
+//        for(Order order:lists){
+//            order.getGoods_count();//订单数量
+//            //根据商品ID查询商品数量
+//            CpObj vo = cpObjDao.findById(order.getCloud_caoping_id());
+//            if(Integer.parseInt(vo.getcou()) < Integer.parseInt(order.getGoods_count())){
+//                throw new ServiceException("outOfNum");//超出数量限制
+//            }
+//        }
         Double doublePrices = 0.0;
         if(lists!=null && lists.size() > 0){
             for(Order order:lists){
@@ -102,17 +91,17 @@ public class AppOrderMakeWxService implements SaveService{
         }
 
         //商品数量要减去已购买的数量
-        for(Order order:lists){
-            order.getGoods_count();//订单数量
-            PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-            paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
-        }
+//        for(Order order:lists){
+//            order.getGoods_count();//订单数量
+//            PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
+//            paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
+//        }
 
         //生成sign签名
         StringBuffer xml = new StringBuffer();
         try {
             final String ip_str = "127.0.0.1";
-            final String body = "meirenmeiba";
+            final String body = "cpCloud";
             final String trade_type = "APP";
             String  nonceStr = UUIDFactory.random();
 

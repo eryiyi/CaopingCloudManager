@@ -2,7 +2,7 @@ package com.liangxunwang.unimanager.dao;
 
 import com.liangxunwang.unimanager.model.Order;
 import com.liangxunwang.unimanager.model.ShoppingTrade;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +18,6 @@ public interface AppOrderMakeDao {
      * 保存订单
      */
     void saveList(Order order);
-    //保存定向卡
-    void saveDxkOrder(Order order);
     /**
      * �保存订单 交易号  和支付宝关联��
      * */
@@ -31,7 +29,7 @@ public interface AppOrderMakeDao {
     void updateTradeById(String out_trade_no);
 
     //查询用户订单
-    List<OrderVo> listOrders(Map<String, Object> map);
+    List<OrdersVO> listOrders(Map<String, Object> map);
 
     //取消订单
     void cancelOrderById(String order_no);
@@ -51,9 +49,6 @@ public interface AppOrderMakeDao {
     //查询总的收入
     String selectSum(Map<String, Object> map);
 
-    //商家查询自己用户的订单
-    List<OrderVo> listOrdersSj(Map<String, Object> map);
-
     //卖家确认发货
     void sendOrderSj(Order order);
     //退货
@@ -69,5 +64,5 @@ public interface AppOrderMakeDao {
     List<Order> findOrderByTradeNo(String out_trade_no);
 
     //根据订单号查询订单状态
-    OrderVo findOrderByOrderNo(String order_no);
+    OrdersVO findOrderByOrderNo(String order_no);
  }

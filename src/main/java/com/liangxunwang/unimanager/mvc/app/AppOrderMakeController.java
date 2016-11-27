@@ -8,7 +8,7 @@ import com.liangxunwang.unimanager.model.OrderInfoAndSign;
 import com.liangxunwang.unimanager.model.WxPayObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import com.liangxunwang.unimanager.query.OrdersQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -280,10 +280,27 @@ public class AppOrderMakeController extends ControllerConstants {
     @ResponseBody
     public String listGoodsByType(OrdersQuery query, Page page){
         try {
-            query.setIndex(page.getPage()==0?1:page.getPage());
-            query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
-            query.setEmptype("0");//普通会员查询订单
-            List<OrderVo> list = (List<OrderVo>) appOrderListService.list(query);
+            query.setIndex(page.getPage() == 0 ? 1 : page.getPage());
+            query.setSize(query.getSize() == 0 ? page.getDefaultSize() : query.getSize());
+            List<OrdersVO> list = (List<OrdersVO>) appOrderListService.list(query);
+            DataTip tip = new DataTip();
+            tip.setData(list);
+            return toJSONString(tip);
+        }catch (ServiceException e){
+            return toJSONString(new ErrorTip(1, "查询失败，请稍后重试！"));
+        }
+    }
+
+    /**
+     * 查询订单列表--商家查询自己的订单
+     * */
+    @RequestMapping(value = "/listOrdersMng", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String listOrdersMng(OrdersQuery query, Page page){
+        try {
+            query.setIndex(page.getPage() == 0 ? 1 : page.getPage());
+            query.setSize(query.getSize() == 0 ? page.getDefaultSize() : query.getSize());
+            List<OrdersVO> list = (List<OrdersVO>) appOrderListService.list(query);
             DataTip tip = new DataTip();
             tip.setData(list);
             return toJSONString(tip);
@@ -366,31 +383,13 @@ public class AppOrderMakeController extends ControllerConstants {
     }
 
 
-    /**
-     * 查询订单列表--商家查询自己的订单
-     * */
-    @RequestMapping(value = "/listOrdersMng", produces = "text/plain; charset=UTF-8")
-    @ResponseBody
-    public String listOrdersMng(OrdersQuery query, Page page){
-        try {
-            query.setIndex(page.getPage()==0?1:page.getPage());
-            query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
-            query.setEmptype("2");//商家查询自己的订单
-            List<OrderVo> list = (List<OrderVo>) appOrderListService.list(query);
-            DataTip tip = new DataTip();
-            tip.setData(list);
-            return toJSONString(tip);
-        }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "查询失败，请稍后重试！"));
-        }
-    }
 
     //根据订单号查询订单状态
     @RequestMapping(value = "/findOrderByOrderNo", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String findOrderByOrderNo(String orderNo){
         try {
-            OrderVo order = (OrderVo) appOrderFindService.findById(orderNo);
+            OrdersVO order = (OrdersVO) appOrderFindService.findById(orderNo);
             DataTip tip = new DataTip();
             tip.setData(order);
             return toJSONString(tip);
@@ -413,7 +412,7 @@ public class AppOrderMakeController extends ControllerConstants {
         map.put("status",status);
         UpateappOrderService.update(map);
         //根据订单号，查询订单详情
-        OrderVo orderVo = (OrderVo) appOrderCancelService.execute(order_no);
+        OrdersVO orderVo = (OrdersVO) appOrderCancelService.execute(order_no);
         map1.put("vo", orderVo);
         return "/order/detailOrder";
     }

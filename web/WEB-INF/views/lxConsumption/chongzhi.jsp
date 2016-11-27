@@ -11,6 +11,7 @@
             <li><a href="javascript:void(0)">会员充值</a></li>
             <li><a href="javascript:void(0)">会员充值</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -102,7 +103,7 @@
         $.ajax({
             cache: true,
             type: "POST",
-            url: "/lxConsumptionController/chongzhi.do",
+            url: "/lxConsumptionController/chongzhiLq.do",
             data: {
                 "emp_id": emp_id,
                 "lx_consumption_type": '1',

@@ -5,7 +5,7 @@
 <mapper namespace="com.liangxunwang.unimanager.dao.AppOrderMakeDao">
     <resultMap id="order" type="com.liangxunwang.unimanager.model.Order">
         <id column="order_no" property="order_no"/>
-        <result column="goods_id" property="goods_id"/>
+        <result column="cloud_caoping_id" property="cloud_caoping_id"/>
         <result column="emp_id" property="emp_id"/>
         <result column="seller_emp_id" property="seller_emp_id"/>
 
@@ -46,9 +46,9 @@
 
     </resultMap>
 
-    <resultMap id="orderVO" type="com.liangxunwang.unimanager.mvc.vo.OrderVo">
+    <resultMap id="orderVO" type="com.liangxunwang.unimanager.mvc.vo.OrdersVO">
         <id column="order_no" property="order_no"/>
-        <result column="goods_id" property="goods_id"/>
+        <result column="cloud_caoping_id" property="cloud_caoping_id"/>
         <result column="emp_id" property="emp_id"/>
         <result column="seller_emp_id" property="seller_emp_id"/>
         <result column="PROVINCEID" property="provinceId"/>
@@ -75,12 +75,6 @@
         <result column="out_trade_no" property="out_trade_no"/>
         <result column="isAccount" property="isAccount"/>
 
-        <result column="emp_cover" property="empCover"/>
-        <result column="emp_name" property="empName"/>
-        <result column="emp_mobile" property="empMobile"/>
-        <result column="goods_name" property="goodsTitle"/>
-        <result column="goods_cover" property="goodsCover"/>
-        <result column="SELL_PRICE" property="goodsPrice"/>
         <result column="trade_type" property="trade_type"/>
         <result column="returnMsg" property="returnMsg"/>
         <result column="returnOrder" property="returnOrder"/>
@@ -92,16 +86,76 @@
         <result column="payable_amount_all" property="payable_amount_all"/>
         <result column="pv_amount" property="pv_amount"/>
 
-    </resultMap>
+        <result column="emp_mobile" property="emp_mobile"/>
+        <result column="emp_name" property="emp_name"/>
+        <result column="emp_cover" property="emp_cover"/>
 
+        <result column="emp_mobile_seller" property="emp_mobile_seller"/>
+        <result column="emp_name_seller" property="emp_name_seller"/>
+        <result column="emp_cover_seller" property="emp_cover_seller"/>
+
+        <result column="provinceName" property="provinceName"/>
+        <result column="cityName" property="cityName"/>
+        <result column="areaName" property="areaName"/>
+        <result column="cloud_caoping_title" property="cloud_caoping_title"/>
+        <result column="cloud_caoping_pic" property="cloud_caoping_pic"/>
+        <result column="cloud_caoping_address" property="cloud_caoping_address"/>
+        <result column="cloud_caoping_prices" property="cloud_caoping_prices"/>
+    </resultMap>
 
     <select id="listOrders" resultMap="orderVO">
-        SELECT ord.* ,le.emp_name as empName, le.emp_cover as empCover,le.EMP_MOBILE as empMobile ,lg.goods_name as goodsTitle,lg.goods_cover as goodsCover,lg.SELL_PRICE as goodsPrice from PAOPAO_SHOPPING_ORDER ord
-        LEFT JOIN lx_emp le ON ord.seller_emp_id=le.emp_id
-        LEFT JOIN PAOPAO_GOODS lg ON ord.goods_id=lg.goods_id
-        WHERE 1=1 AND ord.EMP_ID = #{emp_id} AND ord.STATUS !='4'
+        SELECT ord.* ,
+        le.emp_mobile as emp_mobile,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+
+        les.emp_mobile as emp_mobile_seller,
+        les.emp_name as emp_name_seller,
+        les.emp_cover as emp_cover_seller,
+
+        lg.cloud_caoping_title as cloud_caoping_title,
+        lg.cloud_caoping_pic as cloud_caoping_pic,
+        lg.cloud_caoping_address as cloud_caoping_address,
+        lg.cloud_caoping_prices as cloud_caoping_prices,
+        lpro.pname as provinceName,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
+
+        from PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND ord.emp_id=#{emp_id}
+        </if>
+        <if test="seller_emp_id != null and seller_emp_id != ''">
+            AND ord.seller_emp_id=#{seller_emp_id}
+        </if>
         <if test="status != null and status != ''">
-            AND ord.status=#{status}
+            AND ord.status = #{status}
+        </if>
+        <if test="pay_status != null and pay_status != ''">
+            AND ord.pay_status = #{pay_status}
+        </if>
+        <if test="is_comment != null and is_comment != ''">
+            AND ord.is_comment = #{is_comment}
+        </if>
+        <if test="distribStatus != null and distribStatus != ''">
+            AND ord.DISTRIBUTION_STATUS = #{distribStatus}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND ord.COMPLETION_TIME &gt; #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND ord.COMPLETION_TIME &lt; #{endTime}
+        </if>
+
+        <if test="is_zhiying != null and is_zhiying != ''">
+            AND lg.is_zhiying = #{is_zhiying}
         </if>
         ORDER BY ord.create_time DESC
         limit #{index},#{size}
@@ -175,9 +229,30 @@
     </select>
 
     <select id="findOrderByOrderNo" resultMap="orderVO">
-        SELECT ord.* ,le.emp_name as empName, le.emp_cover as empCover,le.EMP_MOBILE as empMobile ,lg.goods_name as goodsTitle,lg.goods_cover as goodsCover,lg.SELL_PRICE as goodsPrice from PAOPAO_SHOPPING_ORDER ord
-            LEFT JOIN lx_emp le ON ord.EMP_ID=le.emp_id
-            LEFT JOIN PAOPAO_GOODS lg ON ord.goods_id=lg.goods_id
+       SELECT ord.* ,
+        le.emp_mobile as emp_mobile,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+
+        les.emp_mobile as emp_mobile_seller,
+        les.emp_name as emp_name_seller,
+        les.emp_cover as emp_cover_seller,
+
+        lg.cloud_caoping_title as cloud_caoping_title,
+        lg.cloud_caoping_pic as cloud_caoping_pic,
+        lg.cloud_caoping_address as cloud_caoping_address,
+        lg.cloud_caoping_prices as cloud_caoping_prices,
+        lpro.pname as provinceName,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
+
+        from PAOPAO_SHOPPING_ORDER ord
+        LEFT JOIN lx_emp le ON ord.emp_id=le.emp_id
+        LEFT JOIN lx_emp les ON ord.seller_emp_id=les.emp_id
+        LEFT JOIN cloud_caoping lg ON ord.cloud_caoping_id=lg.cloud_caoping_id
+        LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
+        LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
+        LEFT JOIN area larea ON larea.areaid=ord.AREAID
             WHERE ord.order_no = #{order_no}
     </select>
 
@@ -236,38 +311,11 @@
         AND PAY_STATUS = '1'
     </select>
 
-    <select id="listOrdersSj" resultMap="orderVO">
-            SELECT ord.* ,le.emp_name as empName, le.emp_cover as empCover,le.EMP_MOBILE as empMobile ,lg.goods_name as goodsTitle,lg.goods_cover as goodsCover,lg.SELL_PRICE as goodsPrice from PAOPAO_SHOPPING_ORDER ord
-            LEFT JOIN lx_emp le ON ord.EMP_ID=le.emp_id
-            LEFT JOIN PAOPAO_GOODS lg ON ord.goods_id=lg.goods_id
-
-            WHERE 1=1 AND ord.seller_emp_id = #{emp_id}
-            <if test="status != null and status != ''">
-                AND ord.status=#{status}
-            </if>
-            ORDER BY ord.create_time DESC
-
-        limit #{index},#{size}
-    </select>
 
     <update id="deleteOrderById" parameterType="String">
         UPDATE  PAOPAO_SHOPPING_ORDER SET  status='4'  WHERE order_no=#{order_no}
     </update>
 
-
-    <insert id="saveDxkOrder" parameterType="com.liangxunwang.unimanager.model.Order">
-        insert into PAOPAO_SHOPPING_ORDER (order_no, emp_id, seller_emp_id, payable_amount, create_time, pay_time, status, is_dxk_order, pay_status)
-        VALUES(#{order_no,jdbcType=VARCHAR},
-        #{emp_id,jdbcType=VARCHAR},
-        #{seller_emp_id,jdbcType=VARCHAR},
-        #{payable_amount,jdbcType=VARCHAR},
-        #{create_time,jdbcType=VARCHAR},
-        #{pay_time,jdbcType=VARCHAR},
-        #{status,jdbcType=VARCHAR},
-        #{is_dxk_order,jdbcType=VARCHAR},
-        #{pay_status,jdbcType=VARCHAR}
-        )
-    </insert>
 
     <update id="updateIsComment" parameterType="String">
         UPDATE PAOPAO_SHOPPING_ORDER SET is_comment='1'  WHERE order_no=#{order_no}

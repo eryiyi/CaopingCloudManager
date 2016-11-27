@@ -3,7 +3,7 @@ package com.liangxunwang.unimanager.service.app;
 import com.liangxunwang.unimanager.dao.AppOrderCancelDao;
 import com.liangxunwang.unimanager.dao.AppOrderMakeDao;
 import com.liangxunwang.unimanager.model.CancelOrder;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
@@ -42,7 +42,7 @@ public class AppOrderCancelService implements SaveService,ExecuteService,UpdateS
 
     @Override
     public Object execute(Object object) throws ServiceException, Exception {
-        OrderVo orderVo = appOrderMakeSaveDao.findOrderByOrderNo((String) object);
+        OrdersVO orderVo = appOrderMakeSaveDao.findOrderByOrderNo((String) object);
         return orderVo;
     }
 

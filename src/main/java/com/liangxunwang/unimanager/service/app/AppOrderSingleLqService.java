@@ -4,7 +4,7 @@ import com.liangxunwang.unimanager.dao.*;
 import com.liangxunwang.unimanager.model.LxConsumption;
 import com.liangxunwang.unimanager.model.MinePackage;
 import com.liangxunwang.unimanager.model.OrderInfoAndSign;
-import com.liangxunwang.unimanager.mvc.vo.OrderVo;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.util.StringUtil;
@@ -48,7 +48,7 @@ public class AppOrderSingleLqService implements SaveService {
         String doublePricess = map.get("doublePrices");
         Double doublePrices = Double.valueOf(doublePricess);
         //根据订单号 查询订单详情
-        OrderVo orderVo = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
+        OrdersVO orderVo = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
         //判断金额是否大于他的零钱--零钱是否足够支付
         MinePackage minePackage = minePackageDao.findById(orderVo.getEmp_id());
         if(minePackage != null){

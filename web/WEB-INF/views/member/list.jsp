@@ -102,6 +102,7 @@
                         <th>是否禁用</th>
                         <th>注册时间</th>
                         <th>操作</th>
+                        <th>充值</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -151,6 +152,10 @@
                             <td>${um:format(e.dateline, "yyyy-MM-dd HH:mm:ss")}</td>
                             <td>
                                 <button class="btn btn-primary" type="button" onclick="detailEmp('${e.empMobile}')">编辑
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" type="button" onclick="chongzhi('${e.empId}')">零钱充值
                                 </button>
                             </td>
                         </tr>

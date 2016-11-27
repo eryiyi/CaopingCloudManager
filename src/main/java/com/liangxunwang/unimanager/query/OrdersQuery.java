@@ -7,61 +7,34 @@ public class OrdersQuery {
     private int index;
     private int size;
 
-    private String empId;
+    private String emp_id;
+    private String seller_emp_id;
     private String status;
-    private String empName;//买家昵称
-    private String empPhone;//买家电话
-    private String orderStatus;//订单状态
-    private String payStatus;//付款状态
-    private String distribStatus;//配送状态
-    private String is_dxk_order;//是否0元订单
+    private String pay_status;//付款状态
+    private String is_comment;//是否评论了， 0否 1是
 
-    public String getIs_dxk_order() {
-        return is_dxk_order;
+    public String getSeller_emp_id() {
+        return seller_emp_id;
     }
 
-    public void setIs_dxk_order(String is_dxk_order) {
-        this.is_dxk_order = is_dxk_order;
+    public void setSeller_emp_id(String seller_emp_id) {
+        this.seller_emp_id = seller_emp_id;
     }
 
-    public String getEmpName() {
-        return empName;
+    public String getIs_comment() {
+        return is_comment;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setIs_comment(String is_comment) {
+        this.is_comment = is_comment;
     }
 
-    public String getEmpPhone() {
-        return empPhone;
+    public String getPay_status() {
+        return pay_status;
     }
 
-    public void setEmpPhone(String empPhone) {
-        this.empPhone = empPhone;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getPayStatus() {
-        return payStatus;
-    }
-
-    public void setPayStatus(String payStatus) {
-        this.payStatus = payStatus;
-    }
-
-    public String getDistribStatus() {
-        return distribStatus;
-    }
-
-    public void setDistribStatus(String distribStatus) {
-        this.distribStatus = distribStatus;
+    public void setPay_status(String pay_status) {
+        this.pay_status = pay_status;
     }
 
     private String emptype;
@@ -90,12 +63,12 @@ public class OrdersQuery {
         this.size = size;
     }
 
-    public String getEmpId() {
-        return empId;
+    public String getEmp_id() {
+        return emp_id;
     }
 
-    public void setEmpId(String empId) {
-        this.empId = empId;
+    public void setEmp_id(String emp_id) {
+        this.emp_id = emp_id;
     }
 
     public String getStatus() {

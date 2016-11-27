@@ -49,22 +49,22 @@ public class AppOrderMakeLqService implements SaveService {
         String emp_id = "";
         List<Order> lists = (List<Order>) object;
         //先判断商品剩余数量，是否大于要购买的数量
-        for(Order order:lists){
-            if(!StringUtil.isNullOrEmpty(order.getEmp_id())){
-                emp_id = order.getEmp_id();
-            }
-            order.getGoods_count();//订单数量
+//        for(Order order:lists){
+//            if(!StringUtil.isNullOrEmpty(order.getEmp_id())){
+//                emp_id = order.getEmp_id();
+//            }
+//            order.getGoods_count();//订单数量
             //根据商品ID查询商品数量
-            PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-            if(vo != null){
-                if(!StringUtil.isNullOrEmpty(vo.getCount()) && !StringUtil.isNullOrEmpty(order.getGoods_count())){
-                    if(Integer.parseInt(vo.getCount()) < Integer.parseInt(order.getGoods_count())){
-                        throw new ServiceException("outOfNum");//超出数量限制
-                    }
-                }
-            }
+//            PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
+//            if(vo != null){
+//                if(!StringUtil.isNullOrEmpty(vo.getCount()) && !StringUtil.isNullOrEmpty(order.getGoods_count())){
+//                    if(Integer.parseInt(vo.getCount()) < Integer.parseInt(order.getGoods_count())){
+//                        throw new ServiceException("outOfNum");//超出数量限制
+//                    }
+//                }
+//            }
 
-        }
+//        }
         Double doublePrices = 0.0;
         if(lists!=null && lists.size() > 0){
             for(Order order:lists){
@@ -129,20 +129,17 @@ public class AppOrderMakeLqService implements SaveService {
         }
 
         //商品数量要减去已购买的数量
-        for(Order order:lists){
-            order.getGoods_count();//订单数量
-            PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
-            paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
-        }
+//        for(Order order:lists){
+//            order.getGoods_count();//订单数量
+//            PaopaoGoodsVO paopaoGoods = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
+//            paopaoGoodsDao.updateCountById(order.getGoods_id(), order.getGoods_count(), order.getGoods_count());
+//        }
 
         //更新零钱 减去消费的这些
         MinePackage minePackage1 = new MinePackage();
         minePackage1.setEmp_id(emp_id);
         minePackage1.setPackage_money(String.valueOf(doublePrices));
         minePackageDao.updateDel(minePackage1);
-
-
-
         return new OrderInfoAndSign("", "", out_trade_no);
     }
 

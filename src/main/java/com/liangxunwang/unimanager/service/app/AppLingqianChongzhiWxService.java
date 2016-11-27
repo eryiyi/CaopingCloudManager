@@ -68,7 +68,7 @@ public class AppLingqianChongzhiWxService implements SaveService {
         StringBuffer xml = new StringBuffer();
         try {
             final String ip_str = "127.0.0.1";
-            final String body = "meirenmeiba";
+            final String body = "cpCloud";
             final String trade_type = "APP";
             String  nonceStr = UUIDFactory.random();
 

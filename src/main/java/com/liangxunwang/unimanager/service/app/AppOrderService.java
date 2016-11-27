@@ -134,7 +134,7 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
         String doublePrices = map.get("doublePrices");
         //生成sign签名
         // 订单
-        String orderInfo = StringUtil.getOrderInfo(order_no, "meirenmeiba", "isbody", String.valueOf(doublePrices));
+        String orderInfo = StringUtil.getOrderInfo(order_no, "cpCloud", "isbody", String.valueOf(doublePrices));
 
         // 对订单做RSA 签名
         String sign = StringUtil.sign(orderInfo);

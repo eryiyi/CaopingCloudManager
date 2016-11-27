@@ -15,7 +15,6 @@ import java.util.Map;
  */
 @Repository("orderDao")
 public interface OrderDao {
-
     /**
      * 查询所有的订单
      * @param map

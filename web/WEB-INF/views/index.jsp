@@ -19,13 +19,12 @@
     <link href="/css/style_v2.css" rel="stylesheet">
     <link href="/plugins/chartist/chartist.min.css" rel="stylesheet">
     <link href="/plugins/icon/css/style.css" rel="stylesheet">
-
     <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
-    <link rel="stylesheet" href="/ueditor/themes/default/css/ueditor.css" type="text/css">
     <%--CHART-JS--%>
     <script type="text/javascript" charset="utf-8" src="/js/Chart.bundle.min.js"></script>
+    <link rel="stylesheet" href="/ueditor/themes/default/css/ueditor.css" type="text/css">
 
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
     <script type="text/javascript"
@@ -505,6 +504,7 @@
 <script type="text/javascript" src="/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="/js/Util.js"></script>
 
+
 </body>
 <script type="text/javascript">
     (function (window, undefined) {
@@ -524,7 +524,7 @@
             var newHash = window.location.hash;
 
             if (newHash == "") {
-//                window.location.hash = "#module=main";
+                window.location.hash = "#module=mainPage";
                 return;
             }
             if (newHash == currentHash) return;

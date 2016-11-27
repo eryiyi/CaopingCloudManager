@@ -8,7 +8,7 @@ public class Constants {
 //        public static final String URL = "http://139.196.169.8:8080/";
         public static final String URL = "http://192.168.0.224:8080/";
 
-    public static final String DOWNLOAD_URL = URL + "html/MeirenmeibaApp.apk";
+    public static final String DOWNLOAD_URL = URL + "html/cpCloudApp.apk";
     //注册用默认会员等级--青铜会员
     public static final String DEFAULT_LEVEL = "d42535ff62e147ae80dba7bc9d8ea0d4";
 
