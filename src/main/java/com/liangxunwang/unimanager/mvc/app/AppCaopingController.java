@@ -3,7 +3,10 @@ package com.liangxunwang.unimanager.mvc.app;
 import com.liangxunwang.unimanager.model.*;
 import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
+import com.liangxunwang.unimanager.mvc.vo.CompanySort;
 import com.liangxunwang.unimanager.query.CpObjQuery;
+import com.liangxunwang.unimanager.query.DianpuFavourQuery;
+import com.liangxunwang.unimanager.query.GoodsCommentQuery;
 import com.liangxunwang.unimanager.query.NewsQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
@@ -173,14 +176,30 @@ public class AppCaopingController extends ControllerConstants {
     @Autowired
     @Qualifier("appCompanyService")
     private ExecuteService appCompanyService;
+
     @Autowired
     @Qualifier("countCpService")
     private ExecuteService countCpServiceExe;
 
+    @Autowired
+    @Qualifier("appDianpuFavourService")
+    private ExecuteService appDianpuFavourServiceExe;
+
+    @Autowired
+    @Qualifier("appCompanySortService")
+    private ExecuteService appCompanySortServiceExe;
+
+    @Autowired
+    @Qualifier("goodsCommentService")
+    private ListService goodsCommentListService;
+
+    @Autowired
+    @Qualifier("goodsCommentService")
+    private ExecuteService goodsCommentServiceExe;
+
 
     @RequestMapping(value = "/toDetailCp", produces = "text/plain;charset=UTF-8")
     public String toDetailMsg(String id,ModelMap map, HttpSession session) throws Exception {
-        Admin admin = (Admin) session.getAttribute(ACCOUNT_KEY);
         CpObj cpObj = (CpObj) appCpobjServiceExe.execute(id);
         if(!StringUtil.isNullOrEmpty(cpObj.getCloud_caoping_pic())){
             String[] voPic = cpObj.getCloud_caoping_pic().split(",");
@@ -194,6 +213,39 @@ public class AppCaopingController extends ControllerConstants {
         //草原规模：发布多少条产品信息
         String cyNum = (String) countCpServiceExe.execute(cpObj.getEmp_id());
         map.put("cyNum", cyNum);
+        //关注人数
+        DianpuFavourQuery query = new DianpuFavourQuery();
+        query.setEmp_id(cpObj.getEmp_id());//被关注的人ID
+        String countGz = (String) appDianpuFavourServiceExe.execute(query);
+        map.put("countGz", countGz);
+
+        CompanySort companySort = (CompanySort) appCompanySortServiceExe.execute(cpObj.getEmp_id());
+        map.put("companySort", companySort);
+
+        //查询两个评论
+        GoodsCommentQuery commentQuery = new GoodsCommentQuery();
+        commentQuery.setIndex(1);
+        commentQuery.setSize(2);
+        commentQuery.setGoodsId(cpObj.getCloud_caoping_id());
+        List<GoodsComment> listComment = (List<GoodsComment>) goodsCommentListService.list(commentQuery);
+        map.put("listComment", listComment);
+        //查询好评几个 差评几个 一般评价几个
+        List<String> listCommentCount = (List<String>) goodsCommentServiceExe.execute(cpObj.getEmp_id());
+
+        if(listCommentCount != null){
+            if(listCommentCount.size()>0){
+                map.put("commentOne", listCommentCount.get(0));
+            }
+            if(listCommentCount.size()>1){
+                map.put("commentTwo", listCommentCount.get(1));
+            }
+            if(listCommentCount.size()>2){
+                map.put("commentThree", listCommentCount.get(2));
+            }
+            if(listCommentCount.size()>3){
+                map.put("commentFour", listCommentCount.get(3));
+            }
+        }
         return "/product/viewGoods";
     }
 

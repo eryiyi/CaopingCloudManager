@@ -16,4 +16,8 @@ public interface GoodsCommentDao {
     public List<GoodsComment> list(Map<String,Object> map);
 
     List<GoodsComment> listAllComment(Map<String,Object> map);
+
+    Long countOne(Map<String,Object> map);
+    Long countTwo(Map<String,Object> map);
+    Long countThree(Map<String,Object> map);
 }

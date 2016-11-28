@@ -33,6 +33,14 @@
         <result column="areaName" property="areaName"/>
     </resultMap>
 
+    <resultMap id="company_sort" type="com.liangxunwang.unimanager.mvc.vo.CompanySort">
+        <id column="company_id" property="company_id"/>
+        <result column="company_name" property="company_name"/>
+        <result column="is_paihang" property="is_paihang"/>
+        <result column="paihang_num" property="paihang_num"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
     <select id="lists" resultMap="company">
         SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
         from company lc
@@ -186,5 +194,12 @@
         UPDATE company SET is_paihang=#{is_paihang}, end_time=#{end_time}, paihang_num=#{paihang_num}
         WHERE company_id=#{company_id}
     </update>
+
+    <select id="findSort" parameterType="String" resultMap="company_sort">
+        SELECT company_name,paihang_num,
+        (SELECT COUNT(*)+1 FROM company WHERE is_paihang = 1 AND a.paihang_num &lt; paihang_num) AS sort
+        FROM company AS a
+        where is_paihang = 1 AND emp_id = #{emp_id} order by paihang_num desc
+    </select>
 
 </mapper>

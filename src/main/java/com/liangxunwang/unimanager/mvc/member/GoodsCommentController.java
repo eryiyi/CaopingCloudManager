@@ -7,10 +7,7 @@ import com.liangxunwang.unimanager.query.GoodsCommentQuery;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
-import com.liangxunwang.unimanager.util.Constants;
-import com.liangxunwang.unimanager.util.ControllerConstants;
-import com.liangxunwang.unimanager.util.Page;
-import com.liangxunwang.unimanager.util.RelativeDateFormat;
+import com.liangxunwang.unimanager.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -36,12 +33,20 @@ public class GoodsCommentController extends ControllerConstants {
     @RequestMapping("/saveGoodsComment")
     @ResponseBody
     public String saveGoodsComment(GoodsComment comment){
+        if(StringUtil.isNullOrEmpty(comment.getEmpId())){
+            return toJSONString(new ErrorTip(1, "评论失败，请检查用户ID是否存在！"));
+        }
+        if(StringUtil.isNullOrEmpty(comment.getGoodsId())){
+            return toJSONString(new ErrorTip(1, "评论失败，请检查产品ID是否存在！"));
+        }
+        if(StringUtil.isNullOrEmpty(comment.getGoodsEmpId())){
+            return toJSONString(new ErrorTip(1, "评论失败，请检查产品所有者ID是否存在！"));
+        }
         try {
             goodsCommentSaveService.save(comment);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            return toJSONString(new ErrorTip(1, "评论失败，请稍后重试！"));
         }
     }
 
@@ -54,7 +59,6 @@ public class GoodsCommentController extends ControllerConstants {
             List<GoodsComment> list = (List<GoodsComment>) goodsCommentListService.list(query);
             DataTip tip = new DataTip();
             tip.setData(list);
-
             return toJSONString(tip);
         }catch (ServiceException e){
             return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")

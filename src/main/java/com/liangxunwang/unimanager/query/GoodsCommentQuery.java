@@ -7,7 +7,16 @@ public class GoodsCommentQuery {
     private int index;
     private int size;
     private String goodsId;
+    private String goods_emp_id;
     private String emp_id;
+
+    public String getGoods_emp_id() {
+        return goods_emp_id;
+    }
+
+    public void setGoods_emp_id(String goods_emp_id) {
+        this.goods_emp_id = goods_emp_id;
+    }
 
     public String getEmp_id() {
         return emp_id;

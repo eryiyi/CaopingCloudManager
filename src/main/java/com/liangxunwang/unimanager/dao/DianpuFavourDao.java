@@ -26,4 +26,6 @@ public interface DianpuFavourDao {
     void delete(String favour_no);
 
     DianPuFavour find(DianPuFavour dianPuFavour);
+
+    Long count(Map<String, Object> map);
 }

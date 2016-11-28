@@ -23,6 +23,16 @@ public class GoodsComment {
 
     private int starNumber;//星级 0到5星
 
+    private String cloud_caoping_title;
+
+    public String getCloud_caoping_title() {
+        return cloud_caoping_title;
+    }
+
+    public void setCloud_caoping_title(String cloud_caoping_title) {
+        this.cloud_caoping_title = cloud_caoping_title;
+    }
+
     public int getStarNumber() {
         return starNumber;
     }

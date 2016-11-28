@@ -2,6 +2,7 @@ package com.liangxunwang.unimanager.dao;
 
 import com.liangxunwang.unimanager.model.AdObj;
 import com.liangxunwang.unimanager.model.Company;
+import com.liangxunwang.unimanager.mvc.vo.CompanySort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public interface CompanyDao {
      * 根据ID查找
      */
     public Company findById(String company_id);
+
+    public CompanySort findSort(String company_id);
 
     //根据会员ID查询
     public Company findByEmpId(String company_id);

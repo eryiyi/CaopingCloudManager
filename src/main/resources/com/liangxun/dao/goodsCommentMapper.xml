@@ -16,6 +16,8 @@
         <result column="cover" property="cover"/>
         <result column="f_nick_name" property="fNickName"/>
         <result column="starNumber" property="starNumber"/>
+
+        <result column="cloud_caoping_title" property="cloud_caoping_title"/>
     </resultMap>
 
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.GoodsComment">
@@ -24,11 +26,17 @@
     </insert>
 
     <select id="list" resultMap="my_goods_comment">
-      SELECT gc.*,le.emp_name as nick_name,le.emp_cover as cover,gt.comment_emp_id as f_emp_id, lp.emp_name as f_nick_name
+      SELECT gc.*,
+        le.emp_name as nick_name,
+        le.emp_cover as cover,
+        gt.comment_emp_id as f_emp_id,
+        lgg.cloud_caoping_title as cloud_caoping_title,
+        lp.emp_name as f_nick_name
         FROM goods_comment gc
       LEFT JOIN lx_emp le ON gc.comment_emp_id=le.emp_id
       LEFT JOIN goods_comment gt ON gc.comment_fplid=gt.comment_id
       LEFT JOIN lx_emp lp ON gt.comment_emp_id=lp.emp_id
+      LEFT JOIN cloud_caoping lgg ON lgg.cloud_caoping_id=gc.goods_id
       WHERE  1=1
         <if test="goods_id != null and goods_id != ''">
             and gc.goods_id=#{goods_id}
@@ -36,7 +44,9 @@
         <if test="emp_id != null and emp_id != ''">
             and gc.comment_emp_id=#{emp_id}
         </if>
-
+        <if test="goods_emp_id != null and goods_emp_id != ''">
+            and gc.goods_emp_id=#{goods_emp_id}
+        </if>
         ORDER BY gc.dateline DESC
         limit #{index},#{size}
     </select>
@@ -54,4 +64,31 @@
         </if>
     </select>
 
+
+    <select id="countOne" resultType="Long">
+        SELECT count(pg.comment_id)
+        FROM goods_comment pg
+        WHERE pg.starNumber  = 5
+        <if test="empId != null and empId != ''">
+            AND pg.goods_emp_id=#{goods_emp_id}
+        </if>
+    </select>
+
+    <select id="countTwo" resultType="Long">
+        SELECT count(pg.comment_id)
+        FROM goods_comment pg
+        WHERE  pg.starNumber  &lt; 5 AND  pg.starNumber &gt; 2
+        <if test="empId != null and empId != ''">
+            AND pg.goods_emp_id=#{goods_emp_id}
+        </if>
+    </select>
+
+    <select id="countThree" resultType="Long">
+        SELECT count(pg.comment_id)
+        FROM goods_comment pg
+        WHERE  pg.starNumber  &lt; 3
+        <if test="empId != null and empId != ''">
+            AND pg.goods_emp_id=#{goods_emp_id}
+        </if>
+    </select>
 </mapper>

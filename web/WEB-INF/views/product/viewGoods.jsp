@@ -29,10 +29,10 @@
     <!--</div>-->
 
     <div class="glide__wrapper">
-        <a class="pic-btn">
-            <span class="product-name">${vo.emp_name}</span>
-            <img src="/grass/pics/lg_grass_bg.png" alt=""/>
-        </a>
+        <%--<a class="pic-btn">--%>
+            <%--<span class="product-name">${vo.emp_name}</span>--%>
+            <%--<img src="/grass/pics/lg_grass_bg.png" alt=""/>--%>
+        <%--</a>--%>
         <ul class="glide__track">
             <c:forEach items="${voPic}" var="e">
                 <li class="glide__slide"><img src="${e}" alt="" style="height: 200px;"/></li>
@@ -65,9 +65,10 @@
 <!--价格-->
 <div class="row price clearfix">
     <div class="price-left">
-        <h3><span>￥</span>${e.cloud_caoping_prices}</h3>
+        <h3><span>￥</span>${vo.cloud_caoping_prices}</h3>
     </div>
     <div class="price-right">
+        <p>${vo.cloud_caoping_title}</p>
         <p>已销售${vo.sale_count}件</p>
         <p>产地：${vo.cloud_caoping_address}</p>
     </div>
@@ -80,45 +81,34 @@
 </div>
 <!--口碑-->
 <div class="good row">
-    <h4>草原口碑(230)</h4>
+    <h4>草原口碑(${commentFour})</h4>
     <div class="clearfix">
-        <a class="btn btn-1" href="">好评（200）</a>
-        <a class="btn btn-2" href="">一般（21）</a>
-        <a class="btn btn-3" href="">差评（9）</a>
+        <a class="btn btn-1" href="">好评（${commentOne}）</a>
+        <a class="btn btn-2" href="">一般（${commentTwo}）</a>
+        <a class="btn btn-3" href="">差评（${commentThree}）</a>
     </div>
 </div>
 <!--评论-->
 <div class="row">
-    <div class="comment-item">
-        <div class="comment-head">
-            <img src="/grass/pics/01.jpg"/>
-            <div class="info">
-                <h4>18366883986</h4>
-                <h4><span class="label label-green">个人</span></h4>
+
+    <c:forEach items="${listComment}" var="e">
+        <div class="comment-item">
+            <div class="comment-head">
+                <img src="${e.cover}"/>
+                <div class="info">
+                    <h4>${e.nickName}</h4>
+                    <%--<h4><span class="label label-green"></span></h4>--%>
+                </div>
+            </div>
+            <div class="comment-body">
+                <p>${e.content}</p>
+            </div>
+            <div class="comment-footer">
+                ${e.dateline} 好评：${e.starNumber}星
             </div>
         </div>
-        <div class="comment-body">
-            <p>草坪质量好，发货快。</p>
-        </div>
-        <div class="comment-footer">
-            2016-11-09 规格：40 x 90
-        </div>
-    </div>
-    <div class="comment-item">
-        <div class="comment-head">
-            <img src="/grass/pics/01.jpg"/>
-            <div class="info">
-                <h4>18366883986</h4>
-                <h4><span class="label label-green">个人</span></h4>
-            </div>
-        </div>
-        <div class="comment-body">
-            <p>草坪质量好，发货快。</p>
-        </div>
-        <div class="comment-footer">
-            2016-11-09 规格：40 x 90
-        </div>
-    </div>
+    </c:forEach>
+
 </div>
 
 <div class="body">
@@ -194,11 +184,11 @@
                     <span>草原规模</span>
                 </div>
                 <div>
-                    <p>12.4万</p>
+                    <p>${countGz}</p>
                     <span>关注人数</span>
                 </div>
                 <div>
-                    <p>top1</p>
+                    <p>top${companySort.sort}</p>
                     <span>全国排行</span>
                 </div>
             </div>

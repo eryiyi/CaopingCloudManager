@@ -78,4 +78,16 @@
         SELECT * FROM dianpu_favour WHERE emp_id=#{emp_id} AND  emp_id_favour=#{emp_id_favour}
     </select>
 
+    <select id="count" resultType="Long">
+        SELECT count(favour_no)
+        from dianpu_favour sn
+        where 1 = 1
+        <if test="emp_id != null and emp_id != ''">
+            AND sn.emp_id = #{emp_id}
+        </if>
+        <if test="emp_id_favour != null and emp_id_favour != ''">
+            AND sn.emp_id_favour = #{emp_id_favour}
+        </if>
+    </select>
+
 </mapper>

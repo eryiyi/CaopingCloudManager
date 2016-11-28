@@ -15,6 +15,7 @@ import com.liangxunwang.unimanager.model.GoodsComment;
 import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.model.Relate;
 import com.liangxunwang.unimanager.query.GoodsCommentQuery;
+import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ import java.util.Map;
  * Created by zhl on 2015/2/5.
  */
 @Service("goodsCommentService")
-public class GoodsCommentService implements SaveService, ListService{
+public class GoodsCommentService implements SaveService, ListService, ExecuteService{
 
     @Autowired
     @Qualifier("goodsCommentDao")
@@ -53,7 +55,6 @@ public class GoodsCommentService implements SaveService, ListService{
         goodsCommentDao.save(comment);
 
         Member member = memberDao.findById(comment.getEmpId());
-
 
         if(member != null){
             if (!StringUtil.isNullOrEmpty(comment.getFplid()) && !"".equals(comment.getFplid()) && !"0".equals(comment.getFplid())){
@@ -126,13 +127,6 @@ public class GoodsCommentService implements SaveService, ListService{
             }
         }
 
-//        relateDao.save(relate);
-//
-//        String pushId = memberDao.findById(comment.getGoodsEmpId()).getPushId();
-//
-//        if (!comment.getEmpId().equals(comment.getGoodsEmpId())) {
-//            pushZan(pushId, member.getEmpName() + " 评论了你的商品");
-//        }
 
         return comment;
     }
@@ -150,6 +144,9 @@ public class GoodsCommentService implements SaveService, ListService{
         }
         if(!StringUtil.isNullOrEmpty(query.getEmp_id())){
             map.put("emp_id", query.getEmp_id());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getGoods_emp_id())){
+            map.put("goods_emp_id", query.getGoods_emp_id());
         }
         List<GoodsComment> list = goodsCommentDao.list(map);
         for (GoodsComment vo : list){
@@ -247,4 +244,22 @@ public class GoodsCommentService implements SaveService, ListService{
             }
         });
     }
+
+    @Override
+    public Object execute(Object object)  {
+        //查询草原评论星级统计 5是好评 3 和 4是一般评价  1和2是差评
+        String goods_emp_id = (String) object;//被统计人ID
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("goods_emp_id", goods_emp_id);
+        Long oneCount = goodsCommentDao.countOne(map);
+        Long twoCount = goodsCommentDao.countTwo(map);
+        Long threeCount = goodsCommentDao.countThree(map);
+        List<String> list = new ArrayList<String>();
+        list.add(String.valueOf(oneCount));
+        list.add(String.valueOf(twoCount));
+        list.add(String.valueOf(threeCount));
+        list.add(String.valueOf(oneCount + twoCount + threeCount));
+        return list;
+    }
+
 }

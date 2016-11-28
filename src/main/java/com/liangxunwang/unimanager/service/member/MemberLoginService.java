@@ -6,6 +6,7 @@ import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.util.Constants;
 import com.liangxunwang.unimanager.util.MD5Util;
+import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -36,10 +37,19 @@ public class MemberLoginService implements ExecuteService {
         if ("1".equals(member.getIsUse())){
             throw new ServiceException("NotUse");
         }
-        if (member.getEmpCover().startsWith("upload")) {
-            member.setEmpCover(Constants.URL + member.getEmpCover());
-        }else {
-            member.setEmpCover(Constants.QINIU_URL + member.getEmpCover());
+        if(!StringUtil.isNullOrEmpty(member.getEmpCover())){
+            if (member.getEmpCover().startsWith("upload")) {
+                member.setEmpCover(Constants.URL + member.getEmpCover());
+            }else {
+                member.setEmpCover(Constants.QINIU_URL + member.getEmpCover());
+            }
+        }
+        if(!StringUtil.isNullOrEmpty(member.getCompany_pic())){
+            if (member.getCompany_pic().startsWith("upload")) {
+                member.setCompany_pic(Constants.URL + member.getCompany_pic());
+            }else {
+                member.setCompany_pic(Constants.QINIU_URL + member.getCompany_pic());
+            }
         }
         return member;
     }
