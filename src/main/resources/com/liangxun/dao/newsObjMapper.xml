@@ -63,6 +63,31 @@
         limit #{index},#{size}
     </select>
 
+    <select id="count" resultType="Long">
+        SELECT count(lmsg.mm_msg_id) FROM mm_msg lmsg
+        WHERE 1=1
+        <if test="emp_id != null and emp_id != ''">
+            AND lmsg.emp_id = #{emp_id}
+        </if>
+        <if test="is_del != null and is_del != ''">
+            AND lmsg.is_del = #{is_del}
+        </if>
+        <if test="is_top != null and is_top != ''">
+            AND lmsg.is_top = #{is_top}
+        </if>
+        <if test="mm_msg_type != null and mm_msg_type != ''">
+            AND lmsg.mm_msg_type = #{mm_msg_type}
+        </if>
+
+        <if test="lat != null and lat != ''">
+            AND lmsg.lat > (#{lat}-1) AND   (#{lat} + 1) > lmsg.lat
+        </if>
+        <if test="lng != null and lng != ''">
+            AND lmsg.lng > (#{lng}-1) AND   (#{lng} + 1) > lmsg.lng
+        </if>
+    </select>
+
+
     <insert id="save" parameterType="com.liangxunwang.unimanager.model.NewsObj">
         INSERT INTO mm_msg(mm_msg_id, emp_id, mm_msg_type, mm_msg_title, mm_msg_content, dateline,
          is_del, is_top, top_num, mm_msg_picurl, lat, lng, location)

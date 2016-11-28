@@ -33,4 +33,6 @@ public interface NewsObjDao {
      * 更新
      */
     public void update(NewsObj newsObj);
+
+    Long count(Map<String, Object> map);
 }

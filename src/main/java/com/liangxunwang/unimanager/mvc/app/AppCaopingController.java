@@ -289,4 +289,38 @@ public class AppCaopingController extends ControllerConstants {
         }
     }
 
+
+
+
+    @Autowired
+    @Qualifier("appStatisticalService")
+    private ExecuteService appStatisticalService;
+
+    /**
+     * app端首页获得草坪统计数据
+     * @return
+     */
+    @RequestMapping(value = "/appGetStatistical", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String appGetStatistical(String emp_id){
+        if(StringUtil.isNullOrEmpty(emp_id)){
+            return toJSONString(new ErrorTip(1, "请确认用户ID是否存在！"));
+        }
+        try {
+            //发了多少草坪数据 机械数据 草种数据
+            //发了多少物流数据
+            //发了多少新闻
+            //有多少订单
+            //有多少人关注你
+            //你的公司在名企排行中排第几
+            StatisticalObj statisticalObj = (StatisticalObj) appStatisticalService.execute(emp_id);
+            DataTip tip = new DataTip();
+            tip.setData(statisticalObj);
+            return toJSONString(tip);
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
+
+
 }
