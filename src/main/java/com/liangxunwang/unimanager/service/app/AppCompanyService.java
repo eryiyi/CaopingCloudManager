@@ -52,8 +52,18 @@ public class AppCompanyService implements ExecuteService ,SaveService,UpdateServ
         }
         if(!StringUtil.isNullOrEmpty(query.getKeyWords())){
             map.put("keyWords", query.getKeyWords());
-        } if(!StringUtil.isNullOrEmpty(query.getIs_gys())){
+        }
+        if(!StringUtil.isNullOrEmpty(query.getIs_gys())){
             map.put("is_gys", query.getIs_gys());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getIs_paihang())){
+            map.put("is_paihang", query.getIs_paihang());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getIs_time())){
+            map.put("is_time", query.getIs_time());
+        }
+        if(!StringUtil.isNullOrEmpty(query.getIs_count())){
+            map.put("is_count", query.getIs_count());
         }
         List<Company> lists = companyDao.lists(map);
         if(lists != null){

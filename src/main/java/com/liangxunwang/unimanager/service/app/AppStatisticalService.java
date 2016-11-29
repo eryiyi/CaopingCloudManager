@@ -103,7 +103,7 @@ public class AppStatisticalService implements ExecuteService {
         }
         //订单数量
         Map<String, Object> mapOrder = new HashMap<String, Object>();
-        mapOrder.put("seller_emp_id", emp_id);
+        mapOrder.put("emp_id", emp_id);
         mapOrder.put("status", "5");
         Long lOrder =orderDao.count(mapOrder);
         if(lOrder != null){
@@ -129,6 +129,6 @@ public class AppStatisticalService implements ExecuteService {
         }else {
             statisticalObj.setMqNumber("0");
         }
-        return null;
+        return statisticalObj;
     }
 }

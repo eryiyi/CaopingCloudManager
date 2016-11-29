@@ -107,7 +107,7 @@
     </select>
 
     <select id="count" resultType="Long">
-        SELECT count(apply_gys_id)
+        SELECT count(transport_id)
         from car_transport lapp
         LEFT  JOIN lx_emp lemp ON lemp.emp_id = lapp.emp_id
         LEFT JOIN province lp ON lp.provinceid = lapp.start_provinceid

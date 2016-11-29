@@ -109,7 +109,6 @@ public class AppCompanyController extends ControllerConstants {
         }
     }
 
-
     /**
      * 查询名企排行
      * @return
@@ -119,8 +118,10 @@ public class AppCompanyController extends ControllerConstants {
     public String appGetCompanyList(CompanyQuery query, Page page){
         try {
             query.setIndex(page.getPage()==0?1:page.getPage());
-            query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
+            query.setSize(query.getSize() == 0 ? page.getDefaultSize() : query.getSize());
             query.setIs_gys("1");
+            query.setIs_check("1");
+            query.setIs_paihang("1");
             Object[] result = (Object[]) appCompanyServiceList.list(query);
             DataTip tip = new DataTip();
             tip.setData(result[0]);
@@ -130,5 +131,25 @@ public class AppCompanyController extends ControllerConstants {
         }
     }
 
-
+    /**
+     * 查询最新入驻企业
+     * @return
+     */
+    @RequestMapping(value = "/appGetCompanyNews", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String appGetCompanyNews(CompanyQuery query, Page page){
+        try {
+            query.setIndex(page.getPage()==0?1:page.getPage());
+            query.setSize(query.getSize()==0?page.getDefaultSize():query.getSize());
+            query.setIs_gys("1");
+            query.setIs_check("1");
+            query.setIs_time("1");
+            Object[] result = (Object[]) appCompanyServiceList.list(query);
+            DataTip tip = new DataTip();
+            tip.setData(result[0]);
+            return toJSONString(tip);
+        }catch (Exception e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
 }

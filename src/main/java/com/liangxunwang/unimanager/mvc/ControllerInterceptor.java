@@ -208,6 +208,7 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                         +"|(^/findPwrByMobile\\.do$)"
 
                         +"|(^/appGetStatistical\\.do$)"
+                        +"|(^/appGetCompanyNews\\.do$)"
 
 
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
