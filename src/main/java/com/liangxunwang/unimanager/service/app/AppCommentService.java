@@ -29,7 +29,8 @@ public class AppCommentService implements ListService ,SaveService,DeleteService
     public Object list(Object object) throws ServiceException {
         NewsCommentQuery query = (NewsCommentQuery) object;
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("index", index);
         map.put("size", size);

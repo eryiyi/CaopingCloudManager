@@ -11,6 +11,7 @@
             <li><a href="javaScript:void(0)">会员积分</a></li>
             <li><a href="javaScript:void(0)">积分列表</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -36,6 +37,7 @@
                 <div class="no-move"></div>
             </div>
             <div class="box-content">
+
                 <!-- style -->
                 <style>
                     .w12 {
@@ -43,24 +45,26 @@
                     }
                 </style>
                 <!-- style -->
-
                 <form class="form-inline">
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <input class="form-control" id="phone_number" value="${query.emp_mobile}" type="text"
-                               placeholder="手机号">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <input class="form-control" id="keyWords" value="${query.cont}" type="text"
-                               placeholder="昵称">
-                    </div>
-                </div>
 
-                <button type="submit" onclick="nextPage('1')"
-                        class="btn form-control btn-warning btn-sm btn-block">搜索
-                </button>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <input class="form-control" id="phone_number" value="${query.emp_mobile}" type="text"
+                                   placeholder="手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <input class="form-control" id="keyWords" value="${query.cont}" type="text"
+                                   placeholder="昵称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" onclick="nextPage('1')"
+                                class="btn form-control btn-warning btn-sm btn-block">搜索
+                        </button>
+                    </div>
 
                 </form>
                 <form action="" class="form">
@@ -82,6 +86,7 @@
                         <th>账号</th>
                         <th>积分</th>
                         <th>操作</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,6 +98,12 @@
                             <td>${e.emp_mobile}</td>
                             <td>${e.emp_number}</td>
                             <td>${e.count}</td>
+                            <td>
+                                <button class="btn btn-primary" type="button" onclick="addCount('${e.empId}')">增加积分
+                            </button>
+                                <button class="btn btn-primary" type="button" onclick="kouchu('${e.empId}')">扣除积分
+                                </button>
+                            </td>
                             <td>
                                 <button class="btn btn-primary" type="button" onclick="detailEmp('${e.empId}')">查看记录
                                 </button>
@@ -178,6 +189,13 @@
         window.location.href = "#module=/countRecordController/list&emp_id=" + _id+ "&_t="+ new Date().getTime()+"&page=1";
     }
 
+    function addCount(_id){
+        window.location.href = "#module=/toAddCount&emp_id=" + _id+ "&_t="+ new Date().getTime();
+    }
+
+    function kouchu(_id){
+        window.location.href = "#module=/toKouchuCount&emp_id=" + _id+ "&_t="+ new Date().getTime();
+    }
 
     function Daochu_Select() {
         var select_id = '';

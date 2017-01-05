@@ -32,15 +32,24 @@ public class Order {
     private String taxes;
     private String out_trade_no;
     private String isAccount;
-    private String trade_type;//0支付宝  1微信
+    private String trade_type;//0支付宝  1微信 2零钱
 
     private String returnMsg;//退货原因
     private String returnOrder;//退货单号
     private String is_return;//是否退货完成 0否 1是（卖家已处理）
-    private String is_dxk_order;//是否0元订单； 默认0否  1是
+    private String is_dxk_order;//0普通订单；1零钱充值订单；2购买会员VIP订单；3其他订单
     private String is_comment;//是否评价； 默认0否  1是
     private String payable_amount_all;//没打折之前的金额
     private String pv_amount;//商品的pv在订单中的总和 这是返利用到的（商品pv,pv即利润）
+    private String order_cont;//订单说明 在is_dxk_order不等于0的时候，对订单的一个说明
+
+    public String getOrder_cont() {
+        return order_cont;
+    }
+
+    public void setOrder_cont(String order_cont) {
+        this.order_cont = order_cont;
+    }
 
     public String getPayable_amount_all() {
         return payable_amount_all;

@@ -34,7 +34,8 @@ public class NoticeService implements SaveService,ListService, FindService, Upda
     public Object list(Object object) throws ServiceException {
         NoticeQuery query = (NoticeQuery) object;
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
+
         Map<String,Object> map = new HashMap<String, Object>();
         map.put("index", index);
         map.put("size", size);

@@ -33,7 +33,8 @@ public class AppFavourService implements ListService ,SaveService,DeleteService,
     public Object list(Object object) throws ServiceException {
         NewsFavourQuery query = (NewsFavourQuery) object;
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("index", index);
         map.put("size", size);

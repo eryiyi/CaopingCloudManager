@@ -1,14 +1,15 @@
 package com.liangxunwang.unimanager.mvc.admin;
 
-import com.liangxunwang.unimanager.model.*;
+import com.liangxunwang.unimanager.model.Admin;
+import com.liangxunwang.unimanager.model.BankObj;
+import com.liangxunwang.unimanager.model.lxBankApply;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
-import com.liangxunwang.unimanager.mvc.vo.MemberVO;
+import com.liangxunwang.unimanager.mvc.vo.CountVo;
 import com.liangxunwang.unimanager.mvc.vo.lxBankApplyVo;
+import com.liangxunwang.unimanager.query.BankCardQuery;
 import com.liangxunwang.unimanager.query.LxBankApplyQuery;
-import com.liangxunwang.unimanager.query.LxConsumptionQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
-import com.liangxunwang.unimanager.util.DateUtil;
 import com.liangxunwang.unimanager.util.Page;
 import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,9 +73,94 @@ public class LxBankApplyController extends ControllerConstants {
             lxBankApplyServiceEUpdate.update(lxBankApply);
             return toJSONString(SUCCESS);
         }catch (ServiceException e){
-            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
-            );
+            if (e.getMessage().equals("has_check")){
+                return toJSONString(new ErrorTip(1, "已经审核，不能重复审核！"));
+            }else{
+                return toJSONString(new ErrorTip(2, "审核失败，请稍后重试！"));
+            }
         }
     }
+
+
+
+    @Autowired
+    @Qualifier("bankObjService")
+    private ListService bankObjServiceList;
+
+    @Autowired
+    @Qualifier("countService")
+    private ExecuteService countServiceExe;
+
+    //申请提现
+    @RequestMapping("/toAdd")
+    public String toAdd(HttpSession session,ModelMap map) throws Exception {
+        Admin admin = (Admin) session.getAttribute(ACCOUNT_KEY);
+        if(admin != null){
+            String emp_id = admin.getEmp_id();
+            if(!StringUtil.isNullOrEmpty(emp_id)){
+                //查询该用户的银行卡列表
+                BankCardQuery query = new BankCardQuery();
+                query.setEmp_id(emp_id);
+                List<BankObj> listBanks = (List<BankObj>) bankObjServiceList.list(query);
+                map.put("listBanks", listBanks);
+                //查询该用户的积分多少
+                CountVo countVo = (CountVo) countServiceExe.execute(emp_id);
+                map.put("countVo", countVo);
+            }
+
+        }
+        return "/lxBankApply/add";
+    }
+
+    @Autowired
+    @Qualifier("lxBankApplyService")
+    private SaveService lxBankApplyServiceSave;
+    /**
+     * 保存
+     */
+    @RequestMapping("/save")
+    @ResponseBody
+    public String save(HttpSession session,lxBankApply apply,ModelMap map) throws Exception {
+        Admin admin = (Admin) session.getAttribute(ACCOUNT_KEY);
+        if(StringUtil.isNullOrEmpty(apply.getBank_id())){
+            return toJSONString(new ErrorTip(4, "银行卡不存在！"));
+        }
+        if(StringUtil.isNullOrEmpty(apply.getLx_bank_apply_count())){
+            return toJSONString(new ErrorTip(3, "提现金额不能为空！"));
+        }
+        if(admin != null){
+            if(!StringUtil.isNullOrEmpty(admin.getEmp_id()) && !"0".equals(admin.getEmp_id())){
+                //查询该用户的积分多少
+                CountVo countVo = (CountVo) countServiceExe.execute(admin.getEmp_id());
+                if(countVo != null){
+                    String countNumber = countVo.getCount();
+                    if(!StringUtil.isNullOrEmpty(countNumber)){
+                        Double dNumber = Double.valueOf(countNumber);//用户积分数
+                        Double dCount = Double.valueOf(apply.getLx_bank_apply_count());//提现金额
+                        if(dNumber < dCount){
+                            return toJSONString(new ErrorTip(6, "提现金额大于用户剩余积分！"));
+                        }
+                        if(dCount < 100){
+                            return toJSONString(new ErrorTip(7, "提现金额必须是100的整数倍！"));
+                        }
+                    }
+                }else {
+                    return toJSONString(new ErrorTip(5, "用户积分不存在！"));
+                }
+                try {
+                    apply.setEmp_id(admin.getEmp_id());
+                    lxBankApplyServiceSave.save(apply);
+                    return toJSONString(SUCCESS);
+                }catch (ServiceException e){
+                    return toJSONString(new ErrorTip(1, "提现申请失败！"));
+                }
+            }else {
+                return toJSONString(new ErrorTip(2, "提现申请失败，用户ID不存在！"));
+            }
+        }else {
+            return toJSONString(new ErrorTip(2, "提现申请失败，用户ID不存在！"));
+        }
+    }
+
 
 }

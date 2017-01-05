@@ -33,7 +33,8 @@ public class AppGoodsService implements ListService {
             map.put("cont", query.getCont());
         }
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
+
         map.put("index", index);
         map.put("size", size);
 

@@ -40,7 +40,7 @@
                 <form class="form-inline">
                     <input type="hidden" id="is_zhiying" name="is_zhiying" value="${query.is_zhiying}">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="emp_name" value="${query.empName}"
+                        <input type="text" class="form-control" id="emp_name" value="${query.emp_name}"
                                placeholder="买家名称">
                     </div>
                     <div class="form-group">
@@ -82,6 +82,14 @@
                             <option value="1" ${query.is_dxk_order=='1'?'selected':''}>是</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" id="trade_type">
+                            <option value="">--选择支付方式--</option>
+                            <option value="0" ${query.trade_type=='0'?'selected':''}>支付宝</option>
+                            <option value="1" ${query.trade_type=='1'?'selected':''}>微信</option>
+                            <option value="2" ${query.trade_type=='2'?'selected':''}>零钱</option>
+                        </select>
+                    </div>
                     <button type="submit" onclick="searchOrder('1')" class="btn btn-default btn-sm">查找</button>
                 </form>
                 <%--<p>For basic styling add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>--%>
@@ -89,8 +97,12 @@
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>支付平台订单号</th>
+                        <th>支付方式</th>
                         <th>买家名称</th>
                         <th>买家电话</th>
+                        <th>收货人</th>
+                        <th>收货人电话</th>
                         <th>商品名称</th>
                         <th>购买数量</th>
                         <th>商品总金额</th>
@@ -110,7 +122,15 @@
                     <c:forEach items="${list}" var="e" varStatus="st">
                         <tr>
                             <td>${st.index + 1}</td>
-                            <td>${e.empName}</td>
+                            <td>${e.out_trade_no}</td>
+                            <td>
+                                <c:if test="${e.trade_type=='0'}">支付宝</c:if>
+                                <c:if test="${e.trade_type=='1'}">微信</c:if>
+                                <c:if test="${e.trade_type=='2'}">零钱</c:if>
+                            </td>
+                            <td>${e.emp_name}</td>
+                            <td>${e.emp_mobile}</td>
+                            <td>${e.accept_name}</td>
                             <td>${e.phone}</td>
                             <td>${e.goodsName}</td>
                             <td>${e.goods_count}</td>
@@ -211,6 +231,7 @@
         var orderStatus = $("#order_status").val();
         var payStatus = $("#pay_status").val();
         var is_zhiying = $("#is_zhiying").val();
+        var trade_type = $("#trade_type").val();
         var distributionStatus = $("#distribution_status").val();
         var is_dxk_order = $("#is_dxk_order").val();
         if (_index <= ${page.pageCount} && _index >= 1) {
@@ -222,6 +243,7 @@
             + "&payStatus=" + payStatus
             + "&distribStatus=" + distributionStatus
             +"&is_dxk_order=" + is_dxk_order
+            +"&trade_type=" + trade_type
             + "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");
@@ -236,6 +258,7 @@
         var payStatus = $("#pay_status").val();
         var is_zhiying = $("#is_zhiying").val();
         var distributionStatus = $("#distribution_status").val();
+        var trade_type = $("#trade_type").val();
         var is_dxk_order = $("#is_dxk_order").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
@@ -247,6 +270,7 @@
             + "&orderStatus=" + orderStatus
             + "&payStatus=" + payStatus
             + "&distribStatus=" + distributionStatus
+            + "&trade_type=" + trade_type
             +"&is_dxk_order=" + is_dxk_order
             + "&_t="+ new Date().getTime();
         } else {
@@ -263,6 +287,7 @@
         var payStatus = $("#pay_status").val();
         var is_zhiying = $("#is_zhiying").val();
         var distributionStatus = $("#distribution_status").val();
+        var trade_type = $("#trade_type").val();
         var is_dxk_order = $("#is_dxk_order").val();
         addCookie("contract_size", size, 36);
         if ((page <= ${page.pageCount} && page >= 1)) {
@@ -275,6 +300,7 @@
             + "&payStatus=" + payStatus
             + "&distribStatus=" + distributionStatus
             + "&is_dxk_order=" + is_dxk_order
+            + "&trade_type=" + trade_type
             + "&_t="+ new Date().getTime();
         } else {
             alert("请输入1-${page.pageCount}的页码数");

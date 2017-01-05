@@ -11,6 +11,7 @@
             <li><a href="javascript:void(0)">定向卡充值</a></li>
             <li><a href="javascript:void(0)">定向卡充值</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -78,7 +79,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <button type="button" class="btn btn-primary" onclick="chongzhi()">确定
+                            <button type="button" id="btn_chongzhi" name = "btn_chongzhi" class="btn btn-primary" onclick="chongzhi()">确定
                             </button>
                             <button type="button" class="btn btn-primary" onclick="javascript :history.back(-1)">返回
                             </button>
@@ -98,46 +99,49 @@
         WinMove();
     });
 
+    var kaiguan=1;
 
     function chongzhi(){
-        //充值
-        var emp_id = $("#emp_id").val();
-        var lx_consumption_count = $("#lx_consumption_count").val();
+        if(kaiguan == 1){
+            //充值
+            var emp_id = $("#emp_id").val();
+            var lx_consumption_count = $("#lx_consumption_count").val();
 
-        var regInt = /^([0-9]\d*)$/;
-        if (lx_consumption_count.replace(/\s/g, '') == '') {
-            alert("充值金额不能为空");
-            return;
-        }
-
-        var endTime = $("#input_date").val();
-        if (endTime == "") {
-            alert("请选择过期时间");
-            return;
-        }
-
-        $.ajax({
-            cache: true,
-            type: "POST",
-            url: "/lxConsumptionController/chongzhi.do",
-            data: {
-                "emp_id": emp_id,
-                "lx_consumption_type": '3',
-                "lx_card_emp_end_time": endTime,
-                "lx_consumption_count": lx_consumption_count
-            },
-            async: false,
-            success: function (_data) {
-                var data = $.parseJSON(_data);
-                if (data.success) {
-                    alert("充值成功");
-                    history.go(-1);
-                } else {
-                    var _case = {1: "充值失败"};
-                    alert(_case[data.code])
-                }
+            var regInt = /^([0-9]\d*)$/;
+            if (lx_consumption_count.replace(/\s/g, '') == '') {
+                alert("充值金额不能为空");
+                return;
             }
-        });
+
+            var endTime = $("#input_date").val();
+            if (endTime == "") {
+                alert("请选择过期时间");
+                return;
+            }
+            kaiguan = 0;
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/lxConsumptionController/chongzhiDxk.do",
+                data: {
+                    "emp_id": emp_id,
+                    "lx_consumption_type": '3',
+                    "lx_card_emp_end_time": endTime,
+                    "lx_consumption_count": lx_consumption_count
+                },
+                async: false,
+                success: function (_data) {
+                    var data = $.parseJSON(_data);
+                    if (data.success) {
+                        alert("充值成功");
+                        history.go(-1);
+                    } else {
+                        var _case = {1: "充值失败"};
+                        alert(_case[data.code])
+                    }
+                }
+            });
+        }
 
     }
 

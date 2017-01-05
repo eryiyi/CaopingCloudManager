@@ -25,10 +25,6 @@
         VALUES (#{id}, #{empId}, #{count})
     </insert>
 
-    <update id="update" parameterType="String">
-        UPDATE lx_count SET count=(count+(SELECT rule_score FROM school_score_rule WHERE rule_type=#{type}))
-        WHERE emp_id=#{empId}
-    </update>
 
     <update id="updateScore" parameterType="String">
         UPDATE LX_COUNT set count=(count + ${count}) WHERE EMP_ID=#{empId}

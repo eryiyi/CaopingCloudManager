@@ -15,16 +15,17 @@ import java.util.Map;
  */
 @Repository("orderDao")
 public interface OrderDao {
+
     /**
      * 查询所有的订单
      * @param map
      * @return
      */
-    List<OrdersVO> listOrders(Map<String,Object> map);
+    List<OrdersVO> listOrders(Map<String, Object> map);
 
-    long count(Map<String,Object> map);
+    long count(Map<String, Object> map);
 
-    long countDay(Map<String,Object> map);
+    long countDay(Map<String, Object> map);
 
     /**
      * 根据订单号
@@ -38,17 +39,20 @@ public interface OrderDao {
      * @param map
      * @return
      */
-    Float income(Map<String,Object> map);
+    Float income(Map<String, Object> map);
 
     /**
      * 查询某一天的结算
      * @param map
      * @return
      */
-    Settlement settlement(Map<String,Object> map);
+    Settlement settlement(Map<String, Object> map);
 
     void updateOrderStatus(@Param(value = "time") String time, @Param(value = "period") String period);
 
-    void updateOrderAccount(Map<String,Object> map);
+    void updateOrderAccount(Map<String, Object> map);
+
+    //查询即将到期的订单
+    List<OrdersVO> listOrdersEnd(@Param(value = "time") String time, @Param(value = "period") String period);
 
 }

@@ -84,43 +84,47 @@
 </div>
 
 <script type="text/javascript">
+    var kaiguan=1;
+
     function chongzhi(){
-        //充值
-        var emp_id = $("#emp_id").val();
-        var lx_consumption_count = $("#lx_consumption_count").val();
 
-        var regInt = /^([0-9]\d*)$/;
-        if (lx_consumption_count.replace(/\s/g, '') == '') {
-            alert("充值金额不能为空");
-            return;
-        } else {
-            if (!regInt.test(lx_consumption_count)) {
-                alert("充值金额必须是正整数");
+        if(kaiguan == 1){
+            //充值
+            var emp_id = $("#emp_id").val();
+            var lx_consumption_count = $("#lx_consumption_count").val();
+
+            var regInt = /^([0-9]\d*)$/;
+            if (lx_consumption_count.replace(/\s/g, '') == '') {
+                alert("充值金额不能为空");
                 return;
-            }
-        }
-
-        $.ajax({
-            cache: true,
-            type: "POST",
-            url: "/lxConsumptionController/chongzhiLq.do",
-            data: {
-                "emp_id": emp_id,
-                "lx_consumption_type": '1',
-                "lx_consumption_count": lx_consumption_count
-            },
-            async: false,
-            success: function (_data) {
-                var data = $.parseJSON(_data);
-                if (data.success) {
-                    alert("充值成功");
-                    history.go(-1);
-                } else {
-                    var _case = {1: "充值失败"};
-                    alert(_case[data.code])
+            } else {
+                if (!regInt.test(lx_consumption_count)) {
+                    alert("充值金额必须是正整数");
+                    return;
                 }
             }
-        });
+            kaiguan = 0;
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/lxConsumptionController/chongzhiLq.do",
+                data: {
+                    "emp_id": emp_id,
+                    "lx_consumption_type": '1',
+                    "lx_consumption_count": lx_consumption_count
+                },
+                async: false,
+                success: function (_data) {
+                    var data = $.parseJSON(_data);
+                    if (data.success) {
+                        alert("充值成功");
+                        history.go(-1);
+                    } else {
+                        alert(data.message)
+                    }
+                }
+            });
+        }
 
     }
 

@@ -21,18 +21,21 @@
         <permission id="AREA_LIST" name="省份列表"/>
     </group>
 
-
     <group id="LX_XIAOFEI_MANAGE" name="消费记录">
         <permission id="LX_XIAOFEI_LIST" name="消费记录"/>
     </group>
 
-    <group id="LX_BANK_APPLY_MANAGER" name="提现申请">
+    <group id="LX_BANK_APPLY_MANAGER" name="提现管理">
         <permission id="LX_BANK_APPLY_LIST" name="提现申请"/>
+        <permission id="LX_BANK_APPLY_ADD" name="申请提现"/>
     </group>
+
 
 
     <group id="POINT_MANAGE" name="积分管理">
         <permission id="JIFEN_LIST" name="积分列表"/>
+        <permission id="EDIT_JIFEN_GUIZE" name="积分规则"/>
+        <permission id="JIFEN_ADD_DELETE_LIST" name="积分变动记录"/>
     </group>
 
     <group id="NOTICE_MANAGE" name="公告管理">
@@ -54,7 +57,13 @@
         <permission id="MODIFY_PASS" name="修改密码"/>
     </group>
 
-
+    <group id="SYSTEM_MANAGE" name="店铺管理">
+        <permission id="MANAGER_INFO_LIST" name="店铺列表"/>
+        <permission id="MANAGER_INFO_WH" name="店铺信息维护"/>
+        <permission id="MANAGER_DIANPU_AD" name="店铺广告列表"/>
+        <permission id="SHANGJIA_ORDERS" name="我的订单"/>
+        <permission id="DIANPU_COMMENT" name="店铺评论"/>
+    </group>
     <group id="MAANGER_VERSION_CODE_MANAGER" name="版本管理">
         <permission id="UPDATE_VERSION_CODE_MAANGER_AD_LIST" name="版本管理"/>
     </group>

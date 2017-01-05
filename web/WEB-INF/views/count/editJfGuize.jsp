@@ -11,6 +11,7 @@
             <li><a href="javascript:void(0)">积分规则</a></li>
             <li><a href="javascript:void(0)">积分规则维护</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -43,11 +44,11 @@
 
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">推广下线充值金额的百分比</label>
+                        <label class="col-sm-2 control-label">推广下线零钱充值金额的百分比</label>
 
                         <div class="col-sm-4">
                             <input type="text" id="lx_jifen_one" value="${adObj.lx_jifen_one}" class="form-control"
-                                   placeholder="推广下线充值金额的百分比 数字 例如10就是10%" data-toggle="tooltip" data-placement="bottom"
+                                   placeholder="推广下线零钱充值金额的百分比 数字 例如10就是10%" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
                     </div>

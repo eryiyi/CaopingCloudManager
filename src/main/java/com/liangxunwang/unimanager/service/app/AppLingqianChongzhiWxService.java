@@ -79,7 +79,7 @@ public class AppLingqianChongzhiWxService implements SaveService {
             /**这里用的是mach_id,跟sign签名时参数名不同，一定要注意*/
             packageParams.add(new BasicNameValuePair("mch_id", Constants.WX_MCH_ID));
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
-            packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL));
+            packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL_LQ));
             packageParams.add(new BasicNameValuePair("out_trade_no", out_trade_no));
             packageParams.add(new BasicNameValuePair("spbill_create_ip", ip_str));
             packageParams.add(new BasicNameValuePair("total_fee", String.valueOf((int)Math.ceil((Double.valueOf(shoppingTrade.getTrade_prices())*100)))));

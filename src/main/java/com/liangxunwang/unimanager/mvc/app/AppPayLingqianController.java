@@ -125,32 +125,32 @@ public class AppPayLingqianController extends ControllerConstants {
                     lxConsumption.setLx_consumption_cont("app零钱充值，金额" + order.getPayable_amount());
                     lxConsumptionServiceSave.save(lxConsumption);//消费记录
 
-                    //充值成功 ，给上级增加积分
-                    //1.查询上级
-                    MemberVO memberVO = (MemberVO) memberFindByIdService.findById(lxConsumption.getEmp_id());
-                    if(memberVO != null && !StringUtil.isNullOrEmpty(memberVO.getEmp_up())){
-                        //说明存在上级
-                        //2.更新上级积分
-                        List<JifenObj> listJifens = (List<JifenObj>) jifenObjServiceExe.execute("");//查询推广下线后台充值金额 给上级增加积分的百分率
-                        if(listJifens != null && listJifens.size()>0){
-                            JifenObj jifenObj = listJifens.get(0);//积分规则
-                            if(jifenObj != null){
-                                String lx_jifen_one = jifenObj.getLx_jifen_one();//推广下线充值金额的X%
-                                if(!StringUtil.isNullOrEmpty(lx_jifen_one)){
-                                    Double jifenCount = Double.parseDouble(lxConsumption.getLx_consumption_count())*(Double.parseDouble(lx_jifen_one)*0.01);//增加的积分
-                                    //更新上级积分
-                                    String[] arr = {memberVO.getEmp_up(), String.valueOf(jifenCount)};
-                                    countServiceUpdate.update(arr);//更新上级积分
-                                    //添加积分变动记录
-                                    CountRecord countRecord = new CountRecord();
-                                    countRecord.setEmp_id(memberVO.getEmp_up());
-                                    countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
-                                    countRecord.setLx_count_record_cont(memberVO.getEmpName()+"("+memberVO.getEmpMobile()+")app充值零钱" + lxConsumption.getLx_consumption_count()+"元");
-                                    countRecordServiceSave.save(countRecord);
-                                }
-                            }
-                        }
-                    }
+//                    //充值成功 ，给上级增加积分
+//                    //1.查询上级
+//                    MemberVO memberVO = (MemberVO) memberFindByIdService.findById(lxConsumption.getEmp_id());
+//                    if(memberVO != null && !StringUtil.isNullOrEmpty(memberVO.getEmp_up())){
+//                        //说明存在上级
+//                        //2.更新上级积分
+//                        List<JifenObj> listJifens = (List<JifenObj>) jifenObjServiceExe.execute("");//查询推广下线后台充值金额 给上级增加积分的百分率
+//                        if(listJifens != null && listJifens.size()>0){
+//                            JifenObj jifenObj = listJifens.get(0);//积分规则
+//                            if(jifenObj != null){
+//                                String lx_jifen_one = jifenObj.getLx_jifen_one();//推广下线充值金额的X%
+//                                if(!StringUtil.isNullOrEmpty(lx_jifen_one)){
+//                                    Double jifenCount = Double.parseDouble(lxConsumption.getLx_consumption_count())*(Double.parseDouble(lx_jifen_one)*0.01);//增加的积分
+//                                    //更新上级积分
+//                                    String[] arr = {memberVO.getEmp_up(), String.valueOf(jifenCount)};
+//                                    countServiceUpdate.update(arr);//更新上级积分
+//                                    //添加积分变动记录
+//                                    CountRecord countRecord = new CountRecord();
+//                                    countRecord.setEmp_id(memberVO.getEmp_up());
+//                                    countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
+//                                    countRecord.setLx_count_record_cont(memberVO.getEmpName()+"("+memberVO.getEmpMobile()+")app充值零钱" + lxConsumption.getLx_consumption_count()+"元");
+//                                    countRecordServiceSave.save(countRecord);
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }

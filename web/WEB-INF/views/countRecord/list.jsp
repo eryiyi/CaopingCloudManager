@@ -11,6 +11,7 @@
             <li><a href="javaScript:void(0)">会员积分</a></li>
             <li><a href="javaScript:void(0)">积分记录</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -20,7 +21,7 @@
             <div class="box-header">
                 <div class="box-name ui-draggable-handle">
                     <i class="fa fa-table"></i>
-                    <span>积分记录</span>
+                    <span>会员${memberVO.empName},手机号${memberVO.empMobile}积分记录</span>
                 </div>
                 <div class="box-icons">
                     <a class="collapse-link">
@@ -53,7 +54,7 @@
                             <td>${st.index+1}</td>
                             <td>${e.lx_count_record_count}</td>
                             <td>${e.lx_count_record_cont}</td>
-                            <td>${um:format(e.dateline, 'yyyy-MM-dd HH:mm')}</td>
+                            <td>${um:format(e.dateline, 'yyyy-MM-dd HH:mm:ss')}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

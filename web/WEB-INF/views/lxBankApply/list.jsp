@@ -8,7 +8,7 @@
         </a>
         <ol class="breadcrumb pull-left">
             <li><a href="javascript:void(0)" onclick="toPage('mainPage','')">主页</a></li>
-            <li><a href="javaScript:void(0)">提现申请</a></li>
+            <li><a href="javaScript:void(0)">提现管理</a></li>
             <li><a href="javaScript:void(0)">提现申请</a></li>
         </ol>
 
@@ -46,32 +46,32 @@
                 <!-- style -->
 
                 <form class="form-inline">
-                    <div class="form-group">
+                    <div class="col-sm-4 col-xs-3">
                         <div class="col-sm-6">
                             <input class="form-control" id="phone_number" value="${query.phoneNumber}" type="text"
                                    placeholder="手机号">
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-sm-6">
                             <input class="form-control" id="keyWords" value="${query.keyWords}" type="text"
                                    placeholder="昵称">
                         </div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="col-sm-4 col-xs-3">
                         <div class="col-sm-6">
                             <select class="form-control w12" id="is_check">
                                 <option value="">--是否审核--</option>
-                                <option value="0" ${query.is_check=='0'?'selected':''}>否</option>
-                                <option value="1" ${query.is_check=='1'?'selected':''}>是</option>
+                                <option value="0" ${query.is_check=='0'?'selected':''}>未处理</option>
+                                <option value="1" ${query.is_check=='1'?'selected':''}>已处理</option>
+                                <option value="2" ${query.is_check=='2'?'selected':''}>不通过</option>
                             </select>
                         </div>
                     </div>
 
-                    <button type="submit" onclick="nextPage('1')"
-                            class="btn form-control btn-warning btn-sm btn-block">搜索
-                    </button>
-
+                    <div class="col-xs-3 col-sm-2">
+                        <i class="fa fa-search"></i>
+                        <a href="javascript:void (0);" onclick="nextPage('1')">搜索</a>
+                    </div>
                 </form>
                 <form action="" class="form">
                     <div class="form-group">
@@ -92,10 +92,8 @@
                         <th>会员姓名</th>
                         <th>会员手机号</th>
                         <th>提现金额</th>
-                        <th>提现银行</th>
                         <th>银行卡号</th>
                         <th>手机号</th>
-                        <th>开户行</th>
                         <th>姓名</th>
                         <th>申请时间</th>
                         <th>审核时间</th>
@@ -113,19 +111,18 @@
                             <td>${e.emp_name}</td>
                             <td>${e.emp_mobile}</td>
                             <td>${e.lx_bank_apply_count}</td>
-                            <td>${e.bank_name}</td>
                             <td>${e.bank_card}</td>
                             <td>${e.bank_mobile}</td>
-                            <td>${e.bank_kaihu_name}</td>
                             <td>${e.bank_emp_name}</td>
-                            <td>${um:format(e.dateline_apply, 'yyyy-MM-dd HH:mm')}</td>
-                            <td>${um:format(e.dateline_done, 'yyyy-MM-dd HH:mm')}</td>
+                            <td>${um:format(e.dateline_apply, 'yyyy-MM-dd HH:mm:ss')}</td>
+                            <td>${um:format(e.dateline_done, 'yyyy-MM-dd HH:mm:ss')}</td>
                             <td>
-                                <c:if test="${e.is_check == '0'}">否</c:if>
-                                <c:if test="${e.is_check == '1'}">是</c:if>
+                                <c:if test="${e.is_check == '0'}">未处理</c:if>
+                                <c:if test="${e.is_check == '1'}">已处理</c:if>
+                                <c:if test="${e.is_check == '2'}">不通过</c:if>
                             </td>
                             <td>
-                                <button class="btn btn-primary" type="button" onclick="detailEmp('${e.lx_bank_apply_id}')">审核
+                                <button class="btn btn-primary" type="button" onclick="detailEmp('${e.lx_bank_apply_id}','${ e.is_check}')">审核
                                 </button>
                             </td>
                         </tr>
@@ -256,8 +253,12 @@
     }
 
 
-    function detailEmp(lx_bank_apply_id) {
-        window.location.href = "#module=/lxBankApplyController/toDetail&lx_bank_apply_id=" + lx_bank_apply_id+ "&_t="+ new Date().getTime();
+    function detailEmp(lx_bank_apply_id,is_check) {
+        if(is_check == '0'){
+            window.location.href = "#module=/lxBankApplyController/toDetail&lx_bank_apply_id=" + lx_bank_apply_id+ "&_t="+ new Date().getTime();
+        }else{
+           alert("已处理，不能重复处理！");
+        }
     }
 
 

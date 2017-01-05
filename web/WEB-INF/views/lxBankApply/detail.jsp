@@ -110,7 +110,7 @@
                         <label class="col-sm-2 control-label">申请时间</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="dateline_apply" class="form-control" value="${um:format(lxBankApplyVo.dateline_apply, 'yyyy-MM-dd HH:mm')}"  readonly="true"
+                            <input type="text" id="dateline_apply" class="form-control" value="${um:format(lxBankApplyVo.dateline_apply, 'yyyy-MM-dd HH:mm:ss')}"  readonly="true"
                                    data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                         <label class="col-sm-2 control-label">处理时间</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="dateline_done" class="form-control" value="${um:format(lxBankApplyVo.dateline_done, 'yyyy-MM-dd HH:mm')}"  readonly="true"
+                            <input type="text" id="dateline_done" class="form-control" value="${um:format(lxBankApplyVo.dateline_done, 'yyyy-MM-dd HH:mm:ss')}"  readonly="true"
                                    data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
                         </div>
                     </div>
@@ -130,8 +130,9 @@
 
                         <div class="col-sm-4">
                             <select class="form-control" id="is_check">
-                                <option value="0" ${lxBankApplyVo.is_check=='0'?'selected':''}>否</option>
-                                <option value="1" ${lxBankApplyVo.is_check=='1'?'selected':''}>是</option>
+                                <option value="0" ${lxBankApplyVo.is_check=='0'?'selected':''}>未处理</option>
+                                <option value="1" ${lxBankApplyVo.is_check=='1'?'selected':''}>通过</option>
+                                <option value="2" ${lxBankApplyVo.is_check=='2'?'selected':''}>不通过</option>
                             </select>
                         </div>
                     </div>
@@ -172,8 +173,7 @@
                     alert("处理成功");
                     history.go(-1);
                 } else {
-                    var _case = {1: "处理失败"};
-                    alert(_case[data.code])
+                    alert(data.message)
                 }
             }
         });

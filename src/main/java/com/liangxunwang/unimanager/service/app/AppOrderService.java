@@ -8,33 +8,33 @@ import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageRequest
 import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageResponse;
 import com.liangxunwang.unimanager.baidu.log.YunLogEvent;
 import com.liangxunwang.unimanager.baidu.log.YunLogHandler;
-import com.liangxunwang.unimanager.dao.AppOrderMakeDao;
-import com.liangxunwang.unimanager.dao.MemberDao;
-import com.liangxunwang.unimanager.dao.RelateDao;
+import com.liangxunwang.unimanager.dao.*;
+import com.liangxunwang.unimanager.model.CountRecord;
 import com.liangxunwang.unimanager.model.Order;
 import com.liangxunwang.unimanager.model.OrderInfoAndSign;
+import com.liangxunwang.unimanager.mvc.vo.MemberVO;
+import com.liangxunwang.unimanager.mvc.vo.OrdersVO;
 import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
 import com.liangxunwang.unimanager.service.UpdateService;
-import com.liangxunwang.unimanager.util.CommonUtil;
-import com.liangxunwang.unimanager.util.Constants;
-import com.liangxunwang.unimanager.util.DateUtil;
-import com.liangxunwang.unimanager.util.StringUtil;
+import com.liangxunwang.unimanager.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Administrator on 2015/8/15.
  */
 @Service("appOrderService")
-public class AppOrderService implements UpdateService,SaveService ,ExecuteService{
+public class AppOrderService implements UpdateService,SaveService,ExecuteService {
 //    private static Logger logger = LogManager.getLogger(AppOrderService.class);
     @Autowired
     @Qualifier("appOrderMakeDao")
@@ -68,6 +68,152 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
             order.setCompletion_time(System.currentTimeMillis() + "");
             order.setAccept_time(System.currentTimeMillis() + "");
             appOrderMakeSaveDao.sureOrder(order);
+
+            //根据订单ID查询订单详情
+            OrdersVO ordersVO = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
+
+            //返利
+            if(ordersVO != null){
+                //--------------------给卖家返利------------------------------
+                //销售总额
+                Float payable_amount = ordersVO.getPayable_amount();
+                //利润
+                String pv_amount = ordersVO.getPv_amount()==null?"0":ordersVO.getPv_amount();
+
+                Float jf = payable_amount - Float.valueOf(pv_amount);
+
+                //把订单的钱给卖家
+                //增加他的积分
+                countDao.updateScore(ordersVO.getSeller_emp_id(), String.valueOf(jf));
+                //添加积分变动记录
+                CountRecord countRecordSeller = new CountRecord();
+                countRecordSeller.setLx_count_record_id(UUIDFactory.random());
+                countRecordSeller.setDateline(System.currentTimeMillis() + "");
+                countRecordSeller.setEmp_id(ordersVO.getSeller_emp_id());
+                countRecordSeller.setLx_count_record_count("+" + String.valueOf(jf));
+                countRecordSeller.setLx_count_record_cont(ordersVO.getEmp_name()+ "("+ordersVO.getEmp_mobile()+")消费订单" + jf + "元");
+                countRecordDao.save(countRecordSeller);
+                //-----------------------------------------------------
+                //查询消费者ID
+//                String emp_id = ordersVO.getEmp_id();
+//                String pv_amount = ordersVO.getPv_amount();//商品的pv在订单中的总和 这是返利用到的（商品pv,pv即利润）
+                //根据会员ID查询会员详情
+//                MemberVO memberVO = (MemberVO) memberDao.findInfoById(emp_id);
+//                if(memberVO != null && !StringUtil.isNullOrEmpty(memberVO.getEmp_up())){
+//                    //根据emp_id查询他的分销返利上级路线
+//                    //1.查询消费者的--所有上级返利关系 直到店长
+//                    lists.clear();
+//                    List<MemberVO> lists = getListMemberVo(memberVO.getEmp_up());
+//                    if(lists != null && !StringUtil.isNullOrEmpty(pv_amount) && !"0".equals(pv_amount) && !"0.0".equals(pv_amount)){
+//                        List<MemberVO> listsArea = new ArrayList<MemberVO>();//县级会员 只能放一个
+//                        List<MemberVO> listsCity = new ArrayList<MemberVO>();//市级代理 只能放一个
+//                        List<MemberVO> listsProvince = new ArrayList<MemberVO>();//省级代理 只能放一个
+//                        List<MemberVO> listsDianzhang = new ArrayList<MemberVO>();//店长 只能放一个
+//                        for(MemberVO memberVO1:lists){
+//                            if(listsDianzhang.size()>0){
+//                                //说明已经返利到店长级别了 返回即可
+//                                break;
+//                            }else{
+//                                //分销等级ID，返利用； 默认0是普通等级，1是普通返利会员  2是店长
+//                                switch (Integer.parseInt(memberVO1.getLx_attribute_id())){
+//                                    case 0:
+//                                    {
+//                                        //返利会员：省 市 县
+//                                        if(listsProvince.size()>0){
+//                                            //说明省会员有了
+//                                            if(listsCity.size()>0){
+//                                                //说明有市级会员了
+//                                                if(listsArea.size()>0){
+//                                                    //说明有县级会员 不能继续返利了
+//                                                }else {
+//                                                    //没有县级会员 可以添加
+//                                                    LxAttribute lxAttribute = lxAttributeDao.findByNick("3");
+//                                                    if (!StringUtil.isNullOrEmpty(lxAttribute.getLx_attribute_rate())) {
+//                                                        Double jifenCount = Double.parseDouble(pv_amount) * (Double.parseDouble(lxAttribute.getLx_attribute_rate()) * 0.01);//增加的积分
+//                                                        //增加他的积分
+//                                                        countDao.updateScore(memberVO1.getEmpId(), String.valueOf(jifenCount));
+//                                                        //添加积分变动记录
+//                                                        CountRecord countRecord = new CountRecord();
+//                                                        countRecord.setLx_count_record_id(UUIDFactory.random());
+//                                                        countRecord.setDateline(System.currentTimeMillis()+"");
+//                                                        countRecord.setEmp_id(memberVO1.getEmpId());
+//                                                        countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
+//                                                        countRecord.setLx_count_record_cont(memberVO.getEmpName() + "购物消费利润pv" + pv_amount + "元");
+//                                                        countRecordDao.save(countRecord);
+//                                                    }
+//                                                    listsArea.add(memberVO1);
+//                                                }
+//                                            }else {
+//                                                //没有市级会员 可以添加
+//                                                LxAttribute lxAttribute = lxAttributeDao.findByNick("2");
+//                                                if (!StringUtil.isNullOrEmpty(lxAttribute.getLx_attribute_rate())) {
+//                                                    Double jifenCount = Double.parseDouble(pv_amount) * (Double.parseDouble(lxAttribute.getLx_attribute_rate()) * 0.01);//增加的积分
+//                                                    //增加他的积分
+//                                                    countDao.updateScore(memberVO1.getEmpId(), String.valueOf(jifenCount));
+//                                                    //添加积分变动记录
+//                                                    CountRecord countRecord = new CountRecord();
+//                                                    countRecord.setLx_count_record_id(UUIDFactory.random());
+//                                                    countRecord.setDateline(System.currentTimeMillis()+"");
+//                                                    countRecord.setEmp_id(memberVO1.getEmpId());
+//                                                    countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
+//                                                    countRecord.setLx_count_record_cont(memberVO.getEmpName() + "购物消费利润pv" + pv_amount + "元");
+//                                                    countRecordDao.save(countRecord);
+//                                                }
+//                                                listsCity.add(memberVO1);
+//                                            }
+//                                        }else{
+//                                            //说明没有省会员 可以添加
+//                                            LxAttribute lxAttribute = lxAttributeDao.findByNick("1");
+//                                            if (!StringUtil.isNullOrEmpty(lxAttribute.getLx_attribute_rate())) {
+//                                                Double jifenCount = Double.parseDouble(pv_amount) * (Double.parseDouble(lxAttribute.getLx_attribute_rate()) * 0.01);//增加的积分
+//                                                //增加他的积分
+//                                                countDao.updateScore(memberVO1.getEmpId(), String.valueOf(jifenCount));
+//                                                //添加积分变动记录
+//                                                CountRecord countRecord = new CountRecord();
+//                                                countRecord.setLx_count_record_id(UUIDFactory.random());
+//                                                countRecord.setDateline(System.currentTimeMillis()+"");
+//                                                countRecord.setEmp_id(memberVO1.getEmpId());
+//                                                countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
+//                                                countRecord.setLx_count_record_cont(memberVO.getEmpName() + "购物消费利润pv" + pv_amount + "元");
+//                                                countRecordDao.save(countRecord);
+//                                            }
+//                                            listsProvince.add(memberVO1);
+//                                        }
+//                                    }
+//                                    break;
+//                                    case 2:
+//                                    {
+//                                        //店长
+//                                        if(listsDianzhang.size() > 0){
+//                                            //说明返利到店长级别了
+//                                            break;
+//                                        }else {
+//                                            //说明还没有返利到店长 可以继续返利
+//                                            LxAttribute lxAttribute = lxAttributeDao.findByNick("4");
+//                                            if (!StringUtil.isNullOrEmpty(lxAttribute.getLx_attribute_rate())) {
+//                                                Double jifenCount = Double.parseDouble(pv_amount) * (Double.parseDouble(lxAttribute.getLx_attribute_rate()) * 0.01);//增加的积分
+//                                                //增加他的积分
+//                                                countDao.updateScore(memberVO1.getEmpId(), String.valueOf(jifenCount));
+//                                                //添加积分变动记录
+//                                                CountRecord countRecord = new CountRecord();
+//                                                countRecord.setLx_count_record_id(UUIDFactory.random());
+//                                                countRecord.setDateline(System.currentTimeMillis()+"");
+//                                                countRecord.setEmp_id(memberVO1.getEmpId());
+//                                                countRecord.setLx_count_record_count("+" + String.valueOf(jifenCount));
+//                                                countRecord.setLx_count_record_cont(memberVO.getEmpName() + "购物消费利润pv" + pv_amount + "元");
+//                                                countRecordDao.save(countRecord);
+//                                            }
+//                                            listsDianzhang.add(memberVO1);
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+            }
+
             //根据订单号  查询订单
 //            OrderVo record = appOrderMakeSaveDao.findOrderByOrderNo(order_no);
             //通知卖家  已收货
@@ -134,10 +280,15 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
         String doublePrices = map.get("doublePrices");
         //生成sign签名
         // 订单
-        String orderInfo = StringUtil.getOrderInfo(order_no, "cpCloud", "isbody", String.valueOf(doublePrices));
+        String orderInfo = StringUtil.getOrderInfo(order_no, "caopingyun", "caopingyun_single_order", String.valueOf(doublePrices));
 
         // 对订单做RSA 签名
         String sign = StringUtil.sign(orderInfo);
+
+
+            // 仅需对sign 做URL编码
+//            sign = URLEncoder.encode(sign, "UTF-8");
+//            return new OrderInfoAndSign(orderInfo, sign, order_no);
         try {
             // 仅需对sign 做URL编码
             sign = URLEncoder.encode(sign, "UTF-8");
@@ -202,7 +353,7 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
                 channelClient.setChannelLogHandler(new YunLogHandler() {
                     @Override
                     public void onHandle(YunLogEvent event) {
-                        System.out.println(event.getMessage());
+//                        System.out.println(event.getMessage());
                     }
                 });
                 try {
@@ -211,7 +362,7 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
                     PushUnicastMessageRequest request = new PushUnicastMessageRequest();
                     request.setDeviceType(Integer.parseInt(type));
                     if (type.equals("4")) {//如果是苹果手机端要设置这个
-                        request.setDeployStatus(2);
+                        request.setDeployStatus(Constants.IOS_TYPE);
                     }
 //            request.setDeviceType(3); // device_type => 1: web 2: pc 3:android  4:ios 5:wp
 //            request.setChannelId(Long.parseLong(pushId));
@@ -227,7 +378,7 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
 
 //                    logger.info("推送成功----"+response.getSuccessAmount());
                     // 6. 认证推送成功
-                    System.out.println("push amount : " + response.getSuccessAmount());
+//                    System.out.println("push amount : " + response.getSuccessAmount());
 
                 } catch (ChannelClientException e) {
                     // 处理客户端错误异常
@@ -235,12 +386,41 @@ public class AppOrderService implements UpdateService,SaveService ,ExecuteServic
 //                    logger.info("处理客户端异常"+e.getMessage());
                 } catch (ChannelServerException e) {
                     // 处理服务端错误异常
-                    System.out.println(String.format(
-                            "request_id: %d, error_code: %d, error_message: %s",
-                            e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
+//                    System.out.println(String.format(
+//                            "request_id: %d, error_code: %d, error_message: %s",
+//                            e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
                 }
             }
         });
 
     }
+
+
+    @Autowired
+    @Qualifier("lxAttributeDao")
+    private LxAttributeDao lxAttributeDao;
+
+    static int i = 0;
+    List<MemberVO> lists = new ArrayList<MemberVO>();
+    //根据会员ID查询他的上级所有关系-直到找到店长
+    List<MemberVO> getListMemberVo(String emp_id){
+        //emp_id： A充值的话，emp_id就是A的上级B
+        MemberVO memberVO = (MemberVO) memberDao.findInfoById(emp_id);
+        lists.add(memberVO);
+        if(!memberVO.getLx_attribute_id().equals("2")){
+            getListMemberVo(memberVO.getEmp_up());
+        }else {
+            return lists;
+        }
+        return lists;
+    }
+
+    @Autowired
+    @Qualifier("countDao")
+    private CountDao countDao;
+
+    @Autowired
+    @Qualifier("countRecordDao")
+    private CountRecordDao countRecordDao;
+
 }

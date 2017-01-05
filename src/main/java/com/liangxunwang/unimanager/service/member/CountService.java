@@ -1,16 +1,9 @@
 package com.liangxunwang.unimanager.service.member;
 
 import com.liangxunwang.unimanager.dao.CountDao;
-import com.liangxunwang.unimanager.dao.PaopaoGoodsDao;
-import com.liangxunwang.unimanager.model.Count;
 import com.liangxunwang.unimanager.mvc.vo.CountVo;
-import com.liangxunwang.unimanager.mvc.vo.PaopaoGoodsVO;
 import com.liangxunwang.unimanager.query.CountQuery;
-import com.liangxunwang.unimanager.query.PaopaoGoodsQuery;
-import com.liangxunwang.unimanager.service.ListService;
-import com.liangxunwang.unimanager.service.SaveService;
-import com.liangxunwang.unimanager.service.ServiceException;
-import com.liangxunwang.unimanager.service.UpdateService;
+import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,13 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by zhl on 2015/2/4.
  */
 @Service("countService")
-public class CountService implements SaveService,ListService ,UpdateService{
+public class CountService implements SaveService,ListService,UpdateService, ExecuteService {
     @Autowired
     @Qualifier("countDao")
     private CountDao countDao;
@@ -64,5 +56,12 @@ public class CountService implements SaveService,ListService ,UpdateService{
         String count = arr[1];
         countDao.updateScore(empId, count);
         return null;
+    }
+
+    @Override
+    public Object execute(Object object) throws ServiceException, Exception {
+        String emp_id = (String) object;
+        CountVo countVo = countDao.findById(emp_id);
+        return countVo;
     }
 }

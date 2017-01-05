@@ -29,7 +29,7 @@ public class MemberService implements ListService , UpdateService, ExecuteServic
         if (object instanceof MemberQuery) {
             MemberQuery query = (MemberQuery) object;
             int index = (query.getIndex() - 1) * query.getSize();
-            int size = query.getIndex() * query.getSize();
+            int size = query.getSize();
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("index", index);

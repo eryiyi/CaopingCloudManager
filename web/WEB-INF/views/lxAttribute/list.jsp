@@ -11,6 +11,7 @@
             <li><a href="javascript:void(0)">分销会员等级管理</a></li>
             <li><a href="javascript:void(0)">分销会员等级列表</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -42,8 +43,8 @@
                     <thead>
                     <tr>
                         <th>等级</th>
-                        <th>等级昵称</th>
-                        <th>操作</th>
+                        <%--<th>等级</th>--%>
+                        <th>返利百分比</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -51,7 +52,8 @@
                     <c:forEach items="${list}" var="e" varStatus="st">
                         <tr>
                             <td>${e.lx_attribute_name}</td>
-                            <td>${e.lx_attribute_nick}</td>
+                            <%--<td>${e.lx_attribute_nick}</td>--%>
+                            <td>${e.lx_attribute_rate}</td>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"
                                    onclick="editRole('${e.lx_attribute_id}')" role="button">编辑</a>

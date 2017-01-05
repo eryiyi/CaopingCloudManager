@@ -5,7 +5,7 @@
 <mapper namespace="com.liangxunwang.unimanager.dao.OrderDao">
     <resultMap id="order" type="com.liangxunwang.unimanager.model.Order">
         <id column="order_no" property="order_no"/>
-        <result column="goods_id" property="goods_id"/>
+        <result column="cloud_caoping_id" property="cloud_caoping_id"/>
         <result column="emp_id" property="emp_id"/>
         <result column="seller_emp_id" property="seller_emp_id"/>
         <result column="PROVINCEID" property="provinceId"/>
@@ -37,11 +37,12 @@
         <result column="is_comment" property="is_comment"/>
         <result column="is_return" property="is_return"/>
         <result column="is_dxk_order" property="is_dxk_order"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
     </resultMap>
 
     <resultMap id="my_order_vo" type="com.liangxunwang.unimanager.mvc.vo.OrdersVO">
         <id column="order_no" property="order_no"/>
-        <result column="goods_id" property="goods_id"/>
+        <result column="cloud_caoping_id" property="cloud_caoping_id"/>
         <result column="emp_id" property="emp_id"/>
         <result column="seller_emp_id" property="seller_emp_id"/>
         <result column="PROVINCEID" property="provinceId"/>
@@ -73,6 +74,7 @@
         <result column="returnOrder" property="returnOrder"/>
         <result column="is_comment" property="is_comment"/>
         <result column="is_return" property="is_return"/>
+        <result column="is_dxk_order" property="is_dxk_order"/>
         <result column="is_dxk_order" property="is_dxk_order"/>
 
         <result column="emp_mobile" property="emp_mobile"/>
@@ -124,7 +126,7 @@
         LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
         LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
         LEFT JOIN area larea ON larea.areaid=ord.AREAID
-        WHERE '1'='1'
+        WHERE '1'='1' AND pso.STATUS != '1'
         <if test="emp_id != null and emp_id != ''">
             AND ord.emp_id=#{emp_id}
         </if>
@@ -137,6 +139,9 @@
         <if test="pay_status != null and pay_status != ''">
             AND ord.pay_status = #{pay_status}
         </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            AND ord.STATUS = #{orderStatus}
+        </if>
         <if test="is_comment != null and is_comment != ''">
             AND ord.is_comment = #{is_comment}
         </if>
@@ -148,6 +153,9 @@
         </if>
         <if test="endTime != null and endTime != ''">
             AND ord.COMPLETION_TIME &lt; #{endTime}
+        </if>
+        <if test="trade_type != null and trade_type != ''">
+            AND ord.trade_type = #{trade_type}
         </if>
 
         <if test="is_zhiying != null and is_zhiying != ''">
@@ -166,7 +174,7 @@
         LEFT JOIN province lpro ON lpro.provinceid=ord.PROVINCEID
         LEFT JOIN city lcity ON lcity.cityid=ord.CITYID
         LEFT JOIN area larea ON larea.areaid=ord.AREAID
-        WHERE '1'='1'
+        WHERE '1'='1' AND ord.STATUS != '1'
         <if test="emp_id != null and emp_id != ''">
             AND ord.emp_id=#{emp_id}
         </if>
@@ -179,6 +187,7 @@
         <if test="pay_status != null and pay_status != ''">
             AND ord.pay_status = #{pay_status}
         </if>
+
         <if test="is_comment != null and is_comment != ''">
             AND ord.is_comment = #{is_comment}
         </if>
@@ -190,6 +199,9 @@
         </if>
         <if test="endTime != null and endTime != ''">
             AND ord.COMPLETION_TIME &lt; #{endTime}
+        </if>
+        <if test="trade_type != null and trade_type != ''">
+            AND ord.trade_type = #{trade_type}
         </if>
 
         <if test="is_zhiying != null and is_zhiying != ''">
@@ -298,9 +310,9 @@
 
 
     <select id="countDay" resultType="Long">
-        SELECT count(pso.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER pso
+        SELECT count(ord.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER ord
         WHERE '1'='1'
-        AND pso.create_time &gt; #{startTime}
-        AND pso.create_time &lt; #{endTime}
+        AND ord.create_time &gt; #{startTime}
+        AND ord.create_time &lt; #{endTime}
     </select>
 </mapper>

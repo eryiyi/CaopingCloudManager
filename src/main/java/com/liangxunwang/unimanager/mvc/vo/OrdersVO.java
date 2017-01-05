@@ -7,6 +7,7 @@ import com.liangxunwang.unimanager.model.Order;
  * 后台订单列表详情
  */
 public class OrdersVO extends Order {
+
     private String emp_mobile;
     private String emp_name;
     private String emp_cover;
@@ -23,53 +24,6 @@ public class OrdersVO extends Order {
     private String cloud_caoping_address;//商品地址
     private String cloud_caoping_prices;//商品价格
 
-    public String getEmp_mobile_seller() {
-        return emp_mobile_seller;
-    }
-
-    public void setEmp_mobile_seller(String emp_mobile_seller) {
-        this.emp_mobile_seller = emp_mobile_seller;
-    }
-
-    public String getEmp_name_seller() {
-        return emp_name_seller;
-    }
-
-    public void setEmp_name_seller(String emp_name_seller) {
-        this.emp_name_seller = emp_name_seller;
-    }
-
-    public String getEmp_cover_seller() {
-        return emp_cover_seller;
-    }
-
-    public void setEmp_cover_seller(String emp_cover_seller) {
-        this.emp_cover_seller = emp_cover_seller;
-    }
-
-    public String getCloud_caoping_pic() {
-        return cloud_caoping_pic;
-    }
-
-    public void setCloud_caoping_pic(String cloud_caoping_pic) {
-        this.cloud_caoping_pic = cloud_caoping_pic;
-    }
-
-    public String getCloud_caoping_address() {
-        return cloud_caoping_address;
-    }
-
-    public void setCloud_caoping_address(String cloud_caoping_address) {
-        this.cloud_caoping_address = cloud_caoping_address;
-    }
-
-    public String getCloud_caoping_prices() {
-        return cloud_caoping_prices;
-    }
-
-    public void setCloud_caoping_prices(String cloud_caoping_prices) {
-        this.cloud_caoping_prices = cloud_caoping_prices;
-    }
 
     public String getEmp_mobile() {
         return emp_mobile;
@@ -95,12 +49,28 @@ public class OrdersVO extends Order {
         this.emp_cover = emp_cover;
     }
 
-    public String getCloud_caoping_title() {
-        return cloud_caoping_title;
+    public String getEmp_mobile_seller() {
+        return emp_mobile_seller;
     }
 
-    public void setCloud_caoping_title(String cloud_caoping_title) {
-        this.cloud_caoping_title = cloud_caoping_title;
+    public void setEmp_mobile_seller(String emp_mobile_seller) {
+        this.emp_mobile_seller = emp_mobile_seller;
+    }
+
+    public String getEmp_name_seller() {
+        return emp_name_seller;
+    }
+
+    public void setEmp_name_seller(String emp_name_seller) {
+        this.emp_name_seller = emp_name_seller;
+    }
+
+    public String getEmp_cover_seller() {
+        return emp_cover_seller;
+    }
+
+    public void setEmp_cover_seller(String emp_cover_seller) {
+        this.emp_cover_seller = emp_cover_seller;
     }
 
     public String getProvinceName() {
@@ -127,5 +97,35 @@ public class OrdersVO extends Order {
         this.areaName = areaName;
     }
 
+    public String getCloud_caoping_title() {
+        return cloud_caoping_title;
+    }
 
+    public void setCloud_caoping_title(String cloud_caoping_title) {
+        this.cloud_caoping_title = cloud_caoping_title;
+    }
+
+    public String getCloud_caoping_pic() {
+        return cloud_caoping_pic;
+    }
+
+    public void setCloud_caoping_pic(String cloud_caoping_pic) {
+        this.cloud_caoping_pic = cloud_caoping_pic;
+    }
+
+    public String getCloud_caoping_address() {
+        return cloud_caoping_address;
+    }
+
+    public void setCloud_caoping_address(String cloud_caoping_address) {
+        this.cloud_caoping_address = cloud_caoping_address;
+    }
+
+    public String getCloud_caoping_prices() {
+        return cloud_caoping_prices;
+    }
+
+    public void setCloud_caoping_prices(String cloud_caoping_prices) {
+        this.cloud_caoping_prices = cloud_caoping_prices;
+    }
 }

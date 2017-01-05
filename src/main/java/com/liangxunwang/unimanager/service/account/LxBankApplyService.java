@@ -1,14 +1,13 @@
 package com.liangxunwang.unimanager.service.account;
 
-import com.liangxunwang.unimanager.dao.*;
-import com.liangxunwang.unimanager.model.BrowsingObj;
+import com.liangxunwang.unimanager.dao.CountDao;
+import com.liangxunwang.unimanager.dao.CountRecordDao;
+import com.liangxunwang.unimanager.dao.LxbankApplyDao;
+import com.liangxunwang.unimanager.dao.MemberDao;
 import com.liangxunwang.unimanager.model.CountRecord;
-import com.liangxunwang.unimanager.model.Member;
 import com.liangxunwang.unimanager.model.lxBankApply;
-import com.liangxunwang.unimanager.mvc.vo.BrowsingVo;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.mvc.vo.lxBankApplyVo;
-import com.liangxunwang.unimanager.query.BrowsingQuery;
 import com.liangxunwang.unimanager.query.LxBankApplyQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
@@ -84,7 +83,7 @@ public class LxBankApplyService implements ListService,SaveService,UpdateService
 
     @Override
     public Object save(Object object) throws ServiceException {
-        lxBankApply lxBankApply = (lxBankApply) object;
+        lxBankApply lxBankApply = (com.liangxunwang.unimanager.model.lxBankApply) object;
         if(lxBankApply == null){
             throw new ServiceException("no_result");
         }
@@ -100,7 +99,7 @@ public class LxBankApplyService implements ListService,SaveService,UpdateService
             //添加积分变动记录
             CountRecord countRecord = new CountRecord();
             countRecord.setLx_count_record_id(UUIDFactory.random());
-            countRecord.setEmp_id(memberVO.getEmp_up());
+            countRecord.setEmp_id(memberVO.getEmpId());
             countRecord.setLx_count_record_count("-" + lxBankApply.getLx_bank_apply_count());
             countRecord.setLx_count_record_cont(memberVO.getEmpName() + "(" + memberVO.getEmpMobile() + ")提现申请" + lxBankApply.getLx_bank_apply_count() + "分");
             countRecord.setDateline(System.currentTimeMillis()+"");
@@ -114,9 +113,34 @@ public class LxBankApplyService implements ListService,SaveService,UpdateService
 
     @Override
     public Object update(Object object) {
-        lxBankApply lxBankApply = (lxBankApply) object;
-        lxBankApply.setDateline_done(System.currentTimeMillis()+"");
-        lxbankApplyDao.update(lxBankApply);
+        lxBankApply lxBankApply = (com.liangxunwang.unimanager.model.lxBankApply) object;
+        //根据ID查询是否已经审核
+        lxBankApplyVo lxBankApplyVo = lxbankApplyDao.findById(lxBankApply.getLx_bank_apply_id());
+        if(lxBankApplyVo.getIs_check().equals("1") || lxBankApplyVo.getIs_check().equals("2")){
+            throw new ServiceException("has_check");
+        }else{
+            if("1".equals(lxBankApply.getIs_check())){
+                lxBankApply.setDateline_done(System.currentTimeMillis()+"");
+                lxbankApplyDao.update(lxBankApply);
+            }else if("2".equals(lxBankApply.getIs_check())){
+
+                lxBankApply.setDateline_done(System.currentTimeMillis()+"");
+                lxbankApplyDao.update(lxBankApply);
+
+                //退还积分
+                countDao.updateScore(lxBankApplyVo.getEmp_id(), lxBankApplyVo.getLx_bank_apply_count());
+                //添加积分变动记录
+                CountRecord countRecord = new CountRecord();
+                countRecord.setLx_count_record_id(UUIDFactory.random());
+                countRecord.setEmp_id(lxBankApplyVo.getEmp_id());
+                countRecord.setLx_count_record_count("+" + lxBankApplyVo.getLx_bank_apply_count());
+                countRecord.setLx_count_record_cont(lxBankApplyVo.getEmp_name() + "(" + lxBankApplyVo.getEmp_mobile() + ")提现申请被拒绝" + lxBankApplyVo.getLx_bank_apply_count() + "分");
+                countRecord.setDateline(System.currentTimeMillis()+"");
+                countRecordDao.save(countRecord);
+            }
+
+        }
+
         return null;
     }
 

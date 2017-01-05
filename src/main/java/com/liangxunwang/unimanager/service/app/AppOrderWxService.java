@@ -1,32 +1,14 @@
 package com.liangxunwang.unimanager.service.app;
 
-import com.liangxunwang.unimanager.baidu.channel.auth.ChannelKeyPair;
-import com.liangxunwang.unimanager.baidu.channel.client.BaiduChannelClient;
-import com.liangxunwang.unimanager.baidu.channel.exception.ChannelClientException;
-import com.liangxunwang.unimanager.baidu.channel.exception.ChannelServerException;
-import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageRequest;
-import com.liangxunwang.unimanager.baidu.channel.model.PushUnicastMessageResponse;
-import com.liangxunwang.unimanager.baidu.log.YunLogEvent;
-import com.liangxunwang.unimanager.baidu.log.YunLogHandler;
-import com.liangxunwang.unimanager.dao.AppOrderMakeDao;
-import com.liangxunwang.unimanager.dao.MemberDao;
-import com.liangxunwang.unimanager.dao.RelateDao;
-import com.liangxunwang.unimanager.model.Order;
-import com.liangxunwang.unimanager.model.OrderInfoAndSign;
-import com.liangxunwang.unimanager.service.ExecuteService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
-import com.liangxunwang.unimanager.service.UpdateService;
-import com.liangxunwang.unimanager.util.*;
+import com.liangxunwang.unimanager.util.Constants;
+import com.liangxunwang.unimanager.util.MD5;
+import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +28,7 @@ public class AppOrderWxService implements SaveService {
         StringBuffer xml = new StringBuffer();
         try {
             final String ip_str = "127.0.0.1";
-            final String body = "cpCloud";
+            final String body = "caopingyun";
             final String trade_type = "APP";
             String  nonceStr = UUIDFactory.random();
 
@@ -60,7 +42,7 @@ public class AppOrderWxService implements SaveService {
             packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL));
             packageParams.add(new BasicNameValuePair("out_trade_no", order_no));
             packageParams.add(new BasicNameValuePair("spbill_create_ip", ip_str));
-            packageParams.add(new BasicNameValuePair("total_fee", doublePrices));
+            packageParams.add(new BasicNameValuePair("total_fee", String.valueOf((int)Math.ceil((Double.valueOf(doublePrices)*100)))));
             packageParams.add(new BasicNameValuePair("trade_type", trade_type));
 
             String sign = genAppSign(packageParams).toUpperCase();
@@ -84,8 +66,6 @@ public class AppOrderWxService implements SaveService {
         }
         sb.append("key=");
         sb.append(Constants.WX_API_KEY);
-
-        sb.append("sign str\n"+sb.toString()+"\n\n");
         String appSign = MD5.getMessageDigest(sb.toString().getBytes());
         return appSign;
     }

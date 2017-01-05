@@ -52,7 +52,8 @@ public class AppGoodsFavourService implements SaveService ,ListService ,DeleteSe
     public Object list(Object object) throws ServiceException {
         FavoursQuery query = (FavoursQuery) object;
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("index", index);
         map.put("size", size);

@@ -49,20 +49,40 @@
             <div class="box-content">
                 <h4 class="page-header">订单详情</h4>
                 <dl class="dl-horizontal">
-                    <dt>订单号</dt>
+                    <dt>美人美吧平台订单号</dt>
                     <dd>${vo.order_no}</dd>
                 </dl>
+
+                <c:if test="${vo.trade_type=='0'}">
+                    <dl class="dl-horizontal">
+                        <dt>支付宝订单号</dt>
+                        <dd>${vo.out_trade_no}</dd>
+                    </dl>
+                </c:if>
+
+                <c:if test="${vo.trade_type=='1'}">
+                    <dl class="dl-horizontal">
+                        <dt>微信订单号</dt>
+                        <dd>${vo.out_trade_no}</dd>
+                    </dl>
+                </c:if>
+
+
                 <dl class="dl-horizontal">
-                    <dt>买家名称</dt>
-                    <dd>${vo.empName}</dd>
-                </dl>
-                <dl class="dl-horizontal">
-                    <dt>买家电话</dt>
-                    <dd>${vo.phone}</dd>
+                    <dt>支付方式</dt>
+                    <dd>
+                        <c:if test="${vo.trade_type=='0'}">支付宝</c:if>
+                        <c:if test="${vo.trade_type=='1'}">微信</c:if>
+                        <c:if test="${vo.trade_type=='2'}">零钱</c:if>
+                    </dd>
                 </dl>
                 <dl class="dl-horizontal">
                     <dt>商品名称</dt>
                     <dd>${vo.goodsName}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>卖家名称</dt>
+                    <dd>${vo.sellerName}</dd>
                 </dl>
                 <dl class="dl-horizontal">
                     <dt>购买数量</dt>
@@ -119,15 +139,32 @@
                     <dt>买家留言</dt>
                     <dd>${vo.postscript}</dd>
                 </dl>
+                <dl class="dl-horizontal">
+                    <dt>买家账号</dt>
+                    <dd>${vo.emp_number}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>买家名称</dt>
+                    <dd>${vo.empName}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>买家手机</dt>
+                    <dd>${vo.emp_mobile}</dd>
+                </dl>
 
+                <dl class="dl-horizontal">
+                    <dt>收货人姓名</dt>
+                    <dd>${vo.accept_name}</dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>收货人电话</dt>
+                    <dd>${vo.phone}</dd>
+                </dl>
                 <dl class="dl-horizontal">
                     <dt>收货地址</dt>
                     <dd>${vo.provinceName}${vo.cityName}${vo.areaName}${vo.address}</dd>
                 </dl>
-                <dl class="dl-horizontal">
-                    <dt>卖家名称</dt>
-                    <dd>${vo.sellerName}</dd>
-                </dl>
+
 
                 <c:if test="${vo.status == '7'}">
                     <dl class="dl-horizontal">
@@ -139,8 +176,6 @@
                         <dd>${vo.returnOrder}</dd>
                     </dl>
                 </c:if>
-
-
                 <div class="form-group">
                     <c:if test="${vo.status == '1'}">
                     <div class="col-sm-2 col-sm-offset-1">

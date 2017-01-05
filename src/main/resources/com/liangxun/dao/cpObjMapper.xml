@@ -228,6 +228,12 @@
         WHERE cloud_caoping_id=#{cloud_caoping_id}
     </update>
 
+    <update id="updateCountById" parameterType="com.liangxunwang.unimanager.model.CpObj">
+        UPDATE cloud_caoping SET
+        sale_count=(sale_count + ${sale_count})
+        WHERE cloud_caoping_id=#{cloud_caoping_id}
+    </update>
+
 
     <select id="findById" parameterType="String" resultMap="cpobj">
       SELECT sn.*,le.emp_name as emp_name, le.emp_cover as emp_cover

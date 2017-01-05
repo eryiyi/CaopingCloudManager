@@ -174,7 +174,6 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
 
                         +"|(^/appSaveBrowsing\\.do$)"
                         +"|(^/appGetBrowsing\\.do$)"
-                        +"|(^/orderSaveWx\\.do$)"
                         +"|(^/getKefuTel\\.do$)"
                         +"|(^/appShareReg\\.do$)"
                         +"|(^/saveEmpShare\\.do$)"
@@ -210,6 +209,13 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                         +"|(^/appGetStatistical\\.do$)"
                         +"|(^/appGetCompanyNews\\.do$)"
 
+                        +"|(^/findPwrPayByMobile\\.do$)"
+                        +"|(^/appGetDianpuComment\\.do$)"
+                        +"|(^/saveDianpuComment\\.do$)"
+                        +"|(^/deleteDianpuComment\\.do$)"
+                        +"|(^/payWxNotifyAction\\.do$)"
+                        +"|(^/payWxNotifyActionDxk\\.do$)"
+                        +"|(^/payWxNotifyActionLq\\.do$)"
 
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"

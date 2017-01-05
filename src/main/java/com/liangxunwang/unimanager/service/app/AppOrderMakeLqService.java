@@ -54,7 +54,7 @@ public class AppOrderMakeLqService implements SaveService {
 //                emp_id = order.getEmp_id();
 //            }
 //            order.getGoods_count();//订单数量
-            //根据商品ID查询商品数量
+//            //根据商品ID查询商品数量
 //            PaopaoGoodsVO vo = paopaoGoodsDao.findGoodsVO(order.getGoods_id());
 //            if(vo != null){
 //                if(!StringUtil.isNullOrEmpty(vo.getCount()) && !StringUtil.isNullOrEmpty(order.getGoods_count())){
@@ -63,7 +63,7 @@ public class AppOrderMakeLqService implements SaveService {
 //                    }
 //                }
 //            }
-
+//
 //        }
         Double doublePrices = 0.0;
         if(lists!=null && lists.size() > 0){

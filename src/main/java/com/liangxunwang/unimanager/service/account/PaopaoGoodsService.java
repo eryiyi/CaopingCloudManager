@@ -125,7 +125,7 @@ public class PaopaoGoodsService implements ListService, SaveService, DeleteServi
     public Object list(Object object) throws ServiceException {
             PaopaoGoodsQuery query = (PaopaoGoodsQuery) object;
             int index = (query.getIndex() - 1) * query.getSize();
-            int size = query.getIndex() * query.getSize();
+            int size = query.getSize();
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("index", index);

@@ -18,6 +18,10 @@ public interface AppOrderMakeDao {
      * 保存订单
      */
     void saveList(Order order);
+    //保存定向卡
+    void saveDxkOrder(Order order);
+    //查询该会员是否刷过今天的定向卡订单了
+    Order findIsExist(Map<String, Object> map);
     /**
      * �保存订单 交易号  和支付宝关联��
      * */
@@ -37,6 +41,8 @@ public interface AppOrderMakeDao {
     //确认收货
     void sureOrder(Order order);
 
+    void updateOrderByOrderNo(Order order);
+
     //更新订单--单一的分订单--去付款
     void updateOrderBySingle(@Param(value = "order_no") String order_no, @Param(value = "pay_time") String pay_time);
 
@@ -48,6 +54,9 @@ public interface AppOrderMakeDao {
 
     //查询总的收入
     String selectSum(Map<String, Object> map);
+
+    //商家查询自己用户的订单
+    List<OrdersVO> listOrdersSj(Map<String, Object> map);
 
     //卖家确认发货
     void sendOrderSj(Order order);

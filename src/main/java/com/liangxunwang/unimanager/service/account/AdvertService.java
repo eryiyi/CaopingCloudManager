@@ -52,7 +52,7 @@ public class AdvertService implements SaveService, ListService , FindService, Up
     public Object list(Object object) throws ServiceException {
         AdvertQuery query = (AdvertQuery) object;
         int index = (query.getIndex() - 1) * query.getSize();
-        int size = query.getIndex() * query.getSize();
+        int size = query.getSize();
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("index", index);

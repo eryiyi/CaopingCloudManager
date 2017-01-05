@@ -40,4 +40,7 @@ public interface CpObjDao {
     public void updateDelete(CpObj cpObj);
 
     long count(Map<String, Object> map);
+
+    //更新销量
+    void updateCountById(CpObj cpObj);
 }

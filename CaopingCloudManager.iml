@@ -94,5 +94,6 @@
     <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.0.11" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp:okhttp:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.6.0" level="project" />
+    <orderEntry type="library" name="alipay-sdk-java20161129201425" level="project" />
   </component>
 </module>

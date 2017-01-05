@@ -12,6 +12,7 @@
             <li><a href="javascript:void (0);">会员管理</a></li>
             <li><a href="javascript:void (0);">会员详情</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -29,6 +30,14 @@
                 <form class="form-horizontal" role="form">
                     <input type="hidden" value="${empVO.empId}" id="emp_id">
                     <input type="hidden" value="${empVO.empCover}" id="emp_cover">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" id="emp_number" readonly="true"  class="form-control" value="${empVO.emp_number}"
+                                   data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">手机号</label>
@@ -90,6 +99,44 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">购买等级/打折</label>
+
+                        <div class="col-sm-4">
+                            <select class="form-control" name="level_id" id="level_id">
+                                <option value="">-- 选择等级 --</option>
+                                <c:forEach items="${listLevels}" var="s">
+                                    <option value="${s.levelId}" ${s.levelId==empVO.level_id?'selected':''}>${s.levelName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+
+                        <label class="col-sm-2 control-label">分销等级/返利</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="lx_attribute_id">
+                                <option value="0" ${empVO.lx_attribute_id=='0'?'selected':''}>普通会员</option>
+                                <option value="1" ${empVO.lx_attribute_id=='1'?'selected':''}>分销返利会员</option>
+                                <option value="2" ${empVO.lx_attribute_id=='2'?'selected':''}>店长</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">定向卡等级</label>
+
+                        <div class="col-sm-4">
+                            <select class="form-control" name="lx_dxk_level_id" id="lx_dxk_level_id">
+                                <option value="">-- 选择等级 --</option>
+                                <c:forEach items="${listDxk}" var="s">
+                                    <option value="${s.lx_dxk_level_id}" ${s.lx_dxk_level_id==empVO.lx_dxk_level_id?'selected':''}>${s.lx_dxk_name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
 
 
                     <div class="form-group">
@@ -110,7 +157,16 @@
                         </div>
                     </div>
 
-
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否禁用</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="is_use">
+                                <option value="">--请选择--</option>
+                                <option value="0" ${empVO.isUse=='0'?'selected':''}>否</option>
+                                <option value="1" ${empVO.isUse=='1'?'selected':''}>是</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">会员经纬度</label>
@@ -133,98 +189,43 @@
                                    title="Tooltip for name">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级手机号</label>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">信用用户</label>
                         <div class="col-sm-4">
-                            <select class="form-control" id="is_vip_one">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_vip_one=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_vip_one=='1'?'selected':''}>是</option>
-                            </select>
+                            <input type="text"  readonly="true" class="form-control"
+                                   value="${memberVOUpOne.empMobile}" data-toggle="tooltip" data-placement="bottom"
+                                   title="Tooltip for name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">100分用户</label>
+                        <label class="col-sm-2 control-label">上级昵称</label>
+
                         <div class="col-sm-4">
-                            <select class="form-control" id="is_vip_two">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_vip_two=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_vip_two=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">vip</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_vip_three">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_vip_three=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_vip_three=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">名誉用户</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_vip_four">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_vip_four=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_vip_four=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">信用商户</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_vip_five">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_vip_five=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_vip_five=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">是否实名认证</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_shiming_rz">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_shiming_rz=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_shiming_rz=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">是否企业认证</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_qiye_rz">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_qiye_rz=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_qiye_rz=='1'?'selected':''}>是</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">是否供应商</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" id="is_gys">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.is_gys=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.is_gys=='1'?'selected':''}>是</option>
-                            </select>
+                            <input type="text" readonly="true" class="form-control" value="${memberVOUpOne.empName}"
+                                   data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">是否禁用</label>
+                        <label class="col-sm-2 control-label">上上级手机号</label>
+
                         <div class="col-sm-4">
-                            <select class="form-control" id="is_use">
-                                <option value="">--请选择--</option>
-                                <option value="0" ${empVO.isUse=='0'?'selected':''}>否</option>
-                                <option value="1" ${empVO.isUse=='1'?'selected':''}>是</option>
-                            </select>
+                            <input type="text"  readonly="true" class="form-control"
+                                   value="${memberVOUpTwo.empMobile}" data-toggle="tooltip" data-placement="bottom"
+                                   title="Tooltip for name">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上上级昵称</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" readonly="true"  class="form-control" value="${memberVOUpTwo.empName}"
+                                   data-toggle="tooltip" data-placement="bottom" title="Tooltip for name">
+                        </div>
+                    </div>
+
+
 
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
@@ -248,14 +249,9 @@
         var emp_id = $("#emp_id").val();
         var emp_name = $("#emp_name").val();
         var emp_sex = $("#emp_sex").val();
-        var is_vip_one = $("#is_vip_one").val();
-        var is_vip_two = $("#is_vip_two").val();
-        var is_vip_three = $("#is_vip_three").val();
-        var is_vip_four = $("#is_vip_four").val();
-        var is_vip_five = $("#is_vip_five").val();
-        var is_shiming_rz = $("#is_shiming_rz").val();
-        var is_qiye_rz = $("#is_qiye_rz").val();
-        var is_gys = $("#is_gys").val();
+        var level_id = $("#level_id").val();//购买等级  打折用
+        var lx_attribute_id = $("#lx_attribute_id").val();//分销等级 返利用
+        var lx_dxk_level_id = $("#lx_dxk_level_id").val();
         var is_use = $("#is_use").val();
 
         if (emp_name.replace(/\s/g, '') == '') {
@@ -267,45 +263,13 @@
             return;
         }
 
-        if (is_vip_one.replace(/\s/g, '') == '') {
-            alert("请选择是否信用用户");
-            return;
-        }
-        if (is_vip_two.replace(/\s/g, '') == '') {
-            alert("请选择是否100分用户");
-            return;
-        }
-        if (is_vip_three.replace(/\s/g, '') == '') {
-            alert("请选择是否vip");
-            return;
-        }
-        if (is_vip_four.replace(/\s/g, '') == '') {
-            alert("请选择是否名誉用户");
-            return;
-        }
-        if (is_vip_five.replace(/\s/g, '') == '') {
-            alert("请选择是否信用商户");
-            return;
-        }
-        if (is_shiming_rz.replace(/\s/g, '') == '') {
-            alert("请选择是否实名认证");
-            return;
-        }
-        if (is_qiye_rz.replace(/\s/g, '') == '') {
-            alert("请选择是否企业认证");
-            return;
-        }
-        if (is_gys.replace(/\s/g, '') == '') {
-            alert("请选择是否供应商");
-            return;
-        }
-        if (emp_sex.replace(/\s/g, '') == '') {
-            alert("请选择性别");
-            return;
-        }
         if (is_use.replace(/\s/g, '') == '') {
             alert("请选择是否禁用");
             return;
+        }
+
+        if (lx_attribute_id.replace(/\s/g, '') == '') {
+            lx_attribute_id = '0';
         }
 
         var imagePath = $("img[name='imagePath']").attr("src");
@@ -322,14 +286,9 @@
                 "empName": emp_name,
                 "empSex": emp_sex,
                 "empCover": imagePath,
-                "is_vip_one": is_vip_one,
-                "is_vip_two": is_vip_two,
-                "is_vip_three": is_vip_three,
-                "is_vip_four": is_vip_four,
-                "is_vip_five": is_vip_five,
-                "is_shiming_rz": is_shiming_rz,
-                "is_qiye_rz": is_qiye_rz,
-                "is_gys": is_gys,
+                "level_id": level_id,
+                "lx_attribute_id": lx_attribute_id,
+                "lx_dxk_level_id": lx_dxk_level_id,
                 "isUse": is_use
             },
             async: false,

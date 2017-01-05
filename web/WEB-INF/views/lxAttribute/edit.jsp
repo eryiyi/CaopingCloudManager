@@ -11,6 +11,7 @@
             <li><a href="javascript:void(0)">分销会员等级管理</a></li>
             <li><a href="javascript:void(0)">分销会员等级更新</a></li>
         </ol>
+
     </div>
 </div>
 
@@ -40,6 +41,7 @@
 
                 <form class="form-horizontal" role="form">
                     <input type="hidden" value="${adObj.lx_attribute_id}" id="lx_attribute_id">
+                    <input type="hidden" value="${adObj.lx_attribute_nick}" id="lx_attribute_nick">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">等级</label>
@@ -51,12 +53,22 @@
                         </div>
                     </div>
 
+                    <%--<div class="form-group">--%>
+                        <%--<label class="col-sm-2 control-label">昵称</label>--%>
+
+                        <%--<div class="col-sm-4">--%>
+                            <%--<input type="text" id="lx_attribute_nick" value="${adObj.lx_attribute_nick}" class="form-control"--%>
+                                   <%--placeholder="昵称" data-toggle="tooltip" data-placement="bottom"--%>
+                                   <%--title="Tooltip for name">--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">昵称</label>
+                        <label class="col-sm-2 control-label">返利百分比</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="lx_attribute_nick" value="${adObj.lx_attribute_nick}" class="form-control"
-                                   placeholder="昵称" data-toggle="tooltip" data-placement="bottom"
+                            <input type="text" id="lx_attribute_rate" value="${adObj.lx_attribute_rate}" class="form-control"
+                                   placeholder="返利百分比" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>
                     </div>
@@ -77,6 +89,7 @@
     function saveP() {
         var lx_attribute_id = $("#lx_attribute_id").val();
         var lx_attribute_nick = $("#lx_attribute_nick").val();
+        var lx_attribute_rate = $("#lx_attribute_rate").val();
 
         $.ajax({
             cache: true,
@@ -84,6 +97,7 @@
             url: "/lxAttributeController/edit.do",
             data: {
                 "lx_attribute_id": lx_attribute_id,
+                "lx_attribute_rate": lx_attribute_rate,
                 "lx_attribute_nick": lx_attribute_nick
             },
             async: false,
