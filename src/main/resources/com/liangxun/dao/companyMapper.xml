@@ -92,7 +92,7 @@
         <if test="is_paihang == null and is_time == 1 ">
             ORDER BY lc.dateline DESC
         </if>
-
+        limit #{index},#{size}
     </select>
 
     <select id="count" resultType="long">

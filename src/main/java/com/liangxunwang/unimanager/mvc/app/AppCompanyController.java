@@ -119,6 +119,7 @@ public class AppCompanyController extends ControllerConstants {
         try {
             query.setIndex(page.getPage()==0?1:page.getPage());
             query.setSize(query.getSize() == 0 ? page.getDefaultSize() : query.getSize());
+
             query.setIs_gys("1");
             query.setIs_check("1");
             query.setIs_paihang("1");
