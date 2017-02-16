@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by zhl on 2015/3/3.
  */
 @Service("appCpobjService")
-public class AppCpobjService implements ListService,SaveService,ExecuteService ,DeleteService{
+public class AppCpobjService implements ListService,SaveService,ExecuteService ,DeleteService,FindService{
     @Autowired
     @Qualifier("cpObjDao")
     private CpObjDao cpObjDao;
@@ -200,5 +200,14 @@ public class AppCpobjService implements ListService,SaveService,ExecuteService ,
         cpObj.setCloud_is_del("1");
         cpObjDao.updateDelete(cpObj);
         return null;
+    }
+
+    @Override
+    public Object findById(Object object) throws ServiceException {
+        String emp_id = (String) object;
+        Map<String, Object> mapProduct = new HashMap<String, Object>();
+        mapProduct.put("emp_id", emp_id);
+        long cpNumber = cpObjDao.countProduct(mapProduct);//商品数量
+        return String.valueOf(cpNumber);
     }
 }

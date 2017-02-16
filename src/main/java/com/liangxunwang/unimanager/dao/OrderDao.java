@@ -55,4 +55,9 @@ public interface OrderDao {
     //查询即将到期的订单
     List<OrdersVO> listOrdersEnd(@Param(value = "time") String time, @Param(value = "period") String period);
 
+    //计算消费 收入总额
+    String countOrderSum(Map<String, Object> map);
+    //买卖商品数量
+    String countGoodsSum(Map<String, Object> map);
+
 }

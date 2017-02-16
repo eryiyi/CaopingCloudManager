@@ -103,6 +103,8 @@ public class AppCompanyService implements ExecuteService ,SaveService,UpdateServ
                 }else {
                     company.setCompany_pic(Constants.QINIU_URL + company.getCompany_pic());
                 }
+            }
+            if(!StringUtil.isNullOrEmpty(company.getEmp_cover())){
                 if (company.getEmp_cover().startsWith("upload")){
                     company.setEmp_cover(Constants.URL + company.getEmp_cover());
                 }else {
@@ -150,4 +152,6 @@ public class AppCompanyService implements ExecuteService ,SaveService,UpdateServ
         }
         return 200;
     }
+
+
 }

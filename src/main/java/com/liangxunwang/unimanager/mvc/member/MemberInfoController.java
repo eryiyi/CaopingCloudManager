@@ -1,12 +1,15 @@
 package com.liangxunwang.unimanager.mvc.member;
 
+import com.liangxunwang.unimanager.model.Company;
 import com.liangxunwang.unimanager.model.Member;
+import com.liangxunwang.unimanager.model.PayAmountObj;
 import com.liangxunwang.unimanager.model.tip.DataTip;
 import com.liangxunwang.unimanager.model.tip.ErrorTip;
 import com.liangxunwang.unimanager.mvc.vo.MemberVO;
 import com.liangxunwang.unimanager.query.MemberQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.ControllerConstants;
+import com.liangxunwang.unimanager.util.DateUtil;
 import com.liangxunwang.unimanager.util.Page;
 import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -151,5 +155,76 @@ public class MemberInfoController extends ControllerConstants {
         }
     }
 
+
+
+    @Autowired
+    @Qualifier("memberInfoService")
+    private FindService memberInfoService;
+
+    @Autowired
+    @Qualifier("appOrderSumService")
+    private ExecuteService appOrderSumService;
+
+    @Autowired
+    @Qualifier("appCpobjService")
+    private FindService appCpobjService;
+
+    @Autowired
+    @Qualifier("appOrderGoodsSumService")
+    private ExecuteService appOrderGoodsSumService;
+
+    @Autowired
+    @Qualifier("appCompanyService")
+    private ExecuteService appCompanyService;
+
+    //个人中心页获得加入的天数和消费多少元 收入多少元
+    @RequestMapping(value = "/getProfileMemberInfo", produces = "text/plain;charset=UTF-8;")
+    @ResponseBody
+    public String getProfileMemberInfo(String emp_id) throws Exception {
+        try {
+            //查看该会员信息
+            MemberVO empVO = (MemberVO) memberInfoService.findById(emp_id);
+            String dateline = empVO.getDateline();//注册时间
+
+            String reg_date = DateUtil.getDate(dateline, "yyyy-MM-dd");
+            String current_date = DateUtil.getCurrentDateTime2();//获得当前日期
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            long to = df.parse(current_date).getTime();
+            long from = df.parse(reg_date).getTime();
+            long dayNumbers = (to - from) / (1000 * 60 * 60 * 24);//注册的天数
+
+            String[] arras = {empVO.getEmpId(),""};
+            String[] arras2 = {"",empVO.getEmpId()};
+            String orderNumOne = (String) appOrderSumService.execute(arras);
+            String orderNumTwo = (String) appOrderSumService.execute(arras2);
+
+            //数量--发布的
+            String cpNumber = (String) appCpobjService.findById(empVO.getEmpId());
+
+            String goodsCountOne = (String) appOrderGoodsSumService.execute(arras);//买的商品数量
+            String goodsCountTwo = (String) appOrderGoodsSumService.execute(arras2);//卖的商品数量
+
+            Company company = (Company) appCompanyService.execute(empVO.getEmpId());
+
+            PayAmountObj payAmountObj = new PayAmountObj();
+            payAmountObj.setRuzhuNumber(String.valueOf(dayNumbers));
+            payAmountObj.setShouruAmount(orderNumTwo);
+            payAmountObj.setZhichuAmount(orderNumOne);
+            payAmountObj.setCpNumber(cpNumber);
+            payAmountObj.setGoodsCountOne(goodsCountOne);
+            payAmountObj.setGoodsCountTwo(goodsCountTwo);
+            if(company != null){
+                payAmountObj.setZhimingdu(company.getPaihang_num()==null?"0":company.getPaihang_num());
+            }else {
+                payAmountObj.setZhimingdu("0");
+            }
+            DataTip tip = new DataTip();
+            tip.setData(payAmountObj);
+            return toJSONString(tip);
+        }catch (ServiceException e){
+            return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！"));
+        }
+    }
 
 }

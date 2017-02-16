@@ -216,6 +216,7 @@ public class ControllerInterceptor extends ControllerConstants implements Handle
                         +"|(^/payWxNotifyAction\\.do$)"
                         +"|(^/payWxNotifyActionDxk\\.do$)"
                         +"|(^/payWxNotifyActionLq\\.do$)"
+                        +"|(^/getProfileMemberInfo\\.do$)"
 
                 +"|(^/paopaogoods/updatePaopaoGoodsJia\\.do$)"
                 +"|(^/paopaogoods/saveAppGoods\\.do$)"

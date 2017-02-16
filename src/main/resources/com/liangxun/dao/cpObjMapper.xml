@@ -284,4 +284,16 @@
 
          WHERE cloud_caoping_id=#{cloud_caoping_id}
     </update>
+
+
+    <select id="countProduct" resultType="Long">
+        SELECT count(cloud_caoping_id)
+        from cloud_caoping sn
+        where 1 = 1
+        <if test="emp_id != null and emp_id != ''">
+            AND sn.emp_id = #{emp_id}
+        </if>
+
+    </select>
+
 </mapper>

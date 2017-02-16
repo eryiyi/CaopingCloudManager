@@ -145,7 +145,7 @@
                         <label class="col-sm-2 control-label">*名企排行置顶数字*</label>
 
                         <div class="col-sm-4">
-                            <input type="text" id="paihang_num" placeholder="名企排行置顶数字 越大越靠前 最多两位数字" class="form-control"
+                            <input type="text" id="paihang_num" placeholder="名企排行置顶数字 越小越靠前 最多两位数字" class="form-control"
                                    value="${info.paihang_num}" data-toggle="tooltip" data-placement="bottom"
                                    title="Tooltip for name">
                         </div>

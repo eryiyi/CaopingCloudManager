@@ -76,10 +76,14 @@ public class MemberInfoService implements ExecuteService, FindService, UpdateSer
     public Object findById(Object object) throws ServiceException {
         String empId = (String) object;
         MemberVO memberVO = memberDao.findInfoById(empId);
-        if (memberVO.getEmpCover().startsWith("upload")) {
-            memberVO.setEmpCover(Constants.URL + memberVO.getEmpCover());
-        }else {
-            memberVO.setEmpCover(Constants.QINIU_URL + memberVO.getEmpCover());
+        if(memberVO !=null){
+            if(!StringUtil.isNullOrEmpty(memberVO.getEmpCover())){
+                if (memberVO.getEmpCover().startsWith("upload")) {
+                    memberVO.setEmpCover(Constants.URL + memberVO.getEmpCover());
+                }else {
+                    memberVO.setEmpCover(Constants.QINIU_URL + memberVO.getEmpCover());
+                }
+            }
         }
         return memberVO;
     }

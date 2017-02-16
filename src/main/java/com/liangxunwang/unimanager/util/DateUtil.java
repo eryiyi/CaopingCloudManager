@@ -38,6 +38,16 @@ public class DateUtil {
         return getFormatDateTime(new Date(), "yyyy-MM-dd HH:mm:ss");
     }
 
+
+    /**
+     * 返回当前日期+时间
+     *
+     * @return
+     */
+    public static String getCurrentDateTime2() {
+        return getFormatDateTime(new Date(), "yyyy-MM-dd");
+    }
+
     /**
      * 格式化
      *

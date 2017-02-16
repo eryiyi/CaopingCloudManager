@@ -277,7 +277,6 @@
         AND COMPLETION_TIME &lt; #{endTime}
     </update>
 
-
     <select id="listOrdersEnd" resultMap="my_order_vo" parameterType="String">
       SELECT ord.* ,
         le.emp_mobile as emp_mobile,
@@ -308,11 +307,33 @@
         AND ord.PAY_STATUS='1' AND (ord.STATUS = '6' OR  ord.STATUS = '2')
     </select>
 
-
     <select id="countDay" resultType="Long">
         SELECT count(ord.ORDER_NO) FROM PAOPAO_SHOPPING_ORDER ord
         WHERE '1'='1'
         AND ord.create_time &gt; #{startTime}
         AND ord.create_time &lt; #{endTime}
     </select>
+
+    <select id="countOrderSum" resultType="String">
+        SELECT sum(payable_amount) FROM PAOPAO_SHOPPING_ORDER ord
+        WHERE '1'='1'
+        <if test="emp_id != null and emp_id != ''">
+            AND ord.emp_id=#{emp_id}
+        </if>
+        <if test="seller_emp_id != null and seller_emp_id != ''">
+            AND ord.seller_emp_id=#{seller_emp_id}
+        </if>
+    </select>
+
+    <select id="countGoodsSum" resultType="String">
+        SELECT sum(goods_count) FROM PAOPAO_SHOPPING_ORDER ord
+        WHERE '1'='1'
+        <if test="emp_id != null and emp_id != ''">
+            AND ord.emp_id=#{emp_id}
+        </if>
+        <if test="seller_emp_id != null and seller_emp_id != ''">
+            AND ord.seller_emp_id=#{seller_emp_id}
+        </if>
+    </select>
+
 </mapper>

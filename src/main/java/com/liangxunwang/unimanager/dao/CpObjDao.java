@@ -41,6 +41,9 @@ public interface CpObjDao {
 
     long count(Map<String, Object> map);
 
+    //发布数量
+    long countProduct(Map<String, Object> map);
+
     //更新销量
     void updateCountById(CpObj cpObj);
 }
