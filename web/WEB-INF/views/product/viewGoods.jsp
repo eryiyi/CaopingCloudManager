@@ -74,11 +74,11 @@
     </div>
 </div>
 <!--认证-->
-<div class="row verify clearfix">
-    <div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>正品保证</span></div>
-    <div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>诚信保障</span></div>
-    <div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>认证公司</span></div>
-</div>
+<%--<div class="row verify clearfix">--%>
+    <%--<div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>正品保证</span></div>--%>
+    <%--<div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>诚信保障</span></div>--%>
+    <%--<div class="verify-item"><img src="/grass/pics/sm_good.png"/><span>认证公司</span></div>--%>
+<%--</div>--%>
 <!--口碑-->
 <div class="good row">
     <h4>草原口碑(${commentFour})</h4>

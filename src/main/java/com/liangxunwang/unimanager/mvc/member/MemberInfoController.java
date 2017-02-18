@@ -174,8 +174,8 @@ public class MemberInfoController extends ControllerConstants {
     private ExecuteService appOrderGoodsSumService;
 
     @Autowired
-    @Qualifier("appCompanyService")
-    private ExecuteService appCompanyService;
+    @Qualifier("dianpuFavourService")
+    private ExecuteService dianpuFavourService;
 
     //个人中心页获得加入的天数和消费多少元 收入多少元
     @RequestMapping(value = "/getProfileMemberInfo", produces = "text/plain;charset=UTF-8;")
@@ -205,7 +205,8 @@ public class MemberInfoController extends ControllerConstants {
             String goodsCountOne = (String) appOrderGoodsSumService.execute(arras);//买的商品数量
             String goodsCountTwo = (String) appOrderGoodsSumService.execute(arras2);//卖的商品数量
 
-            Company company = (Company) appCompanyService.execute(empVO.getEmpId());
+//            Company company = (Company) appCompanyService.execute(empVO.getEmpId());
+            String fensiNumber = (String) dianpuFavourService.execute(empVO.getEmpId());
 
             PayAmountObj payAmountObj = new PayAmountObj();
             payAmountObj.setRuzhuNumber(String.valueOf(dayNumbers));
@@ -214,11 +215,12 @@ public class MemberInfoController extends ControllerConstants {
             payAmountObj.setCpNumber(cpNumber);
             payAmountObj.setGoodsCountOne(goodsCountOne);
             payAmountObj.setGoodsCountTwo(goodsCountTwo);
-            if(company != null){
-                payAmountObj.setZhimingdu(company.getPaihang_num()==null?"0":company.getPaihang_num());
-            }else {
-                payAmountObj.setZhimingdu("0");
-            }
+//            if(company != null){
+//                payAmountObj.setZhimingdu(company.getPaihang_num()==null?"0":company.getPaihang_num());
+//            }else {
+//                payAmountObj.setZhimingdu("0");
+//            }
+            payAmountObj.setFensiNumber(fensiNumber);
             DataTip tip = new DataTip();
             tip.setData(payAmountObj);
             return toJSONString(tip);

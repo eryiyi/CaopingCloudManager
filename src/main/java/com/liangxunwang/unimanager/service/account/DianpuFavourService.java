@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by zhl on 2015/3/3.
  */
 @Service("dianpuFavourService")
-public class DianpuFavourService implements ListService,SaveService,DeleteService,FindService {
+public class DianpuFavourService implements ListService,SaveService,DeleteService,FindService ,ExecuteService{
     @Autowired
     @Qualifier("dianpuFavourDao")
     private DianpuFavourDao dianpuFavourDao;
@@ -116,5 +116,14 @@ public class DianpuFavourService implements ListService,SaveService,DeleteServic
     @Override
     public Object findById(Object object) throws ServiceException {
         return dianpuFavourDao.find((DianPuFavour) object);
+    }
+
+    @Override
+    public Object execute(Object object) throws ServiceException, Exception {
+        String emp_id = (String) object;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("emp_id", emp_id);
+        Long fensiNumber = dianpuFavourDao.count(map);
+        return String.valueOf(fensiNumber);
     }
 }
