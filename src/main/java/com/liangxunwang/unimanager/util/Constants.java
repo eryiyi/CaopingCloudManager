@@ -9,7 +9,7 @@ public class Constants {
 //        public static final String URL = "http://192.168.0.225:8080/";
 //        public static final String URL = "http://157j1274e3.iask.in/";
 
-    public static final String DOWNLOAD_URL = "http://a.app.qq.com/o/simple.jsp?pkgname=com.lbins.myapp";
+    public static final String DOWNLOAD_URL = "http://a.app.qq.com/o/simple.jsp?pkgname=com.caoping.cloud";
 
     //注册用默认会员等级--青铜会员
     public static final String DEFAULT_LEVEL = "d42535ff62e147ae80dba7bc9d8ea0d4";
