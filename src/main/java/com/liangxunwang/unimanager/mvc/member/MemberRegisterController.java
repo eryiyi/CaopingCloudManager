@@ -59,15 +59,15 @@ public class MemberRegisterController extends ControllerConstants {
         }catch (ServiceException e){
             String msg = e.getMessage();
             if (msg.equals("has_exists")){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                return toJSONString(new ErrorTip(1, "手机号已经注册了，换个试试")
                 );//手机号已经注册了，换个试试
             }
             if (msg.equals(Constants.SAVE_ERROR)){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                return toJSONString(new ErrorTip(1, "注册失败，请稍后重试！")
                 );//注册失败，请稍后重试
             }
             if(msg.equals(Constants.HX_ERROR)){
-                return toJSONString(new ErrorTip(1, "获取数据失败，请稍后重试！")
+                return toJSONString(new ErrorTip(1, "环信注册失败！")
                 );//环信注册失败
             }
         }
