@@ -4,6 +4,7 @@ import com.liangxunwang.unimanager.dao.AppShoppingAddressDao;
 import com.liangxunwang.unimanager.mvc.vo.ShoppingAddressVO;
 import com.liangxunwang.unimanager.service.FindService;
 import com.liangxunwang.unimanager.service.ServiceException;
+import com.liangxunwang.unimanager.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,11 @@ public class AppShoppingAddressSecondService implements FindService  {
     @Override
     public Object findById(Object object) throws ServiceException {
         String address_id = (String) object;
-        ShoppingAddressVO shoppingAddress = appShoppingAddressDao.findAddressByAddressId(address_id);
-        return shoppingAddress;
+        ShoppingAddressVO vo = appShoppingAddressDao.findAddressByAddressId(address_id);
+        if(!StringUtil.isNullOrEmpty(vo.getProvinceName())){
+            vo.setProvinceName(vo.getProvinceName().trim());
+        }
+        return vo;
     }
 
 }

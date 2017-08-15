@@ -31,6 +31,10 @@
         <result column="pname" property="pname"/>
         <result column="cityName" property="cityName"/>
         <result column="areaName" property="areaName"/>
+
+        <result column="is_shiming_rz" property="is_shiming_rz"/>
+        <result column="is_qiye_rz" property="is_qiye_rz"/>
+
     </resultMap>
 
     <resultMap id="company_sort" type="com.liangxunwang.unimanager.mvc.vo.CompanySort">
@@ -42,7 +46,15 @@
     </resultMap>
 
     <select id="lists" resultMap="company">
-        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        SELECT lc.*,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+        le.emp_mobile as emp_mobile,
+        le.is_shiming_rz as is_shiming_rz,
+        le.is_qiye_rz as is_qiye_rz,
+        lp.pname as pname,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
         from company lc
         LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
         LEFT JOIN province lp ON lp.provinceid = lc.provinceid
@@ -143,7 +155,15 @@
     </delete>
 
     <select id="findById" parameterType="String" resultMap="company">
-        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        SELECT lc.*,
+        le.emp_name as emp_name,
+         le.emp_cover as emp_cover,
+         le.emp_mobile as emp_mobile,
+          le.is_shiming_rz as is_shiming_rz,
+        le.is_qiye_rz as is_qiye_rz,
+         lp.pname as pname,
+         lcity.cityName as cityName,
+         larea.areaName as areaName
         from company lc
         LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
         LEFT JOIN province lp ON lp.provinceid = lc.provinceid
@@ -153,7 +173,15 @@
     </select>
 
     <select id="findByEmpId" parameterType="String" resultMap="company">
-        SELECT lc.*,le.emp_name as emp_name, le.emp_cover as emp_cover,le.emp_mobile as emp_mobile,lp.pname as pname,lcity.cityName as cityName,larea.areaName as areaName
+        SELECT lc.*,
+        le.emp_name as emp_name,
+        le.emp_cover as emp_cover,
+        le.emp_mobile as emp_mobile,
+         le.is_shiming_rz as is_shiming_rz,
+        le.is_qiye_rz as is_qiye_rz,
+        lp.pname as pname,
+        lcity.cityName as cityName,
+        larea.areaName as areaName
         from company lc
         LEFT JOIN lx_emp le ON le.emp_id = lc.emp_id
         LEFT JOIN province lp ON lp.provinceid = lc.provinceid

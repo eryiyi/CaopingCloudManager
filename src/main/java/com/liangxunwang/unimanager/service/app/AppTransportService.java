@@ -98,7 +98,12 @@ public class AppTransportService implements ListService,SaveService,ExecuteServi
             if(!StringUtil.isNullOrEmpty(record.getDateline())){
                 record.setDateline(RelativeDateFormat.format(Long.parseLong(record.getDateline())));
             }
-
+            if(!StringUtil.isNullOrEmpty(record.getStart_pname())){
+                record.setStart_pname(record.getStart_pname().trim());
+            }
+            if(!StringUtil.isNullOrEmpty(record.getEnd_pname())){
+                record.setEnd_pname(record.getEnd_pname().trim());
+            }
         }
 //        long count = memberDao.count(map);
         return lists;

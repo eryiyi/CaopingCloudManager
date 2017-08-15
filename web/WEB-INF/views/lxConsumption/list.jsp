@@ -98,7 +98,7 @@
                                 <c:if test="${e.lx_consumption_type == '2'}">手机端充值</c:if>
                                 <c:if test="${e.lx_consumption_type == '3'}">定向卡充值</c:if>
                             </td>
-                            <td> ${um:format(e.dateline, 'yyyy-MM-dd HH:mm:ss')} </td>
+                            <td> ${e.dateline} </td>
                             <td>
                                 <a class="btn btn-default btn-sm" href="javascript:void (0)"
                                    onclick="editRole('${e.lx_consumption_id}')" role="button">查看</a>

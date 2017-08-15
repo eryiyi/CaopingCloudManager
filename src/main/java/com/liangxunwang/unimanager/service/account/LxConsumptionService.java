@@ -8,6 +8,7 @@ import com.liangxunwang.unimanager.query.AdQuery;
 import com.liangxunwang.unimanager.query.LxConsumptionQuery;
 import com.liangxunwang.unimanager.service.*;
 import com.liangxunwang.unimanager.util.Constants;
+import com.liangxunwang.unimanager.util.RelativeDateFormat;
 import com.liangxunwang.unimanager.util.StringUtil;
 import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,14 @@ public class LxConsumptionService implements ListService,SaveService,ExecuteServ
         }
         List<LxConsumption> lists = lxConsumptionDao.lists(map);
         long count = lxConsumptionDao.count(map);
+        if(lists != null){
+            for(int i=0;i<lists.size();i++){
+                LxConsumption vo = lists.get(i);
+                if(!StringUtil.isNullOrEmpty(vo.getDateline())){
+                    vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
+                }
+            }
+        }
         return new Object[]{lists, count};
     }
 

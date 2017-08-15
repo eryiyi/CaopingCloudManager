@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -210,8 +211,24 @@ public class MemberInfoController extends ControllerConstants {
 
             PayAmountObj payAmountObj = new PayAmountObj();
             payAmountObj.setRuzhuNumber(String.valueOf(dayNumbers));
-            payAmountObj.setShouruAmount(orderNumTwo);
-            payAmountObj.setZhichuAmount(orderNumOne);
+            if(!StringUtil.isNullOrEmpty(orderNumOne)){
+                Double f = Double.valueOf(orderNumOne);
+                BigDecimal bg = new BigDecimal(f);
+                double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                payAmountObj.setZhichuAmount(String.valueOf(f1));
+            }else {
+                payAmountObj.setZhichuAmount("0.0");
+            }
+
+            if(!StringUtil.isNullOrEmpty(orderNumTwo)){
+                Double f = Double.valueOf(orderNumTwo);
+                BigDecimal bg = new BigDecimal(f);
+                double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                payAmountObj.setShouruAmount(String.valueOf(f1));
+            }else {
+                payAmountObj.setShouruAmount("0.0");
+            }
+
             payAmountObj.setCpNumber(cpNumber);
             payAmountObj.setGoodsCountOne(goodsCountOne);
             payAmountObj.setGoodsCountTwo(goodsCountTwo);

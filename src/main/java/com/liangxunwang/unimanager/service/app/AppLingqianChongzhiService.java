@@ -7,6 +7,7 @@ import com.liangxunwang.unimanager.model.ShoppingTrade;
 import com.liangxunwang.unimanager.service.ListService;
 import com.liangxunwang.unimanager.service.SaveService;
 import com.liangxunwang.unimanager.service.ServiceException;
+import com.liangxunwang.unimanager.util.Constants;
 import com.liangxunwang.unimanager.util.StringUtil;
 import com.liangxunwang.unimanager.util.UUIDFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class AppLingqianChongzhiService implements SaveService,ListService {
 
         //生成sign签名
         // 订单
-        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "cpCloud", "isbody", String.valueOf(doublePrices));
+        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "cpCloud", "isbody", String.valueOf(doublePrices), Constants.ZFB_NOTIFY_URL_LQ);
 
         // 对订单做RSA 签名
         String sign = StringUtil.sign(orderInfo);

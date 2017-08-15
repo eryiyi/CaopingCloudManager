@@ -55,6 +55,9 @@ public class AppShoppingAddressService implements SaveService ,ListService ,Dele
             if(!StringUtil.isNullOrEmpty(vo.getDateline())){
                 vo.setDateline(RelativeDateFormat.format(Long.parseLong(vo.getDateline())));
             }
+            if(!StringUtil.isNullOrEmpty(vo.getProvinceName())){
+                vo.setProvinceName(vo.getProvinceName().trim());
+            }
         }
         return list;
     }
@@ -92,6 +95,9 @@ public class AppShoppingAddressService implements SaveService ,ListService ,Dele
             if(list != null && list.size()>0){
                 if(!StringUtil.isNullOrEmpty(list.get(0).getDateline())){
                     list.get(0).setDateline(RelativeDateFormat.format(Long.parseLong(list.get(0).getDateline())));
+                }
+                if(!StringUtil.isNullOrEmpty(list.get(0).getProvinceName())){
+                    list.get(0).setProvinceName(list.get(0).getProvinceName().trim());
                 }
                 return list.get(0);
             }else {

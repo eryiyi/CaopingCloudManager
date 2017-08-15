@@ -192,7 +192,7 @@ public class StringUtil {
      * create the order info. 创建订单信息
      *
      */
-    public static String getOrderInfo(String outTradeNo, String subject, String body, String price) {
+    public static String getOrderInfo(String outTradeNo, String subject, String body, String price, String notify_url) {
         // 签约合作者身份ID
         String orderInfo = "partner=" + "\"" + AlipayConfig.PARTNER + "\"";
 
@@ -212,7 +212,7 @@ public class StringUtil {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + Constants.ZFB_NOTIFY_URL
+        orderInfo += "&notify_url=" + "\"" + notify_url
                 + "\"";
 
         // 服务接口名称， 固定值

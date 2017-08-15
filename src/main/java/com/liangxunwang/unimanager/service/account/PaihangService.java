@@ -37,7 +37,7 @@ public class PaihangService implements ListService,DeleteService,ExecuteService,
             map.put("is_del", query.getIs_del());
         }
         if (!StringUtil.isNullOrEmpty(query.getKeyWords())) {
-            map.put("keyWords", query.getKeyWords());
+            map.put("keyword", query.getKeyWords());
         }
         List<PaihangObjVO> lists = paihangObjDao.lists(map);
         for (PaihangObjVO record : lists){

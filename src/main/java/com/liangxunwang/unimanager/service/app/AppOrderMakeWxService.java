@@ -134,12 +134,8 @@ public class AppOrderMakeWxService implements SaveService {
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
             if(is_dxk_order == 0){
                 packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL));
-            }else
-            if(is_dxk_order == 2){
-                //定向卡充值
-                packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL_DXK));
             }else{
-                packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL));
+                packageParams.add(new BasicNameValuePair("notify_url", Constants.WEIXIN_NOTIFY_URL_LQ));
             }
             packageParams.add(new BasicNameValuePair("out_trade_no", out_trade_no));
             packageParams.add(new BasicNameValuePair("spbill_create_ip", ip_str));

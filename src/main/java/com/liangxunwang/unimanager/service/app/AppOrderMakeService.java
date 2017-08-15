@@ -85,10 +85,16 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
 
         //保存总订单--和支付宝一致
         appOrderMakeSaveDao.saveTrade(shoppingTrade);
-
+        int is_dxk_order = 0;
         //构造订单列表
         if(lists!=null && lists.size() > 0){
             for(Order order:lists){
+                if("0".equals(order.getIs_dxk_order())){
+                    is_dxk_order = 0;//普通订单
+                }
+                if("2".equals(order.getIs_dxk_order())){
+                    is_dxk_order = 2;//充值定向卡的
+                }
                 order.setOrder_no(UUIDFactory.random());
                 order.setCreate_time(System.currentTimeMillis() + "");
                 order.setStatus("1");//1生成订单
@@ -113,8 +119,13 @@ public class AppOrderMakeService implements SaveService,UpdateService,ListServic
                 }
             }
         }
-
-        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "caopingyun", "caopingyun_pay", String.valueOf(doublePrices));
+        String notify_url = "";
+        if(is_dxk_order == 0){
+            notify_url =  Constants.ZFB_NOTIFY_URL;
+        }else{
+            notify_url = Constants.ZFB_NOTIFY_URL;
+        }
+        String orderInfo = StringUtil.getOrderInfo(out_trade_no, "caopingyun", "caopingyun_pay", String.valueOf(doublePrices), notify_url);
         // 对订单做RSA 签名
         String sign = StringUtil.sign(orderInfo);
 

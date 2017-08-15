@@ -117,16 +117,17 @@ public class Constants {
 
     public static final Long DAY_MILLISECOND = 86400000L;
 
-    //----------------支付宝------------------
 
     //微信统一下单notify_url
     public static final String WEIXIN_NOTIFY_URL = URL + "payWxNotifyAction.do";
-    public static final String WEIXIN_NOTIFY_URL_DXK = URL + "payWxNotifyActionDxk.do";
+//    public static final String WEIXIN_NOTIFY_URL_DXK = URL + "payWxNotifyActionDxk.do";
     public static final String WEIXIN_NOTIFY_URL_LQ = URL + "payWxNotifyActionLq.do";
 
     //支付宝回调页面
-    public static final String ZFB_NOTIFY_URL = URL + "pay/notify_url_alipay.jsp";
-
+//    public static final String ZFB_NOTIFY_URL = URL + "pay/notify_url_alipay.jsp";
+    public static final String ZFB_NOTIFY_URL = URL + "payZfbNotifyAction.do";
+//    public static final String ZFB_NOTIFY_URL_DXK = URL + "payZfbNotifyActionDxk.do";
+    public static final String ZFB_NOTIFY_URL_LQ = URL + "payZfbNotifyActionLq.do";
 
     //appid
     public static final String WX_APP_ID = "wx6ce53935b8d58010";//yum
